@@ -1,0 +1,41 @@
+{
+  "name": "@ula-aca/connections",
+  "version": "0.0.0",
+  "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents.",
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "compile": "tsc",
+    "clean": "rm -rf ./lib",
+    "build": "npm run clean && npm run compile"
+  },
+  "keywords": [
+    "aries",
+    "cloudagent",
+    "ula",
+    "universal-ledger-agent",
+    "ssi",
+    "did",
+    "identity",
+    "blockchain",
+    "indy",
+    "connections"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utrecht-innovation/ula-aca-plugins",
+    "directory": "packages/connections"
+  },
+  "contributors": [
+    "Timo Glastra <timo@glastra.me>",
+    "Karim Stekelenburg <karim.stekelenburg@me.com>"
+  ],
+  "homepage": "https://github.com/utrecht-innovation/ula-aca-plugins/tree/master/packages/connections",
+  "license": "Apache-2.0",
+  "main": "lib/index.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ]
+}

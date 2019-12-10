@@ -1,0 +1,80 @@
+{
+  "name": "root",
+  "private": true,
+  "description": "Aries Cloudagent plugins for the Universal Ledger Agent",
+  "scripts": {
+    "prettier": "prettier --list-different '**/*.{md,json}'",
+    "prettier:fix": "npm run prettier -- --write",
+    "lint": "eslint --ext .js,.ts .",
+    "lint:fix": "npm run lint -- --fix",
+    "release": "cross-env HUSKY_BYPASS=true lerna publish --yes",
+    "clean": "lerna exec npm run clean",
+    "compile": "lerna exec npm run compile",
+    "build": "lerna exec npm run build"
+  },
+  "keywords": [
+    "aries",
+    "cloudagent",
+    "ula",
+    "universal-ledger-agent",
+    "ssi",
+    "did",
+    "identity",
+    "blockchain",
+    "indy"
+  ],
+  "contributors": [
+    "Timo Glastra <timo@glastra.me>",
+    "Karim Stekelenburg <karim.stekelenburg@me.com>"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utrecht-innovation/ula-aca-plugins"
+  },
+  "bugs": {
+    "url": "https://github.com/utrecht-innovation/ula-aca-plugins/issues"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "husky": "^3.1.0",
+    "lerna": "^3.19.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna exec 'npm run compile -- --noEmit' && lint-staged",
+      "prepare-commit-msg": "if [[ -z $HUSKY_BYPASS ]]; then exec < /dev/tty && git cz --hook; fi",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{md,scss,css,json,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
