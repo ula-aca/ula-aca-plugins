@@ -31,7 +31,7 @@
   ],
   "homepage": "https://github.com/utrecht-innovation/ula-aca-plugins/tree/master/packages/connections",
   "license": "Apache-2.0",
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib"
   },
