@@ -8,9 +8,9 @@
     "lint": "eslint --ext .js,.ts .",
     "lint:fix": "npm run lint -- --fix",
     "release": "cross-env HUSKY_BYPASS=true lerna publish --yes",
-    "clean": "lerna exec npm run clean",
-    "compile": "lerna exec npm run compile",
-    "build": "lerna exec npm run build"
+    "clean": "lerna run clean",
+    "compile": "lerna run compile",
+    "build": "lerna run build"
   },
   "keywords": [
     "aries",
