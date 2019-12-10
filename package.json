@@ -3,16 +3,21 @@
   "private": true,
   "description": "Aries Cloudagent plugins for the Universal Ledger Agent",
   "scripts": {
+    "test": "nyc mocha",
     "prettier": "prettier --list-different '**/*.{md,json}'",
     "prettier:fix": "npm run prettier -- --write",
     "lint": "eslint --ext .js,.ts .",
     "lint:fix": "npm run lint -- --fix",
     "release": "cross-env HUSKY_BYPASS=true lerna publish --yes",
+    "bootstrap": "lerna bootstrap",
     "clean": "lerna run clean",
     "compile": "lerna run compile",
     "build": "lerna run build",
-    "test": "nyc mocha"
+    "types": "lerna run compile -- --noEmit"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "keywords": [
     "aries",
     "cloudagent",
@@ -70,7 +75,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lerna exec 'npm run compile -- --noEmit' && lint-staged",
+      "pre-commit": "npm run types && lint-staged",
       "prepare-commit-msg": "if [[ -z $HUSKY_BYPASS ]]; then exec < /dev/tty && git cz --hook; fi",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
