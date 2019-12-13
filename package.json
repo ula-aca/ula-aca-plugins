@@ -35,10 +35,10 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/utrecht-innovation/ula-aca-plugins"
+    "url": "https://github.com/ula-aca/ula-aca-plugins"
   },
   "bugs": {
-    "url": "https://github.com/utrecht-innovation/ula-aca-plugins/issues"
+    "url": "https://github.com/ula-aca/ula-aca-plugins/issues"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",

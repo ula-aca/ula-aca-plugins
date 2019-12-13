@@ -22,14 +22,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/utrecht-innovation/ula-aca-plugins",
+    "url": "https://github.com/ula-aca/ula-aca-plugins",
     "directory": "packages/connection"
   },
   "contributors": [
     "Timo Glastra <timo@glastra.me>",
     "Karim Stekelenburg <karim.stekelenburg@me.com>"
   ],
-  "homepage": "https://github.com/utrecht-innovation/ula-aca-plugins/tree/master/packages/connection",
+  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/connection",
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
