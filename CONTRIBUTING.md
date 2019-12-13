@@ -7,19 +7,14 @@ This repo uses [Lerna](https://lerna.js.org) to manage it as a monorepo and [Con
 In order to work on this repository the following dependencies are required:
 
 - [Node.js](https://nodejs.org/en/download/) v10
-- [NPM](https://npmjs.com) (normally comes with Node.js)
+- [Yarn](https://yarnpkg.com/)
 
 ## Getting Started
 
-The setup only requires you to install and bootstrap Lerna. There are two ways to do this.
-
-### Bootstrap Lerna
-
-`npx` allows you to execute npm package binaries without first installing them.
+The setup only requires you to install Node dependencies. This can be done with Yarn. Yarn workspaces handles the installation of root packages and dependencies of all packages.
 
 ```sh
-# Bootstrap lerna. This will link and install all dependencies
-npx lerna bootstrap
+yarn install
 ```
 
 ## Creating a commit

@@ -5,11 +5,10 @@
   "scripts": {
     "test": "nyc mocha",
     "prettier": "prettier --list-different '**/*.{md,json}'",
-    "prettier:fix": "npm run prettier -- --write",
+    "prettier:fix": "yarn prettier -- --write",
     "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "yarn lint -- --fix",
     "release": "cross-env HUSKY_BYPASS=true lerna publish --yes",
-    "bootstrap": "lerna bootstrap",
     "clean": "lerna run clean",
     "compile": "lerna run compile",
     "build": "lerna run build",
@@ -75,7 +74,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run types && lint-staged",
+      "pre-commit": "yarn types && lint-staged",
       "prepare-commit-msg": "if [[ -z $HUSKY_BYPASS ]]; then exec < /dev/tty && git cz --hook; fi",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }

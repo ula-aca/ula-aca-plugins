@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents.",
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
+    "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc",
     "clean": "rm -rf ./lib",
-    "build": "npm run clean && npm run compile"
+    "build": "yarn clean && yarn compile"
   },
   "keywords": [
     "aries",
@@ -32,6 +32,7 @@
   "homepage": "https://github.com/utrecht-innovation/ula-aca-plugins/tree/master/packages/connections",
   "license": "Apache-2.0",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib"
   },
