@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import defaultExport from '../src'
+import AcaConnections from '../src'
 
 describe('@ula-aca/connections', () => {
-  describe('default export function', () => {
-    it('should throw an error because it is not implemented.', () => {
-      defaultExport.should.throw('Not implemented')
+  describe('default export', () => {
+    it('should export something', () => {
+      AcaConnections.should.not.equal(null)
     })
   })
 })

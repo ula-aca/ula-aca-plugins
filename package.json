@@ -4,10 +4,12 @@
   "description": "Aries Cloudagent plugins for the Universal Ledger Agent",
   "scripts": {
     "test": "nyc mocha",
+    "coverage": "nyc report",
     "prettier": "prettier --list-different '**/*.{md,json}'",
     "prettier:fix": "yarn prettier -- --write",
     "lint": "eslint --ext .js,.ts .",
     "lint:fix": "yarn lint -- --fix",
+    "commitlint": "commitlint --to HEAD",
     "release": "cross-env HUSKY_BYPASS=true lerna publish --yes",
     "clean": "lerna run clean",
     "compile": "lerna run compile",

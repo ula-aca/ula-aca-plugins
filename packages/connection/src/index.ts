@@ -29,7 +29,7 @@ import {
   BasicmessageApi,
   TrustpingApi,
   ConnectionInvitation
-} from 'aries-cloudagent-interface'
+} from '@ula-aca/aries-cloudagent-interface'
 
 export default class AcaConnections implements Plugin {
   private eventHandler?: EventHandler

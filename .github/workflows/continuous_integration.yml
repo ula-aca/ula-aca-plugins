@@ -1,0 +1,98 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+  style:
+    name: Style
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        # Github Package Registry doesn't work with Yarn.
+        # --update-checksums fixes this somehow
+        # see https://github.com/yarnpkg/yarn/issues/7552
+        run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_REGISTRY_READ_PACKAGES_TOKEN }}
+
+      - name: Build
+        run: yarn build
+
+      - name: Lint commit messages
+        run: yarn commitlint
+
+      - name: Lint files with eslint
+        run: yarn lint
+
+      - name: Check formatting with prettier
+        run: yarn prettier
+
+  test:
+    name: Test
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node: [10, 12]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node}}
+          registry-url: https://npm.pkg.github.com
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        # Github Package Registry doesn't work with Yarn.
+        # --update-checksums fixes this somehow
+        # see https://github.com/yarnpkg/yarn/issues/7552
+        run: yarn install --update-checksums
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_REGISTRY_READ_PACKAGES_TOKEN }}
+
+      - name: Build
+        run: yarn build
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v2.3.0
+        with:
+          coverageCommand: yarn coverage --check-coverage false
+        # Also publish when tests fail
+        if: always()
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
