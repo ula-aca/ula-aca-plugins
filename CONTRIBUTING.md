@@ -7,14 +7,14 @@ This repo uses [Lerna](https://lerna.js.org) to manage it as a monorepo and [Con
 In order to work on this repository the following dependencies are required:
 
 - [Node.js](https://nodejs.org/en/download/) v10
-- [Yarn](https://yarnpkg.com/)
+- [npm](https://www.npmjs.com/)
 
 ## Getting Started
 
-The setup only requires you to install Node dependencies. This can be done with Yarn. Yarn workspaces handles the installation of root packages and dependencies of all packages.
+The setup only requires you to install Node dependencies. This can be done with
 
 ```sh
-yarn install
+npm install
 ```
 
 ## Creating a commit

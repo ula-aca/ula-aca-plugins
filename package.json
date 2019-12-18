@@ -6,9 +6,9 @@
     "test": "nyc mocha",
     "coverage": "nyc report",
     "prettier": "prettier --list-different '**/*.{md,json}'",
-    "prettier:fix": "yarn prettier -- --write",
+    "prettier:fix": "npm run prettier -- --write",
     "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "yarn lint -- --fix",
+    "lint:fix": "npm run lint -- --fix",
     "commitlint": "commitlint --to HEAD",
     "release": "cross-env HUSKY_BYPASS=true lerna publish --yes",
     "clean": "lerna run clean",
@@ -16,9 +16,6 @@
     "build": "lerna run build",
     "types": "lerna run compile -- --noEmit"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "keywords": [
     "aries",
     "cloudagent",

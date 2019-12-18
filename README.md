@@ -39,7 +39,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 > TODO
 
 ```bash
-yarn test
+npm run test
 ```
 
 ## License and disclaimer
