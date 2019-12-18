@@ -1,0 +1,47 @@
+{
+  "name": "@ula-aca/webhook-relay-event-router",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo 'Error: run tests from root' && exit 1",
+    "compile": "tsc",
+    "clean": "rm -rf ./lib",
+    "build": "yarn clean && yarn compile"
+  },
+  "keywords": [
+    "aries",
+    "cloudagent",
+    "ula",
+    "universal-ledger-agent",
+    "ssi",
+    "did",
+    "identity",
+    "blockchain",
+    "indy",
+    "connections"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ula-aca/ula-aca-plugins",
+    "directory": "packages/webhook-relay-event-router"
+  },
+  "contributors": [
+    "Timo Glastra <timo@glastra.me>",
+    "Karim Stekelenburg <karim.stekelenburg@me.com>"
+  ],
+  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/connection",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "isomorphic-ws": "^4.0.1",
+    "universal-ledger-agent": "^0.1.1",
+    "ws": "^7.2.1"
+  }
+}
