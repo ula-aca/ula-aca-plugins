@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable class-methods-use-this */
 /*
@@ -39,7 +40,9 @@ export default class WebhookRelayEventRouter implements Plugin {
     return 'WebhookRelayEventRouter'
   }
 
-  private handleWebsocketMessage(msg: WebSocket.MessageEvent): void {
+  private async handleWebsocketMessage(
+    msg: WebSocket.MessageEvent
+  ): Promise<void> {
     const event: AriesEvent = JSON.parse(msg.data.toString())
     let ulaMsgType: string
 
@@ -59,13 +62,15 @@ export default class WebhookRelayEventRouter implements Plugin {
       default:
         break
     }
-    const ulaMsg: Message = new Message({
-      type: ulaMsgType,
-      payload: event.payload
-    })
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.eventHandler.processMsg(ulaMsg, () => {})
+    await this.eventHandler.processMsg(
+      {
+        type: ulaMsgType,
+        payload: event.payload
+      },
+      () => {}
+    )
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
