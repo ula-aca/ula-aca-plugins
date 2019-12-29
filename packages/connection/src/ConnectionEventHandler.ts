@@ -15,7 +15,7 @@ enum ConnectionStates {
 }
 
 export default abstract class ConnectionEventHandler implements Plugin {
-  private eventHandler: EventHandler
+  protected eventHandler: EventHandler
 
   initialize(eventHandler: EventHandler): void {
     this.eventHandler = eventHandler
