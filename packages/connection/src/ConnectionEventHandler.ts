@@ -31,7 +31,7 @@ export default abstract class ConnectionEventHandler implements Plugin {
       message.properties.type !== 'aca-connection-event' &&
       message.properties.type !== 'aca-basic-message-event'
     ) {
-      return
+      return 'ignored'
     }
 
     if (message.properties.type === 'aca-connection-event') {
@@ -65,6 +65,7 @@ export default abstract class ConnectionEventHandler implements Plugin {
     } else if (message.properties.type === 'aca-basic-message-event') {
       await this.onBasicMessage(message.properties.payload as BasicMessageEvent)
     }
+    return 'success'
   }
 
   abstract onBasicMessage(message: BasicMessageEvent): Promise<void>
