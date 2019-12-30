@@ -1,17 +1,23 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
-import PresentationExchangeRecord from './PresentationExchangeRecord'
-
-enum PresentationExchangeRecordState {
-  PROPOSAL_SENT = 'proposal_sent',
-  PROPOSAL_RECEIVED = 'proposal_received',
-  REQUEST_SENT = 'request_sent',
-  REQUEST_RECEIVED = 'request_received',
-  PRESENTATION_SENT = 'presentation_sent',
-  PRESENTATION_RECEIVED = 'presentation_received',
-  VERIFIED = 'verified'
-}
+import {
+  PresentProofEventBase,
+  isPresentProofEventProposalSent,
+  isPresentProofEventProposalReceived,
+  isPresentProofEventRequestSent,
+  isPresentProofEventRequestReceived,
+  isPresentProofEventPresentationSent,
+  isPresentProofEventPresentationReceived,
+  isPresentProofEventVerified,
+  PresentProofEventProposalSent,
+  PresentProofEventProposalReceived,
+  PresentProofEventRequestSent,
+  PresentProofEventRequestReceived,
+  PresentProofEventPresentationSent,
+  PresentProofEventPresentationReceived,
+  PresentProofEventVerified
+} from '@ula-aca/aca-webhook-event-models'
 
 export default abstract class ConnectionEventHandler implements Plugin {
   protected eventHandler: EventHandler
@@ -29,59 +35,52 @@ export default abstract class ConnectionEventHandler implements Plugin {
     if (message.properties.type !== 'aca-present-proof-event') {
       return 'ignored'
     }
-    const payload = message.properties.payload as PresentationExchangeRecord
 
-    switch (payload.state) {
-      case PresentationExchangeRecordState.PROPOSAL_SENT:
-        await this.onProposalSend(payload)
-        break
-      case PresentationExchangeRecordState.PROPOSAL_RECEIVED:
-        await this.onProposalReceived(payload)
-        break
-      case PresentationExchangeRecordState.REQUEST_SENT:
-        await this.onRequestSent(payload)
-        break
-      case PresentationExchangeRecordState.REQUEST_RECEIVED:
-        await this.onRequestReceived(payload)
-        break
-      case PresentationExchangeRecordState.PRESENTATION_SENT:
-        await this.onPresentationSent(payload)
-        break
-      case PresentationExchangeRecordState.PRESENTATION_RECEIVED:
-        await this.onPresentationReceived(payload)
-        break
-      case PresentationExchangeRecordState.VERIFIED:
-        await this.onVerified(payload)
-        break
-      default:
-        throw Error('unknown connection state')
+    const payload = message.properties.payload as PresentProofEventBase
+
+    if (isPresentProofEventProposalSent(payload)) {
+      await this.onProposalSent(payload)
+    } else if (isPresentProofEventProposalReceived(payload)) {
+      await this.onProposalReceived(payload)
+    } else if (isPresentProofEventRequestSent(payload)) {
+      await this.onRequestSent(payload)
+    } else if (isPresentProofEventRequestReceived(payload)) {
+      await this.onRequestReceived(payload)
+    } else if (isPresentProofEventPresentationSent(payload)) {
+      await this.onPresentationSent(payload)
+    } else if (isPresentProofEventPresentationReceived(payload)) {
+      await this.onPresentationReceived(payload)
+    } else if (isPresentProofEventVerified(payload)) {
+      await this.onVerified(payload)
+    } else {
+      throw Error('unknown connection state')
     }
     return 'success'
   }
 
-  abstract async onProposalSend(
-    message: PresentationExchangeRecord
+  abstract async onProposalSent(
+    message: PresentProofEventProposalSent
   ): Promise<void>
 
   abstract async onProposalReceived(
-    message: PresentationExchangeRecord
+    message: PresentProofEventProposalReceived
   ): Promise<void>
 
   abstract async onRequestSent(
-    message: PresentationExchangeRecord
+    message: PresentProofEventRequestSent
   ): Promise<void>
 
   abstract async onRequestReceived(
-    message: PresentationExchangeRecord
+    message: PresentProofEventRequestReceived
   ): Promise<void>
 
   abstract async onPresentationSent(
-    message: PresentationExchangeRecord
+    message: PresentProofEventPresentationSent
   ): Promise<void>
 
   abstract async onPresentationReceived(
-    message: PresentationExchangeRecord
+    message: PresentProofEventPresentationReceived
   ): Promise<void>
 
-  abstract async onVerified(message: PresentationExchangeRecord): Promise<void>
+  abstract async onVerified(message: PresentProofEventVerified): Promise<void>
 }

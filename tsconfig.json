@@ -10,7 +10,11 @@
     "experimentalDecorators": true,
     "target": "es5",
     "sourceMap": true,
-    "lib": ["es6"]
+    "lib": ["es6"],
+    "baseUrl": ".",
+    "paths": {
+      "@scope/example/*": ["./path/to/scope/example/*"]
+    }
   },
   "exclude": ["node_modules"]
 }

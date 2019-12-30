@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Utrecht Innovation.
+ * Copyright 2019 ula-aca.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-export default interface PresentationExchangeRecord {
-  connection_id: string
-  state:
-    | 'proposal_sent'
-    | 'proposal_received'
-    | 'request_sent'
-    | 'request_received'
-    | 'presentation_sent'
-    | 'presentation_received'
-    | 'verified'
-  thread_id: string
-  presentation_exchange_id: string
-  initiator: 'self' | 'external'
-  presentation_proposal_dict: string
-  presentation_request: string
-  presentation: string
-  verified: 'true' | 'false'
-  auto_present: boolean
-  error_msg?: string
+import { PresentProofEventState, PresentProofEventBase } from './base'
+
+export interface PresentProofEventRequestReceived
+  extends PresentProofEventBase {
+  state: PresentProofEventState.REQUEST_RECEIVED
+}
+
+export function isPresentProofEventRequestReceived(
+  event: PresentProofEventBase
+): event is PresentProofEventRequestReceived {
+  return event.state === 'request_received'
 }

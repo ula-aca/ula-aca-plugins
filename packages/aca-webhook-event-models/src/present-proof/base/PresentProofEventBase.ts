@@ -13,28 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { PresentProofEventState } from '.'
 
-export default interface ConnectionEvent {
+export interface PresentProofEventBase {
   connection_id: string
-  state:
-    | 'init'
-    | 'invitation'
-    | 'request'
-    | 'response'
-    | 'active'
-    | 'error'
-    | 'inactive'
-  my_did?: string
-  their_did?: string
-  their_label?: string
-  their_role?: string
-  inbound_connection_id?: string
-  initiator: 'self' | 'external' | 'multiuse'
-  invitation_key: string
-  request_id?: string
-  routing_state: 'none' | 'request' | 'active' | 'error'
-  accept: 'manual' | 'auto'
+  state: PresentProofEventState
+  thread_id: string
+  presentation_exchange_id: string
+  initiator: 'self' | 'external'
+  presentation_proposal_dict: string
+  presentation_request: string
+  presentation: string
+  verified: 'true' | 'false'
+  auto_present: boolean
   error_msg?: string
-  invitation_mode: 'once' | 'multi'
-  alias?: string
 }

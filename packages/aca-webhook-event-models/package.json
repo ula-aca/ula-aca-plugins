@@ -1,7 +1,7 @@
 {
-  "name": "@ula-aca/present-proof",
+  "name": "@ula-aca/aca-webhook-event-models",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent plugin for presenting proof.",
+  "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents.",
   "scripts": {
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc",
@@ -18,18 +18,18 @@
     "identity",
     "blockchain",
     "indy",
-    "present-proof"
+    "aca-webhook-event-models"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ula-aca/ula-aca-plugins",
-    "directory": "packages/present-proof"
+    "directory": "packages/aca-webhook-event-models"
   },
   "contributors": [
     "Timo Glastra <timo@glastra.me>",
     "Karim Stekelenburg <karim.stekelenburg@me.com>"
   ],
-  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/present-proof",
+  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/aca-webhook-event-models",
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -40,10 +40,6 @@
     "lib"
   ],
   "dependencies": {
-    "@ula-aca/aca-webhook-event-models": "^0.0.0",
-    "@ula-aca/aries-cloudagent-interface": "1.0.0",
-    "axios": "^0.19.0",
-    "undefined": "/Users/karimstekelenburg/Developer/aries-ula/ula-aca-plugins/packages/aca-webhook-event-models",
-    "universal-ledger-agent": "^0.1.1"
+    "axios": "^0.19.0"
   }
 }

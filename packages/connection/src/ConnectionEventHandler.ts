@@ -1,18 +1,25 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
-import ConnectionEvent from './ConnectionEvent'
+import {
+  ConnectionEventBase,
+  ConnectionEventInit,
+  ConnectionEventState,
+  ConnectionEventInvitation,
+  ConnectionEventRequest,
+  ConnectionEventActive,
+  ConnectionEventInactive,
+  isConnectionEventInit,
+  isConnectionEventInvitation,
+  isConnectionEventRequest,
+  isConnectionEventResponse,
+  ConnectionEventResponse,
+  isConnectionEventActive,
+  isConnectionEventInactive,
+  isConnectionEventError,
+  ConnectionEventError
+} from '@ula-aca/aca-webhook-event-models'
 import BasicMessageEvent from './BasicMessageEvent'
-
-enum ConnectionStates {
-  INIT = 'init',
-  INVITATION = 'invitation',
-  REQUEST = 'request',
-  RESPONSE = 'response',
-  ACTIVE = 'active',
-  ERROR = 'error',
-  INACTIVE = 'inactive'
-}
 
 export default abstract class ConnectionEventHandler implements Plugin {
   protected eventHandler: EventHandler
@@ -35,32 +42,22 @@ export default abstract class ConnectionEventHandler implements Plugin {
     }
 
     if (message.properties.type === 'aca-connection-event') {
-      const payload = message.properties.payload as ConnectionEvent
+      const payload = message.properties.payload as ConnectionEventBase
 
-      switch (payload.state) {
-        case ConnectionStates.INIT:
-          await this.onInit(payload)
-          break
-        case ConnectionStates.INVITATION:
-          await this.onInvitation(payload)
-          break
-        case ConnectionStates.REQUEST:
-          await this.onRequest(payload)
-          break
-        case ConnectionStates.RESPONSE:
-          await this.onResponse(payload)
-          break
-        case ConnectionStates.ACTIVE:
-          await this.onActive(payload)
-          break
-        case ConnectionStates.ERROR:
-          await this.onError(payload)
-          break
-        case ConnectionStates.INACTIVE:
-          await this.onInactive(payload)
-          break
-        default:
-          throw Error('unknown connection state')
+      if (isConnectionEventInit(payload)) {
+        await this.onInit(payload)
+      } else if (isConnectionEventInvitation(payload)) {
+        await this.onInvitation(payload)
+      } else if (isConnectionEventRequest(payload)) {
+        await this.onRequest(payload)
+      } else if (isConnectionEventResponse(payload)) {
+        await this.onResponse(payload)
+      } else if (isConnectionEventActive(payload)) {
+        await this.onActive(payload)
+      } else if (isConnectionEventInactive(payload)) {
+        await this.onInactive(payload)
+      } else if (isConnectionEventError(payload)) {
+        await this.onError(payload)
       }
     } else if (message.properties.type === 'aca-basic-message-event') {
       await this.onBasicMessage(message.properties.payload as BasicMessageEvent)
@@ -70,17 +67,17 @@ export default abstract class ConnectionEventHandler implements Plugin {
 
   abstract onBasicMessage(message: BasicMessageEvent): Promise<void>
 
-  abstract async onInit(message: ConnectionEvent): Promise<void>
+  abstract async onInit(message: ConnectionEventInit): Promise<void>
 
-  abstract async onInvitation(message: ConnectionEvent): Promise<void>
+  abstract async onInvitation(message: ConnectionEventInvitation): Promise<void>
 
-  abstract async onRequest(message: ConnectionEvent): Promise<void>
+  abstract async onRequest(message: ConnectionEventRequest): Promise<void>
 
-  abstract async onResponse(message: ConnectionEvent): Promise<void>
+  abstract async onResponse(message: ConnectionEventResponse): Promise<void>
 
-  abstract async onActive(message: ConnectionEvent): Promise<void>
+  abstract async onActive(message: ConnectionEventActive): Promise<void>
 
-  abstract async onError(message: ConnectionEvent): Promise<void>
+  abstract async onInactive(message: ConnectionEventInactive): Promise<void>
 
-  abstract async onInactive(message: ConnectionEvent): Promise<void>
+  abstract async onError(message: ConnectionEventError): Promise<void>
 }

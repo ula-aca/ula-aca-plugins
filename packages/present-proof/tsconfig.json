@@ -3,5 +3,8 @@
   "compilerOptions": {
     "outDir": "./lib"
   },
-  "include": ["./src"]
+  "include": [
+    "./src",
+    "../webhook-relay-event-models/src/PresentationExchangeRecord.ts"
+  ]
 }
