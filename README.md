@@ -32,8 +32,16 @@ All packages are placed in the [`packages/`](./packages) directory.
 
 ## TODO
 
-- webhook-relay-event-router package ✅
-- connection package ✅
+- Project Root
+  - Documentation
+  - Example scripts (full alice-faber usecase)
+- webhook-relay-event-router package
+  - Docs
+  - Example scripts
+  - WebhookRelayEventRouter ✅
+- connection package
+  - Docs
+  - Example scripts
   - ConnectionController ✅
     - connection functionality ✅
     - basic-message functionality ✅
@@ -43,14 +51,35 @@ All packages are placed in the [`packages/`](./packages) directory.
     - connection functionality ✅
     - basic-message functionality ✅
 - present-proof package
+  - Docs
+  - Example scripts
   - PresentProofController ✅
   - PresentProofEventHandler ✅
 - issue-credential package
+  - Docs
+  - Example scripts
+  - IssueCredentialController
+  - IssueCredentialEventHandler
 - credential package
+  - Docs
+  - Example scripts
+  - CredentialController
 - ledger package
+  - Docs
+  - Example scripts
+  - LedgerController
 - credential-definition package
+  - Docs
+  - Example scripts
+  - CredentialDefinitionController
 - schema package
+  - Docs
+  - Example scripts
+  - SchemaController
 - wallet package
+  - Docs
+  - Example scripts
+  - WalletController
 
 ## Contributing
 
