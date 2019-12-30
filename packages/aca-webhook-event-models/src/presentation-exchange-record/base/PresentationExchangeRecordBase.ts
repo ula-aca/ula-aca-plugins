@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 ula-aca.
+ * Copyright 2019 Utrecht Innovation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { PresentationExchangeRecordState } from '.'
 
-import { ConnectionEventState, ConnectionEventBase } from './base'
-
-export interface ConnectionEventInit extends ConnectionEventBase {
-  state: ConnectionEventState.INIT
-}
-
-export function isConnectionEventInit(
-  event: ConnectionEventBase
-): event is ConnectionEventInit {
-  return event.state === 'init'
+export interface PresentationExchangeRecordBase {
+  connection_id: string
+  state: PresentationExchangeRecordState
+  thread_id: string
+  presentation_exchange_id: string
+  initiator: 'self' | 'external'
+  presentation_proposal_dict: string
+  presentation_request: string
+  presentation: string
+  verified: 'true' | 'false'
+  auto_present: boolean
+  error_msg?: string
 }

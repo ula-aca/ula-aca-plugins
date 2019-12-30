@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { ConnectionEventBase, ConnectionEventState } from './base'
+export * from './base'
 
-export interface ConnectionEventActive extends ConnectionEventBase {
-  state: ConnectionEventState.ACTIVE
-}
-
-export function isConnectionEventActive(
-  event: ConnectionEventBase
-): event is ConnectionEventActive {
-  return event.state === 'active'
-}
+export * from './PresentationExchangeRecordProposalReceived'
+export * from './PresentationExchangeRecordProposalSent'
+export * from './PresentationExchangeRecordRequestReceived'
+export * from './PresentationExchangeRecordRequestSent'
+export * from './PresentationExchangeRecordPresentationSent'
+export * from './PresentationExchangeRecordPresentationReceived'
+export * from './PresentationExchangeRecordVerified'

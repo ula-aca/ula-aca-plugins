@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 ula-aca.
+ * Copyright 2019 Utrecht Innovation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,4 @@
  * limitations under the License.
  */
 
-import { ConnectionEventState, ConnectionEventBase } from './base'
-
-export interface ConnectionEventError extends ConnectionEventBase {
-  state: ConnectionEventState.ERROR
-}
-
-export function isConnectionEventError(
-  event: ConnectionEventBase
-): event is ConnectionEventError {
-  return event.state === 'error'
-}
+export * from './BasicMessage'

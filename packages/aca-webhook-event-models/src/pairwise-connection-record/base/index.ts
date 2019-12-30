@@ -14,14 +14,5 @@
  * limitations under the License.
  */
 
-import { PresentProofEventState, PresentProofEventBase } from './base'
-
-export interface PresentProofEventProposalSent extends PresentProofEventBase {
-  state: PresentProofEventState.PROPOSAL_SENT
-}
-
-export function isPresentProofEventProposalSent(
-  event: PresentProofEventBase
-): event is PresentProofEventProposalSent {
-  return event.state === 'proposal_sent'
-}
+export * from './PairwiseConnectionRecordBase'
+export * from './PairwiseConnectionRecordState'

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Utrecht Innovation.
+ * Copyright 2019 ula-aca.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
-export default interface BasicMessageEvent {
-  connection_id: string
-  message_id: string
-  state: 'received'
-  content: string
+import {
+  PairwiseConnectionRecordState,
+  PairwiseConnectionRecordBase
+} from './base'
+
+export interface PairwiseConnectionRecordInit
+  extends PairwiseConnectionRecordBase {
+  state: PairwiseConnectionRecordState.INIT
+}
+
+export function isPairwiseConnectionRecordInit(
+  event: PairwiseConnectionRecordBase
+): event is PairwiseConnectionRecordInit {
+  return event.state === 'init'
 }

@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-import { ConnectionEventState, ConnectionEventBase } from './base'
+import {
+  PairwiseConnectionRecordState,
+  PairwiseConnectionRecordBase
+} from './base'
 
-export interface ConnectionEventInactive extends ConnectionEventBase {
-  state: ConnectionEventState.INACTIVE
+export interface PairwiseConnectionRecordInactive
+  extends PairwiseConnectionRecordBase {
+  state: PairwiseConnectionRecordState.INACTIVE
 }
 
-export function isConnectionEventInactive(
-  event: ConnectionEventBase
-): event is ConnectionEventInactive {
+export function isPairwiseConnectionRecordInactive(
+  event: PairwiseConnectionRecordBase
+): event is PairwiseConnectionRecordInactive {
   return event.state === 'inactive'
 }

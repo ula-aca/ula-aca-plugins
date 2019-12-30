@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-import { ConnectionEventState, ConnectionEventBase } from './base'
+import {
+  PresentationExchangeRecordState,
+  PresentationExchangeRecordBase
+} from './base'
 
-export interface ConnectionEventInvitation extends ConnectionEventBase {
-  state: ConnectionEventState.INVITATION
+export interface PresentationExchangeRecordPresentationReceived
+  extends PresentationExchangeRecordBase {
+  state: PresentationExchangeRecordState.PRESENTATION_RECEIVED
 }
 
-export function isConnectionEventInvitation(
-  event: ConnectionEventBase
-): event is ConnectionEventInvitation {
-  return event.state === 'invitation'
+export function isPresentationExchangeRecordPresentationReceived(
+  event: PresentationExchangeRecordBase
+): event is PresentationExchangeRecordPresentationReceived {
+  return event.state === 'presentation_received'
 }

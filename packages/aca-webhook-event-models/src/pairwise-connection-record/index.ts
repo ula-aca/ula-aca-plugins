@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { PresentProofEventState, PresentProofEventBase } from './base'
-
-export interface PresentProofEventRequestReceived
-  extends PresentProofEventBase {
-  state: PresentProofEventState.REQUEST_RECEIVED
-}
-
-export function isPresentProofEventRequestReceived(
-  event: PresentProofEventBase
-): event is PresentProofEventRequestReceived {
-  return event.state === 'request_received'
-}
+export * from './base'
+export * from './PairwiseConnectionRecordInit'
+export * from './PairwiseConnectionRecordInvitation'
+export * from './PairwiseConnectionRecordRequest'
+export * from './PairwiseConnectionRecordResponse'
+export * from './PairwiseConnectionRecordActive'
+export * from './PairwiseConnectionRecordInactive'
+export * from './PairwiseConnectionRecordError'

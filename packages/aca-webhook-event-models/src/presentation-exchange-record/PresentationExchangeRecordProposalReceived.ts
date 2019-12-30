@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-export enum ConnectionEventState {
-  INIT = 'init',
-  INVITATION = 'invitation',
-  REQUEST = 'request',
-  RESPONSE = 'response',
-  ACTIVE = 'active',
-  ERROR = 'error',
-  INACTIVE = 'inactive'
+import {
+  PresentationExchangeRecordState,
+  PresentationExchangeRecordBase
+} from './base'
+
+export interface PresentationExchangeRecordProposalReceived
+  extends PresentationExchangeRecordBase {
+  state: PresentationExchangeRecordState.PROPOSAL_RECEIVED
+}
+
+export function isPresentationExchangeRecordProposalReceived(
+  event: PresentationExchangeRecordBase
+): event is PresentationExchangeRecordProposalReceived {
+  return event.state === 'proposal_received'
 }

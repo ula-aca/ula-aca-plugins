@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-import { PresentProofEventState, PresentProofEventBase } from './base'
+import {
+  PresentationExchangeRecordState,
+  PresentationExchangeRecordBase
+} from './base'
 
-export interface PresentProofEventVerified extends PresentProofEventBase {
-  state: PresentProofEventState.VERIFIED
+export interface PresentationExchangeRecordVerified
+  extends PresentationExchangeRecordBase {
+  state: PresentationExchangeRecordState.VERIFIED
 }
 
-export function isPresentProofEventVerified(
-  event: PresentProofEventBase
-): event is PresentProofEventVerified {
+export function isPresentationExchangeRecordVerified(
+  event: PresentationExchangeRecordBase
+): event is PresentationExchangeRecordVerified {
   return event.state === 'verified'
 }

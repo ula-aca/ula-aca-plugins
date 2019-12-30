@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { ConnectionEventState, ConnectionEventBase } from './base'
-
-export interface ConnectionEventRequest extends ConnectionEventBase {
-  state: ConnectionEventState.REQUEST
-}
-
-export function isConnectionEventRequest(
-  event: ConnectionEventBase
-): event is ConnectionEventRequest {
-  return event.state === 'request'
+export enum PairwiseConnectionRecordState {
+  INIT = 'init',
+  INVITATION = 'invitation',
+  REQUEST = 'request',
+  RESPONSE = 'response',
+  ACTIVE = 'active',
+  ERROR = 'error',
+  INACTIVE = 'inactive'
 }

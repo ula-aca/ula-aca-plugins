@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-export * from './pairwise-connection-record'
-export * from './basic-message'
-export * from './presentation-exchange-record'
-export * from './credential-exchange-record'
+import {
+  PairwiseConnectionRecordState,
+  PairwiseConnectionRecordBase
+} from './base'
+
+export interface PairwiseConnectionRecordInvitation
+  extends PairwiseConnectionRecordBase {
+  state: PairwiseConnectionRecordState.INVITATION
+}
+
+export function isPairwiseConnectionRecordInvitation(
+  event: PairwiseConnectionRecordBase
+): event is PairwiseConnectionRecordInvitation {
+  return event.state === 'invitation'
+}

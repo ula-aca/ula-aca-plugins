@@ -2,24 +2,23 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
 import {
-  ConnectionEventBase,
-  ConnectionEventInit,
-  ConnectionEventState,
-  ConnectionEventInvitation,
-  ConnectionEventRequest,
-  ConnectionEventActive,
-  ConnectionEventInactive,
-  isConnectionEventInit,
-  isConnectionEventInvitation,
-  isConnectionEventRequest,
-  isConnectionEventResponse,
-  ConnectionEventResponse,
-  isConnectionEventActive,
-  isConnectionEventInactive,
-  isConnectionEventError,
-  ConnectionEventError
+  isPairwiseConnectionRecordInit,
+  PairwiseConnectionRecordInit,
+  PairwiseConnectionRecordBase,
+  isPairwiseConnectionRecordInvitation,
+  isPairwiseConnectionRecordRequest,
+  isPairwiseConnectionRecordResponse,
+  isPairwiseConnectionRecordActive,
+  isPairwiseConnectionRecordInactive,
+  isPairwiseConnectionRecordError,
+  BasicMessage,
+  PairwiseConnectionRecordInvitation,
+  PairwiseConnectionRecordRequest,
+  PairwiseConnectionRecordResponse,
+  PairwiseConnectionRecordActive,
+  PairwiseConnectionRecordInactive,
+  PairwiseConnectionRecordError
 } from '@ula-aca/aca-webhook-event-models'
-import BasicMessageEvent from './BasicMessageEvent'
 
 export default abstract class ConnectionEventHandler implements Plugin {
   protected eventHandler: EventHandler
@@ -42,42 +41,52 @@ export default abstract class ConnectionEventHandler implements Plugin {
     }
 
     if (message.properties.type === 'aca-connection-event') {
-      const payload = message.properties.payload as ConnectionEventBase
+      const payload = message.properties.payload as PairwiseConnectionRecordBase
 
-      if (isConnectionEventInit(payload)) {
+      if (isPairwiseConnectionRecordInit(payload)) {
         await this.onInit(payload)
-      } else if (isConnectionEventInvitation(payload)) {
+      } else if (isPairwiseConnectionRecordInvitation(payload)) {
         await this.onInvitation(payload)
-      } else if (isConnectionEventRequest(payload)) {
+      } else if (isPairwiseConnectionRecordRequest(payload)) {
         await this.onRequest(payload)
-      } else if (isConnectionEventResponse(payload)) {
+      } else if (isPairwiseConnectionRecordResponse(payload)) {
         await this.onResponse(payload)
-      } else if (isConnectionEventActive(payload)) {
+      } else if (isPairwiseConnectionRecordActive(payload)) {
         await this.onActive(payload)
-      } else if (isConnectionEventInactive(payload)) {
+      } else if (isPairwiseConnectionRecordInactive(payload)) {
         await this.onInactive(payload)
-      } else if (isConnectionEventError(payload)) {
+      } else if (isPairwiseConnectionRecordError(payload)) {
         await this.onError(payload)
       }
     } else if (message.properties.type === 'aca-basic-message-event') {
-      await this.onBasicMessage(message.properties.payload as BasicMessageEvent)
+      await this.onBasicMessage(message.properties.payload as BasicMessage)
     }
     return 'success'
   }
 
-  abstract onBasicMessage(message: BasicMessageEvent): Promise<void>
+  abstract onBasicMessage(message: BasicMessage): Promise<void>
 
-  abstract async onInit(message: ConnectionEventInit): Promise<void>
+  abstract async onInit(message: PairwiseConnectionRecordInit): Promise<void>
 
-  abstract async onInvitation(message: ConnectionEventInvitation): Promise<void>
+  abstract async onInvitation(
+    message: PairwiseConnectionRecordInvitation
+  ): Promise<void>
 
-  abstract async onRequest(message: ConnectionEventRequest): Promise<void>
+  abstract async onRequest(
+    message: PairwiseConnectionRecordRequest
+  ): Promise<void>
 
-  abstract async onResponse(message: ConnectionEventResponse): Promise<void>
+  abstract async onResponse(
+    message: PairwiseConnectionRecordResponse
+  ): Promise<void>
 
-  abstract async onActive(message: ConnectionEventActive): Promise<void>
+  abstract async onActive(
+    message: PairwiseConnectionRecordActive
+  ): Promise<void>
 
-  abstract async onInactive(message: ConnectionEventInactive): Promise<void>
+  abstract async onInactive(
+    message: PairwiseConnectionRecordInactive
+  ): Promise<void>
 
-  abstract async onError(message: ConnectionEventError): Promise<void>
+  abstract async onError(message: PairwiseConnectionRecordError): Promise<void>
 }

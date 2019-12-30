@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-import { PresentProofEventState, PresentProofEventBase } from './base'
+import {
+  PairwiseConnectionRecordBase,
+  PairwiseConnectionRecordState
+} from './base'
 
-export interface PresentProofEventProposalReceived
-  extends PresentProofEventBase {
-  state: PresentProofEventState.PROPOSAL_RECEIVED
+export interface PairwiseConnectionRecordActive
+  extends PairwiseConnectionRecordBase {
+  state: PairwiseConnectionRecordState.ACTIVE
 }
 
-export function isPresentProofEventProposalReceived(
-  event: PresentProofEventBase
-): event is PresentProofEventProposalReceived {
-  return event.state === 'proposal_received'
+export function isPairwiseConnectionRecordActive(
+  event: PairwiseConnectionRecordBase
+): event is PairwiseConnectionRecordActive {
+  return event.state === 'active'
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 ula-aca.
+ * Copyright 2019 Utrecht Innovation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { PresentProofEventState, PresentProofEventBase } from './base'
-
-export interface PresentProofEventRequestSent extends PresentProofEventBase {
-  state: PresentProofEventState.REQUEST_SENT
-}
-
-export function isPresentProofEventRequestSent(
-  event: PresentProofEventBase
-): event is PresentProofEventRequestSent {
-  return event.state === 'request_sent'
+export enum PresentationExchangeRecordState {
+  PROPOSAL_SENT = 'proposal_sent',
+  PROPOSAL_RECEIVED = 'proposal_received',
+  REQUEST_SENT = 'request_sent',
+  REQUEST_RECEIVED = 'request_received',
+  PRESENTATION_SENT = 'presentation_sent',
+  PRESENTATION_RECEIVED = 'presentation_received',
+  VERIFIED = 'verified'
 }

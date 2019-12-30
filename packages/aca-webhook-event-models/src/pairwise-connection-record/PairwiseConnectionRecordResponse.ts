@@ -14,5 +14,18 @@
  * limitations under the License.
  */
 
-export * from './ConnectionEventBase'
-export * from './ConnectionEventState'
+import {
+  PairwiseConnectionRecordState,
+  PairwiseConnectionRecordBase
+} from './base'
+
+export interface PairwiseConnectionRecordResponse
+  extends PairwiseConnectionRecordBase {
+  state: PairwiseConnectionRecordState.RESPONSE
+}
+
+export function isPairwiseConnectionRecordResponse(
+  event: PairwiseConnectionRecordBase
+): event is PairwiseConnectionRecordResponse {
+  return event.state === 'response'
+}

@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './base'
-export * from './ConnectionEventInit'
-export * from './ConnectionEventInvitation'
-export * from './ConnectionEventRequest'
-export * from './ConnectionEventResponse'
-export * from './ConnectionEventActive'
-export * from './ConnectionEventInactive'
-export * from './ConnectionEventError'
+
+import {
+  PresentationExchangeRecordState,
+  PresentationExchangeRecordBase
+} from './base'
+
+export interface PresentationExchangeRecordProposalSent
+  extends PresentationExchangeRecordBase {
+  state: PresentationExchangeRecordState.PROPOSAL_SENT
+}
+
+export function isPresentationExchangeRecordProposalSent(
+  event: PresentationExchangeRecordBase
+): event is PresentationExchangeRecordProposalSent {
+  return event.state === 'proposal_sent'
+}

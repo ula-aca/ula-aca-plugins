@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Utrecht Innovation.
+ * Copyright 2019 ula-aca.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PresentProofEventState } from '.'
 
-export interface PresentProofEventBase {
-  connection_id: string
-  state: PresentProofEventState
-  thread_id: string
-  presentation_exchange_id: string
-  initiator: 'self' | 'external'
-  presentation_proposal_dict: string
-  presentation_request: string
-  presentation: string
-  verified: 'true' | 'false'
-  auto_present: boolean
-  error_msg?: string
+import {
+  PairwiseConnectionRecordState,
+  PairwiseConnectionRecordBase
+} from './base'
+
+export interface PairwiseConnectionRecordError
+  extends PairwiseConnectionRecordBase {
+  state: PairwiseConnectionRecordState.ERROR
+}
+
+export function isPairwiseConnectionRecordError(
+  event: PairwiseConnectionRecordBase
+): event is PairwiseConnectionRecordError {
+  return event.state === 'error'
 }

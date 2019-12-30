@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 ula-aca.
+ * Copyright 2019 Utrecht Innovation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,9 @@
  * limitations under the License.
  */
 
-import { PresentProofEventState, PresentProofEventBase } from './base'
-
-export interface PresentProofEventPresentationSent
-  extends PresentProofEventBase {
-  state: PresentProofEventState.PRESENTATION_SENT
-}
-
-export function isPresentProofEventPresentationSent(
-  event: PresentProofEventBase
-): event is PresentProofEventPresentationSent {
-  return event.state === 'presentation_sent'
+export interface BasicMessage {
+  connection_id: string
+  message_id: string
+  state: 'received'
+  content: string
 }

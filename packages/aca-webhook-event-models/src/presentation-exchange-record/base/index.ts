@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 ula-aca.
+ * Copyright 2019 Utrecht Innovation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,5 @@
  * limitations under the License.
  */
 
-import { ConnectionEventState } from '.'
-
-export interface ConnectionEventBase {
-  connection_id: string
-  state: ConnectionEventState
-  my_did?: string
-  their_did?: string
-  their_label?: string
-  their_role?: string
-  inbound_connection_id?: string
-  initiator: 'self' | 'external' | 'multiuse'
-  invitation_key: string
-  request_id?: string
-  routing_state: 'none' | 'request' | 'active' | 'error'
-  accept: 'manual' | 'auto'
-  error_msg?: string
-  invitation_mode: 'once' | 'multi'
-  alias?: string
-}
+export * from './PresentationExchangeRecordBase'
+export * from './PresentationExchangeRecordState'

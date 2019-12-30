@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-export * from './base'
+import {
+  PresentationExchangeRecordState,
+  PresentationExchangeRecordBase
+} from './base'
 
-export * from './PresentProofEventPresentationReceived'
-export * from './PresentProofEventPresentationSent'
-export * from './PresentProofEventProposalReceived'
-export * from './PresentProofEventProposalSent'
-export * from './PresentProofEventRequestReceived'
-export * from './PresentProofEventRequestSent'
-export * from './PresentProofEventVerified'
+export interface PresentationExchangeRecordRequestReceived
+  extends PresentationExchangeRecordBase {
+  state: PresentationExchangeRecordState.REQUEST_RECEIVED
+}
+
+export function isPresentationExchangeRecordRequestReceived(
+  event: PresentationExchangeRecordBase
+): event is PresentationExchangeRecordRequestReceived {
+  return event.state === 'request_received'
+}
