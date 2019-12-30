@@ -10,8 +10,7 @@
 - [Universal Ledger Agent - Aries Cloudagent Plugins](#universal-ledger-agent---aries-cloudagent-plugins)
   - [Usage](#usage)
   - [Packages](#packages)
-- [ULA-ACA Plugins](#ula-aca-plugins)
-  - [TODO](#todo)
+  - [ULA-ACA Plugins TODO](#ula-aca-plugins-todo)
   - [Contributing](#contributing)
   - [Running tests](#running-tests)
   - [License and disclaimer](#license-and-disclaimer)
@@ -24,13 +23,14 @@ This repository uses [Lerna](https://lerna.js.org) to manage multiple NPM packag
 
 All packages are placed in the [`packages/`](./packages) directory.
 
-| Package                                                                      | Path                                               | Description                                                                                                |
-| ---------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [`@ula-aca/connections`](https://www.npmjs.com/package/@ula-aca/connections) | [`./packages/connections`](./packages/connections) | Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents. |
+| Package                                                                                                    | Path                                                                             | Description                                                                                                |
+| ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [`@ula-aca/connection`](https://www.npmjs.com/package/@ula-aca/connection)                                 | [`./packages/connection`](./packages/connection)                                 | Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents. |
+| [`@ula-aca/present-proof`](https://www.npmjs.com/package/@ula-aca/present-proof)                           | [`./packages/present-proof`](./packages/present-proof)                           |                                                                                                            |
+| [`@ula-aca/schema`](https://www.npmjs.com/package/@ula-aca/schema)                                         | [`./packages/schema`](./packages/schema)                                         |                                                                                                            |
+| [`@ula-aca/webhook-relay-event-router`](https://www.npmjs.com/package/@ula-aca/webhook-relay-event-router) | [`./packages/webhook-relay-event-router`](./packages/webhook-relay-event-router) |                                                                                                            |
 
-# ULA-ACA Plugins
-
-## TODO
+## ULA-ACA Plugins TODO
 
 - Project Root
   - Documentation
