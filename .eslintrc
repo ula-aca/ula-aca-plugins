@@ -19,7 +19,8 @@
         "js": "never",
         "ts": "never"
       }
-    ]
+    ],
+    "@typescript-eslint/camelcase": "off"
   },
   "settings": {
     "import/resolver": {
