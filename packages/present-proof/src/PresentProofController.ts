@@ -64,7 +64,7 @@ export class PresentProofController implements Plugin {
   }
 
   get name(): string {
-    return 'AcaPresentProof'
+    return '@ula-aca/present-proof/PresentProofController'
   }
 
   private async getAllPresentProofExchangeRecords(): Promise<UlaResponse> {

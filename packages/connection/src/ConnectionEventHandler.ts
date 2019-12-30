@@ -28,7 +28,7 @@ export default abstract class ConnectionEventHandler implements Plugin {
   }
 
   get name() {
-    return 'ConnectionEventHandler'
+    return '@ula-aca/connection/ConnectionEventHandler'
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars

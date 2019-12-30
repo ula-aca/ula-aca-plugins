@@ -27,7 +27,7 @@ export default abstract class ConnectionEventHandler implements Plugin {
   }
 
   get name() {
-    return 'ConnectionEventHandler'
+    return '@ula-aca/present-proof/PresentProofEventHandler'
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
@@ -53,7 +53,7 @@ export default abstract class ConnectionEventHandler implements Plugin {
     } else if (isPresentationExchangeRecordVerified(payload)) {
       await this.onVerified(payload)
     } else {
-      throw Error('unknown connection state')
+      throw Error('unknown PresentationExchangeRecord state')
     }
     return 'success'
   }

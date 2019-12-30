@@ -69,7 +69,7 @@ export default class ConnectionController implements Plugin {
   }
 
   get name(): string {
-    return 'AcaConnections'
+    return '@ula-aca/connection/ConnectionController'
   }
 
   private async getAllConnections(): Promise<UlaResponse> {
