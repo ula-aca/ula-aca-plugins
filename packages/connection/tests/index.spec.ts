@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-import AcaConnections from '../src'
+import * as Connection from '../src'
 
-describe('@ula-aca/connections', () => {
-  describe('default export', () => {
-    it('should export something', () => {
-      AcaConnections.should.not.equal(null)
-    })
+describe('@ula-aca/connection', () => {
+  it('should export something', () => {
+    Connection.should.not.equal(null)
   })
 })
