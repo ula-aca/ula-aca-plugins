@@ -1,6 +1,7 @@
 /* eslint-disable default-case */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable class-methods-use-this */
+
 /*
  * Copyright 2019 ula-aca.
  *
@@ -32,18 +33,9 @@ import {
   ConnectionInvitation
 } from '@ula-aca/aries-cloudagent-interface'
 
-enum ConnectionControllerMessages {
-  GET_ALL_CONNECTIONS = '@ula-aca/connection/get-all-connections',
-  GET_CONNECTION_BY_ID = '@ula-aca/connection/get-connection-by-id',
-  CREATE_INVITATION = '@ula-aca/connection/create-invitation',
-  RECEIVE_INVITATION = '@ula-aca/connection/receive-invitation',
-  ACCEPT_INVITATION = '@ula-aca/connection/accept-invitation',
-  ACCEPT_REQUEST = '@ula-aca/connection/accept-request',
-  ESTABLISH_INBOUND = '@ula-aca/connection/establish-inbound',
-  REMOVE_CONNECTION = '@ula-aca/connection/remove-connection',
-  SEND_PING = '@ula-aca/connection/send-ping',
-  SEND_BASIC_MESSAGE = '@ula-aca/connection/basic-message'
-}
+import { ConnectionControllerMessageTypes } from '.'
+
+import * as models from './connection-controller-message-models'
 
 export default class ConnectionController implements Plugin {
   protected eventHandler?: EventHandler
@@ -170,9 +162,9 @@ export default class ConnectionController implements Plugin {
     })
   }
 
-  async handleEvent(message: Message, callback: any): Promise<string> {
+  public async handleEvent(message: Message, callback: any): Promise<string> {
     if (
-      !Object.values(ConnectionControllerMessages).includes(
+      !Object.values(ConnectionControllerMessageTypes).includes(
         message.properties.type
       )
     ) {
@@ -182,36 +174,36 @@ export default class ConnectionController implements Plugin {
     // TODOC: Document messages and their properties
     let response: UlaResponse = null
     switch (message.properties.type) {
-      case ConnectionControllerMessages.GET_ALL_CONNECTIONS:
+      case ConnectionControllerMessageTypes.GET_ALL_CONNECTIONS:
         response = await this.getAllConnections()
         break
-      case ConnectionControllerMessages.GET_CONNECTION_BY_ID:
+      case ConnectionControllerMessageTypes.GET_CONNECTION_BY_ID:
         response = await this.getConnectionById(message.properties.connectionId)
         break
-      case ConnectionControllerMessages.CREATE_INVITATION:
+      case ConnectionControllerMessageTypes.CREATE_INVITATION:
         response = await this.createInvitation()
         break
-      case ConnectionControllerMessages.RECEIVE_INVITATION:
+      case ConnectionControllerMessageTypes.RECEIVE_INVITATION:
         response = await this.receiveInvitation(message.properties.invitation)
         break
-      case ConnectionControllerMessages.ACCEPT_INVITATION:
+      case ConnectionControllerMessageTypes.ACCEPT_INVITATION:
         response = await this.acceptInvitation(message.properties.connectionId)
         break
-      case ConnectionControllerMessages.ACCEPT_REQUEST:
+      case ConnectionControllerMessageTypes.ACCEPT_REQUEST:
         response = await this.acceptRequest(message.properties.connectionId)
         break
-      case ConnectionControllerMessages.SEND_PING:
+      case ConnectionControllerMessageTypes.SEND_PING:
         response = await this.sendPing(message.properties.connectionId)
         break
-      case ConnectionControllerMessages.SEND_BASIC_MESSAGE:
+      case ConnectionControllerMessageTypes.SEND_BASIC_MESSAGE:
         response = await this.sendBasicMessage(
           message.properties.connectionId,
           message.properties.message
         )
         break
-      case ConnectionControllerMessages.ESTABLISH_INBOUND:
+      case ConnectionControllerMessageTypes.ESTABLISH_INBOUND:
         throw Error('Message not (yet) implemented!')
-      case ConnectionControllerMessages.REMOVE_CONNECTION:
+      case ConnectionControllerMessageTypes.REMOVE_CONNECTION:
         response = await this.removeConnection(message.properties.connectionId)
         break
     }
