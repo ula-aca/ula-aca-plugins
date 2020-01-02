@@ -87,7 +87,7 @@ jobs:
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.3.0
         with:
-          coverageCommand: npm coverage --check-coverage false
+          coverageCommand: npm run coverage -- --check-coverage false
         # Also publish when tests fail
         if: always()
         env:
