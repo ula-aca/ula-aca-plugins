@@ -1,2 +1,3 @@
 **/lib/**
 packages/**/node_modules
+coverage/**

@@ -13,5 +13,5 @@
     "lib": ["es6"]
   },
   "exclude": ["node_modules"],
-  "include": ["packages"]
+  "include": ["packages", "tests"]
 }
