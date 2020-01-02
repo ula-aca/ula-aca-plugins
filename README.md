@@ -5,6 +5,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/29e796f6dd07eb75eb37/test_coverage)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/test_coverage)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![GitHub license](https://img.shields.io/github/license/ula-aca/ula-aca-plugins.svg)](https://github.com/ula-aca/ula-aca-plugins/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/ula-aca/ula-aca-plugins.svg)](https://GitHub.com/ula-aca/ula-aca-plugins/releases/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 > Aries Cloudagent plugins for the Universal Ledger Agent
 
