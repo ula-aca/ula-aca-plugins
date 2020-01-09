@@ -1,3 +1,9 @@
+import {
+  SchemaGetResults,
+  SchemasCreatedResults,
+  SchemaSendResults
+} from '@ula-aca/aries-cloudagent-interface'
+
 enum SchemaMessageTypes {
   GET_SCHEMA_BY_ID = '@ula-aca/schema/get-schema-by-id',
   GET_CREATED_SCHEMAS = '@ula-aca/schema/get-created-schemas',
@@ -11,6 +17,8 @@ interface GetSchemaByIdMessage {
   }
 }
 
+type GetSchemaByIdResult = SchemaGetResults
+
 interface GetCreatedSchemasPayload {
   schemaId?: string
   schemaIssuerDid?: string
@@ -23,6 +31,8 @@ interface GetCreatedSchemasMessage {
   payload?: GetCreatedSchemasPayload
 }
 
+type GetCreatedSchemasResult = SchemasCreatedResults
+
 interface CreateSchemaPayload {
   schemaVersion: string
   schemaName: string
@@ -34,6 +44,8 @@ interface CreateSchemaMessage {
   payload: CreateSchemaPayload
 }
 
+type CreateSchemaResult = SchemaSendResults
+
 type SchemaMessageType =
   | GetSchemaByIdMessage
   | GetCreatedSchemasMessage
@@ -44,12 +56,18 @@ function isSchemaMessage(properties): properties is SchemaMessageType {
 }
 
 export {
-  GetSchemaByIdMessage,
-  GetCreatedSchemasPayload,
-  GetCreatedSchemasMessage,
-  CreateSchemaPayload,
-  CreateSchemaMessage,
   SchemaMessageType,
   SchemaMessageTypes,
-  isSchemaMessage
+  isSchemaMessage,
+  /* get-schema-by-id */
+  GetSchemaByIdMessage,
+  GetSchemaByIdResult,
+  /* get-created-schemas */
+  GetCreatedSchemasPayload,
+  GetCreatedSchemasMessage,
+  GetCreatedSchemasResult,
+  /* create-schema */
+  CreateSchemaPayload,
+  CreateSchemaMessage,
+  CreateSchemaResult
 }
