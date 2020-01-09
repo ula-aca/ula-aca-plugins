@@ -1,9 +1,0 @@
-{
-  "extends": [
-    "@commitlint/config-conventional",
-    "@commitlint/config-lerna-scopes"
-  ],
-  "rules": {
-    "scope-case": [2, "always", "kebab-case"]
-  }
-}
