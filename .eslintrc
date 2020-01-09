@@ -13,6 +13,7 @@
   },
   "rules": {
     "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -29,6 +30,13 @@
         "extensions": [".js", ".ts"]
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": "**/examples/**",
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
 }
-
