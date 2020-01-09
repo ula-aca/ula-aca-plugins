@@ -1,0 +1,48 @@
+{
+  "name": "@ula-aca/ledger",
+  "version": "0.0.0",
+  "description": "Universal Ledger Agent - Aries Cloudagent Ledger Plugin",
+  "scripts": {
+    "test": "echo 'Error: run tests from root' && exit 1",
+    "compile": "tsc",
+    "clean": "rm -rf ./lib",
+    "build": "npm run clean && npm run compile",
+    "example": "../../node_modules/.bin/ts-node examples"
+  },
+  "keywords": [
+    "aries",
+    "cloudagent",
+    "ula",
+    "universal-ledger-agent",
+    "ssi",
+    "did",
+    "identity",
+    "blockchain",
+    "indy",
+    "ledger"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ula-aca/ula-aca-plugins",
+    "directory": "packages/ledger"
+  },
+  "contributors": [
+    "Timo Glastra <timo@glastra.me>",
+    "Karim Stekelenburg <karim.stekelenburg@me.com>"
+  ],
+  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/ledger",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@ula-aca/aries-cloudagent-interface": "1.0.0",
+    "axios": "^0.19.0",
+    "universal-ledger-agent": "^0.1.1"
+  }
+}
