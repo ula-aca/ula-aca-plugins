@@ -54,7 +54,7 @@ export default class SchemaController implements Plugin {
     const response = await this.schemaApi.schemasIdGet(schemaId)
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data.schema_json
+      body: response.data
     })
   }
 
