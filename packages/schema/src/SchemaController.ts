@@ -111,7 +111,7 @@ export default class SchemaController implements Plugin {
     }
 
     await callback(response)
-    return response.statusCode < 200 || response.statusCode > 300
+    return response.statusCode < 200 || response.statusCode >= 300
       ? 'error'
       : 'success'
   }
