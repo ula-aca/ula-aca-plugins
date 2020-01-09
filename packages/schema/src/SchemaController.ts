@@ -92,7 +92,10 @@ export default class SchemaController implements Plugin {
     })
   }
 
-  async handleEvent(message: Message, callback: any): Promise<string> {
+  async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void>
+  ): Promise<string> {
     if (!isSchemaMessage(message.properties)) {
       return 'ignored'
     }
