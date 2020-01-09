@@ -8,7 +8,7 @@ This package handles everything that has to do with schemas in Hyperledger Aries
 
 ```typescript
 import { EventHandler } from 'universal-ledger-agent'
-import SchemaController from '@ula-aca/schema'
+import { SchemaController } from '@ula-aca/schema'
 
 const schemaController = new SchemaController('https://aca-py-url.com')
 
@@ -19,7 +19,8 @@ const eventHandler = new EventHandler([schemaController])
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
-import SchemaController, {
+import {
+  SchemaController,
   GetSchemaByIdMessage,
   SchemaMessageTypes
 } from '@ula-aca/schema'
@@ -36,8 +37,13 @@ const message: GetSchemaByIdMessage = {
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
-  // response.body is response from /schemas/{id} api endpoint in aca-py
-  // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/get_schemas__id_
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    // error
+  } else {
+    // response.body is response from /schemas/{id} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/get_schemas__id_
+    const result: GetSchemaByIdResult = response.body
+  }
 })
 ```
 
@@ -57,12 +63,22 @@ const eventHandler = new EventHandler([schemaController])
 
 const message: GetCreatedSchemasMessage = {
   type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
-  payload: {} // GetCreatedSchemasPayload
+  payload: {
+    // schemaId: ''
+    // schemaIssuerDid: ''
+    // schemaName: ''
+    // schemaVersion: ''
+  }
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
-  // response.body is response from /schemas/created api endpoint in aca-py
-  // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/get_schemas_created
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    // error
+  } else {
+    // response.body is response from /schemas/created api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/get_schemas_created
+    const result: GetCreatedSchemasResult = response.body
+  }
 })
 ```
 
@@ -82,11 +98,24 @@ const eventHandler = new EventHandler([schemaController])
 
 const message: CreateSchemaMessage = {
   type: SchemaMessageTypes.CREATE_SCHEMA,
-  payload: {} // CreateSchemaPayload
+  payload: {
+    schemaName: 'ExampleSchema',
+    schemaVersion: '1.0',
+    attributes: ['first_name', 'last_name']
+  }
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
-  // response.body is response from /schemas post request api endpoint in aca-py
-  // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/post_schemas
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    // error
+  } else {
+    // response.body is response from /schemas post request api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/post_schemas
+    const result: CreateSchemaResult = response.body
+  }
 })
 ```
+
+## Examples
+
+For example usage see the [`examples/`](./examples) directory.
