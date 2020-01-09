@@ -108,8 +108,6 @@ export default class SchemaController implements Plugin {
       case SchemaMessageTypes.GET_SCHEMA_BY_ID:
         response = await this.getSchemaById(message.properties.payload.schemaId)
         break
-      default:
-        throw Error('Unknown message')
     }
 
     await callback(response)
