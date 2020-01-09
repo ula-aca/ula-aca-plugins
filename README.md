@@ -14,7 +14,6 @@
 - [Universal Ledger Agent - Aries Cloudagent Plugins](#universal-ledger-agent---aries-cloudagent-plugins)
   - [Usage](#usage)
   - [Packages](#packages)
-  - [ULA-ACA Plugins TODO](#ula-aca-plugins-todo)
   - [Contributing](#contributing)
   - [Running tests](#running-tests)
   - [License and disclaimer](#license-and-disclaimer)
@@ -32,58 +31,8 @@ All packages are placed in the [`packages/`](./packages) directory.
 | [`@ula-aca/connection`](https://www.npmjs.com/package/@ula-aca/connection)                                 | [`./packages/connection`](./packages/connection)                                 | Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents. |
 | [`@ula-aca/present-proof`](https://www.npmjs.com/package/@ula-aca/present-proof)                           | [`./packages/present-proof`](./packages/present-proof)                           |                                                                                                            |
 | [`@ula-aca/schema`](https://www.npmjs.com/package/@ula-aca/schema)                                         | [`./packages/schema`](./packages/schema)                                         |                                                                                                            |
+| [`@ula-aca/ledger`](https://www.npmjs.com/package/@ula-aca/ledger)                                         | [`./packages/ledger`](./packages/ledger)                                         |                                                                                                            |
 | [`@ula-aca/webhook-relay-event-router`](https://www.npmjs.com/package/@ula-aca/webhook-relay-event-router) | [`./packages/webhook-relay-event-router`](./packages/webhook-relay-event-router) |                                                                                                            |
-
-## ULA-ACA Plugins TODO
-
-- Project Root
-  - Documentation
-  - Example scripts (full alice-faber usecase)
-- webhook-relay-event-router package
-  - Docs
-  - Example scripts
-  - WebhookRelayEventRouter ✅
-- connection package
-  - Docs
-  - Example scripts
-  - ConnectionController ✅
-    - connection functionality ✅
-    - basic-message functionality ✅
-    - trust-ping functionality ✅
-    - introduction functionality
-  - ConnectionEventHandler ✅
-    - connection functionality ✅
-    - basic-message functionality ✅
-- present-proof package
-  - Docs
-  - Example scripts
-  - PresentProofController ✅
-  - PresentProofEventHandler ✅
-- issue-credential package
-  - Docs
-  - Example scripts
-  - IssueCredentialController
-  - IssueCredentialEventHandler
-- credential package
-  - Docs
-  - Example scripts
-  - CredentialController
-- ledger package
-  - Docs
-  - Example scripts
-  - LedgerController
-- credential-definition package
-  - Docs
-  - Example scripts
-  - CredentialDefinitionController
-- schema package
-  - Docs
-  - Example scripts
-  - SchemaController
-- wallet package
-  - Docs
-  - Example scripts
-  - WalletController
 
 ## Contributing
 
