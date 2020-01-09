@@ -6,7 +6,8 @@
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc",
     "clean": "rm -rf ./lib",
-    "build": "yarn clean && yarn compile"
+    "build": "npm run clean && npm run compile",
+    "example": "../../node_modules/.bin/ts-node examples"
   },
   "keywords": [
     "aries",
