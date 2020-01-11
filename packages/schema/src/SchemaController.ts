@@ -122,7 +122,9 @@ export default class SchemaController implements Plugin {
 
       response = new UlaResponse({
         statusCode: axiosErr.response.status,
-        body: axiosErr.response.data
+        body: {
+          error: axiosErr.response.data
+        }
       })
     }
 
