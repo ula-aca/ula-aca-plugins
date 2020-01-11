@@ -51,7 +51,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
-import SchemaController, {
+import {
+  SchemaController,
   GetCreatedSchemasMessage,
   SchemaMessageTypes,
   GetCreatedSchemasPayload
@@ -64,9 +65,9 @@ const eventHandler = new EventHandler([schemaController])
 const message: GetCreatedSchemasMessage = {
   type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
   payload: {
-    // schemaId: ''
-    // schemaIssuerDid: ''
-    // schemaName: ''
+    // schemaId: '',
+    // schemaIssuerDid: '',
+    // schemaName: '',
     // schemaVersion: ''
   }
 }
@@ -86,7 +87,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
-import SchemaController, {
+import {
+  SchemaController,
   CreateSchemaMessage,
   SchemaMessageTypes,
   CreateSchemaPayload
