@@ -25,11 +25,14 @@ import { Configuration, LedgerApi } from '@ula-aca/aries-cloudagent-interface'
 import { AxiosError } from 'axios'
 import {
   RegisterNymPayload,
+  RegisterNymResult,
   GetVerkeyByDidPayload,
   GetEndpointByDidPayload,
   AcceptTransactionAuthorAgreementPayload,
   isLedgerMessage,
-  LedgerMessageTypes
+  LedgerMessageTypes,
+  GetVerkeyByDidResult,
+  GetEndpointByDidResult
 } from './messages'
 
 export default class LedgerController implements Plugin {
@@ -65,9 +68,13 @@ export default class LedgerController implements Plugin {
       alias,
       role
     )
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as RegisterNymResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 
@@ -75,10 +82,13 @@ export default class LedgerController implements Plugin {
     did
   }: GetVerkeyByDidPayload): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerDidVerkeyGet(did)
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as GetVerkeyByDidResult
+
     return new UlaResponse({
       statusCode: response.status,
-      // TODO: response
-      body: {}
+      body
     })
   }
 
@@ -86,10 +96,13 @@ export default class LedgerController implements Plugin {
     did
   }: GetEndpointByDidPayload): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerDidEndpointGet(did)
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as GetEndpointByDidResult
+
     return new UlaResponse({
       statusCode: response.status,
-      // TODO: Response
-      body: {}
+      body
     })
   }
 
@@ -105,10 +118,15 @@ export default class LedgerController implements Plugin {
     payload: AcceptTransactionAuthorAgreementPayload
   ): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerTaaAcceptPost(payload)
+
+    // The generated API does not provide the correct response typing
+    // TODO: change any when return type is known
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const body = (response.data as unknown) as any
+
     return new UlaResponse({
       statusCode: response.status,
-      // TODO: Response
-      body: {}
+      body
     })
   }
 

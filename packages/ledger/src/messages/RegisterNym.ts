@@ -12,6 +12,6 @@ interface RegisterNymMessage {
   payload: RegisterNymPayload
 }
 
-type RegisterNymResult = void
+type RegisterNymResult = { success: true }
 
 export { RegisterNymPayload, RegisterNymMessage, RegisterNymResult }

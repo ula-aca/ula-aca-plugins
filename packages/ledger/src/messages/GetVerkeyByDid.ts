@@ -9,6 +9,6 @@ interface GetVerkeyByDidMessage {
   payload: GetVerkeyByDidPayload
 }
 
-type GetVerkeyByDidResult = void
+type GetVerkeyByDidResult = { verkey: string | null }
 
 export { GetVerkeyByDidPayload, GetVerkeyByDidMessage, GetVerkeyByDidResult }

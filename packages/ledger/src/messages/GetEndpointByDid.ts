@@ -9,7 +9,7 @@ interface GetEndpointByDidMessage {
   payload: GetEndpointByDidPayload
 }
 
-type GetEndpointByDidResult = void
+type GetEndpointByDidResult = { endpoint: string }
 
 export {
   GetEndpointByDidPayload,
