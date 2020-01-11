@@ -68,10 +68,14 @@ module.exports = {
       }
     },
     {
+      // we should focus on writing tests, not making eslint work
       files: '*.spec.ts',
       rules: {
         'no-unused-expressions': 'off',
-        '@typescript-eslint/no-explicit-any': 'off'
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+        'no-await-in-loop': 'off',
+        'no-restricted-syntax': 'off'
       }
     },
     ...noExtraneousOverrides
