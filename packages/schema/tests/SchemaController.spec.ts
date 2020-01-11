@@ -81,7 +81,7 @@ describe('@ula-aca/schema', () => {
 
         schemaPlugin.initialize(eventHandler)
 
-        const ingoreMessageTypes = [
+        const ignoreMessageTypes = [
           'create-shem',
           'random-message',
           'a',
@@ -89,7 +89,7 @@ describe('@ula-aca/schema', () => {
         ]
 
         // eslint-disable-next-line no-restricted-syntax
-        for (const messageType of ingoreMessageTypes) {
+        for (const messageType of ignoreMessageTypes) {
           const message = new Message({
             type: messageType
           })
