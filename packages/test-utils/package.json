@@ -1,0 +1,8 @@
+{
+  "name": "@ula-aca/test-utils",
+  "private": true,
+  "main": "src/index.ts",
+  "dependencies": {
+    "sinon": "^8.0.4"
+  }
+}

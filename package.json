@@ -72,6 +72,9 @@
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
+  "dependencies": {
+    "@ula-aca/test-utils": "file:packages/test-utils"
+  },
   "config": {
     "commitizen": {
       "path": "@commitlint/prompt"
