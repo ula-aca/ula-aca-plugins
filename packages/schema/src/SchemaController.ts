@@ -22,6 +22,7 @@ import {
 } from 'universal-ledger-agent'
 
 import { Configuration, SchemaApi } from '@ula-aca/aries-cloudagent-interface'
+import { AxiosError } from 'axios'
 import {
   GetCreatedSchemasPayload,
   CreateSchemaPayload,
@@ -101,16 +102,28 @@ export default class SchemaController implements Plugin {
     }
 
     let response: UlaResponse
-    switch (message.properties.type) {
-      case SchemaMessageTypes.CREATE_SCHEMA:
-        response = await this.createSchema(message.properties.payload)
-        break
-      case SchemaMessageTypes.GET_CREATED_SCHEMAS:
-        response = await this.getCreatedSchemas(message.properties.payload)
-        break
-      case SchemaMessageTypes.GET_SCHEMA_BY_ID:
-        response = await this.getSchemaById(message.properties.payload.schemaId)
-        break
+
+    try {
+      switch (message.properties.type) {
+        case SchemaMessageTypes.CREATE_SCHEMA:
+          response = await this.createSchema(message.properties.payload)
+          break
+        case SchemaMessageTypes.GET_CREATED_SCHEMAS:
+          response = await this.getCreatedSchemas(message.properties.payload)
+          break
+        case SchemaMessageTypes.GET_SCHEMA_BY_ID:
+          response = await this.getSchemaById(
+            message.properties.payload.schemaId
+          )
+          break
+      }
+    } catch (err) {
+      const axiosErr = err as AxiosError
+
+      response = new UlaResponse({
+        statusCode: axiosErr.response.status,
+        body: axiosErr.response.data
+      })
     }
 
     await callback(response)
