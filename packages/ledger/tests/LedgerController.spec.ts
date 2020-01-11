@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 /*
  * Copyright 2020  ula-aca.
  *
@@ -18,76 +17,60 @@
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 import { LedgerApi } from '@ula-aca/aries-cloudagent-interface'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
 import {
   LedgerController,
   GetTransactionAuthorAgreementMessage,
   RegisterNymMessage,
-  GetVerkeyByDidPayload,
   GetEndpointByDidMessage,
-  GetEndpointByDidPayload,
   AcceptTransactionAuthorAgreementMessage,
   GetVerkeyByDidMessage
 } from '../src'
 
-function stubInterfaceFunction({
-  Class,
-  functionName,
-  status = 200,
-  data = undefined
-}): sinon.SinonStub {
-  return sinon.stub(Class.prototype, functionName).resolves({
-    status,
-    data
-  } as any)
-}
+describe('[package] @ula-aca/ledger', () => {
+  describe('[plugin] LedgerController', () => {
+    let eventHandler: EventHandler
+    let ledgerPlugin: LedgerController
+    let ledgerApiStubbed: sinon.SinonStub
 
-describe('@ula-aca/ledger', () => {
-  describe('LedgerController Plugin', () => {
+    beforeEach(() => {
+      eventHandler = new EventHandler([])
+      ledgerPlugin = new LedgerController('http://url.test')
+      ledgerPlugin.initialize(eventHandler)
+    })
+
+    afterEach(() => {
+      ledgerApiStubbed && ledgerApiStubbed.restore()
+    })
     it("plugin name should be '@ula-aca/ledger/LedgerController'", () => {
-      const acaUrl = 'http://fake'
-      const ledgerPlugin = new LedgerController(acaUrl)
-
       ledgerPlugin.name.should.equal('@ula-aca/ledger/LedgerController')
     })
 
-    describe('handleEvent()', () => {
-      it('should only handle messages it is supposed to', async () => {
-        const eventHandler = new EventHandler([])
-        const acaUrl = 'http://ula.test:7002'
-        const ledgerPlugin = new LedgerController(acaUrl)
-
-        ledgerPlugin.initialize(eventHandler)
-
-        const ingoreMessageTypes = [
-          'register-naim',
+    describe('[function] handleEvent()', () => {
+      it("should return 'ignored' when an unknown message type is passed", async () => {
+        const ignoreMessageTypes = [
+          'get-taa',
           'random-message',
           'a',
-          'get-taa'
+          'register-naim'
         ]
 
-        // eslint-disable-next-line no-restricted-syntax
-        for (const messageType of ingoreMessageTypes) {
+        for (const messageType of ignoreMessageTypes) {
           const message = new Message({
             type: messageType
           })
 
-          // eslint-disable-next-line @typescript-eslint/no-empty-function,no-await-in-loop
           const response = await ledgerPlugin.handleEvent(message, () => {})
 
           response.should.equal('ignored')
         }
       })
 
-      it("should return 'error' when statusCode is not in 200", async () => {
-        const eventHandler = new EventHandler([])
-        const acaUrl = 'http://url.test'
-        const ledgerPlugin = new LedgerController(acaUrl)
-        ledgerPlugin.initialize(eventHandler)
-
+      it("should return 'error' when statusCode is not in range 200-299", async () => {
         const statusCode = 300
         const expectedResult = 'error'
 
-        const ledgerApiStubbed = stubInterfaceFunction({
+        ledgerApiStubbed = stubInterfaceFunction({
           Class: LedgerApi,
           functionName: 'ledgerTaaGet',
           status: statusCode
@@ -99,17 +82,45 @@ describe('@ula-aca/ledger', () => {
 
         const eventRes = await ledgerPlugin.handleEvent(message, () => {})
 
-        ledgerApiStubbed.restore()
         eventRes.should.equal(expectedResult)
+      })
+
+      it('should call the callback with the error and statusCode when an API call fails', async () => {
+        const payload = {
+          mechanism: 'string',
+          version: 'string',
+          text: 'string'
+        }
+        const data = '400: Bad Request'
+        const statusCode = 400
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        ledgerApiStubbed = stubInterfaceFunction({
+          Class: LedgerApi,
+          functionName: 'ledgerTaaAcceptPost',
+          data,
+          status: statusCode,
+          rejects: true
+        })
+
+        const message = new Message({
+          type: '@ula-aca/ledger/accept-transaction-author-agreement',
+          payload
+        } as AcceptTransactionAuthorAgreementMessage)
+
+        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
+          res.should.deep.equal(expectedResult)
+        })
       })
     })
 
     describe('events', () => {
-      const eventHandler = new EventHandler([])
-      const acaUrl = 'http://url.test'
-      const ledgerPlugin = new LedgerController(acaUrl)
-      ledgerPlugin.initialize(eventHandler)
-
       it('@ula-aca/ledger/register-nym', async () => {
         const did = '2gv3WyywspB2mYAwe2Sdp4'
         const verkey = 'vNGkvdXNyyvTPfhvXNRLFk28pjiCNMyYiEmxrvYkXz2'
@@ -124,7 +135,7 @@ describe('@ula-aca/ledger', () => {
           statusCode
         })
 
-        const ledgerApiStubbed = stubInterfaceFunction({
+        ledgerApiStubbed = stubInterfaceFunction({
           Class: LedgerApi,
           functionName: 'ledgerRegisterNymPost',
           data,
@@ -144,7 +155,6 @@ describe('@ula-aca/ledger', () => {
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
           ledgerApiStubbed.should.have.been.calledWith(did, verkey, alias, role)
           res.should.deep.equal(expectedResult)
-          ledgerApiStubbed.restore()
         })
       })
 
@@ -159,7 +169,7 @@ describe('@ula-aca/ledger', () => {
           statusCode
         })
 
-        const ledgerApiStubbed = stubInterfaceFunction({
+        ledgerApiStubbed = stubInterfaceFunction({
           Class: LedgerApi,
           functionName: 'ledgerDidVerkeyGet',
           data,
@@ -176,7 +186,6 @@ describe('@ula-aca/ledger', () => {
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
           ledgerApiStubbed.should.have.been.calledWith(did)
           res.should.deep.equal(expectedResult)
-          ledgerApiStubbed.restore()
         })
       })
 
@@ -191,7 +200,7 @@ describe('@ula-aca/ledger', () => {
           statusCode
         })
 
-        const ledgerApiStubbed = stubInterfaceFunction({
+        ledgerApiStubbed = stubInterfaceFunction({
           Class: LedgerApi,
           functionName: 'ledgerDidEndpointGet',
           data,
@@ -208,7 +217,6 @@ describe('@ula-aca/ledger', () => {
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
           ledgerApiStubbed.should.have.been.calledWith(did)
           res.should.deep.equal(expectedResult)
-          ledgerApiStubbed.restore()
         })
       })
 
@@ -228,7 +236,7 @@ describe('@ula-aca/ledger', () => {
           statusCode
         })
 
-        const ledgerApiStubbed = stubInterfaceFunction({
+        ledgerApiStubbed = stubInterfaceFunction({
           Class: LedgerApi,
           functionName: 'ledgerTaaGet',
           data,
@@ -242,7 +250,6 @@ describe('@ula-aca/ledger', () => {
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
           ledgerApiStubbed.should.have.been.called
           res.should.deep.equal(expectedResult)
-          ledgerApiStubbed.restore()
         })
       })
 
@@ -261,7 +268,7 @@ describe('@ula-aca/ledger', () => {
           statusCode
         })
 
-        const ledgerApiStubbed = stubInterfaceFunction({
+        ledgerApiStubbed = stubInterfaceFunction({
           Class: LedgerApi,
           functionName: 'ledgerTaaAcceptPost',
           data,
@@ -276,7 +283,6 @@ describe('@ula-aca/ledger', () => {
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
           ledgerApiStubbed.should.have.been.calledWith(payload)
           res.should.deep.equal(expectedResult)
-          ledgerApiStubbed.restore()
         })
       })
     })
