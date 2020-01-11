@@ -16,101 +16,174 @@
 
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  SchemaController,
-  GetSchemaByIdMessage,
-  SchemaMessageTypes,
-  GetSchemaByIdResult,
-  GetCreatedSchemasMessage,
-  GetCreatedSchemasResult,
-  CreateSchemaMessage,
-  CreateSchemaResult,
-  GetCreatedSchemasPayload,
-  CreateSchemaPayload
+  LedgerController,
+  RegisterNymMessage,
+  RegisterNymResult,
+  LedgerMessageTypes,
+  RegisterNymPayload,
+  GetVerkeyByDidPayload,
+  GetVerkeyByDidMessage,
+  GetVerkeyByDidResult,
+  GetEndpointByDidPayload,
+  GetEndpointByDidResult,
+  GetEndpointByDidMessage,
+  GetTransactionAuthorAgreementResult,
+  GetTransactionAuthorAgreementMessage,
+  AcceptTransactionAuthorAgreementResult,
+  AcceptTransactionAuthorAgreementMessage,
+  AcceptTransactionAuthorAgreementPayload
 } from '../src'
 
 const ACA_URL = 'http://ula.test:7002'
-const schemaController = new SchemaController(ACA_URL)
-const eventHandler = new EventHandler([schemaController])
+const ledgerController = new LedgerController(ACA_URL)
+const eventHandler = new EventHandler([ledgerController])
 
-async function getSchemaById(schemaId: string): Promise<GetSchemaByIdResult> {
+async function registerNym(
+  options: RegisterNymPayload
+): Promise<RegisterNymResult> {
   return new Promise((resolve, reject) => {
-    const message: GetSchemaByIdMessage = {
-      type: SchemaMessageTypes.GET_SCHEMA_BY_ID,
-      payload: { schemaId }
+    const message: RegisterNymMessage = {
+      type: LedgerMessageTypes.REGISER_NYM,
+      payload: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
-      // response.body is response from /schemas/{id} api endpoint in aca-py
-      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/get_schemas__id_
+      // response.body is response from /ledger/register-nym POST api endpoint in aca-py
+      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/post_ledger_register_nym
 
       if (response.statusCode < 200 || response.statusCode >= 300)
         reject(response.body)
 
-      const result: GetSchemaByIdResult = response.body
+      const result: RegisterNymResult = response.body
       resolve(result)
     })
   })
 }
 
-async function getCreatedSchemas(
-  options?: GetCreatedSchemasPayload
-): Promise<GetCreatedSchemasResult> {
+async function getVerkeyByDid(
+  options: GetVerkeyByDidPayload
+): Promise<GetVerkeyByDidResult> {
   return new Promise((resolve, reject) => {
-    const message: GetCreatedSchemasMessage = {
-      type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
+    const message: GetVerkeyByDidMessage = {
+      type: LedgerMessageTypes.GET_VERKEY_BY_DID,
       payload: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
-      // response.body is response from /schemas/created api endpoint in aca-py
-      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/get_schemas_created
+      // response.body is response from /ledger/did-verkey api endpoint in aca-py
+      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/get_ledger_did_verkey
 
       if (response.statusCode < 200 || response.statusCode >= 300)
         reject(response.body)
 
-      const result: GetCreatedSchemasResult = response.body
+      const result: GetVerkeyByDidResult = response.body
       resolve(result)
     })
   })
 }
 
-async function createSchema(
-  options: CreateSchemaPayload
-): Promise<CreateSchemaResult> {
+async function getEndpointByDid(
+  options: GetEndpointByDidPayload
+): Promise<GetEndpointByDidResult> {
   return new Promise((resolve, reject) => {
-    const message: CreateSchemaMessage = {
-      type: SchemaMessageTypes.CREATE_SCHEMA,
+    const message: GetEndpointByDidMessage = {
+      type: LedgerMessageTypes.GET_ENDPOINT_BY_DID,
       payload: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
-      // response.body is response from /schemas post request api endpoint in aca-py
-      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/schema/post_schemas
+      // response.body is response from /ledger/did-endpoint api endpoint in aca-py
+      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/get_ledger_did_endpoint
 
       if (response.statusCode < 200 || response.statusCode >= 300)
         reject(response.body)
 
-      const result: CreateSchemaResult = response.body
+      const result: GetEndpointByDidResult = response.body
+      resolve(result)
+    })
+  })
+}
+
+async function getTransactionAuthorAgreement(): Promise<
+  GetTransactionAuthorAgreementResult
+> {
+  return new Promise((resolve, reject) => {
+    const message: GetTransactionAuthorAgreementMessage = {
+      type: LedgerMessageTypes.GET_TRANSACTION_AUTHOR_AGREEMENT
+    }
+
+    eventHandler.processMsg(message, (response: UlaResponse) => {
+      // response.body is response from /ledger/taa api endpoint in aca-py
+      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/get_ledger_taa
+
+      if (response.statusCode < 200 || response.statusCode >= 300)
+        reject(response.body)
+
+      const result: GetTransactionAuthorAgreementResult = response.body
+      resolve(result)
+    })
+  })
+}
+
+async function acceptTransactionAuthorAgreement(
+  options: AcceptTransactionAuthorAgreementPayload
+): Promise<AcceptTransactionAuthorAgreementResult> {
+  return new Promise((resolve, reject) => {
+    const message: AcceptTransactionAuthorAgreementMessage = {
+      type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT,
+      payload: options
+    }
+
+    eventHandler.processMsg(message, (response: UlaResponse) => {
+      // response.body is response from /ledger/taa/accept POST api endpoint in aca-py
+      // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/post_ledger_taa_accept
+
+      if (response.statusCode < 200 || response.statusCode >= 300)
+        reject(response.body)
+
+      const result: AcceptTransactionAuthorAgreementResult = response.body
       resolve(result)
     })
   })
 }
 
 async function run(): Promise<void> {
-  const createdSchema = await createSchema({
-    schemaName: 'ExampleSchema',
-    schemaVersion: '1.0',
-    attributes: ['first_name', 'last_name']
-  })
-  console.log(`createSchema id: ${createdSchema.schema_id}`)
+  const did = 'X2Y2GU6CuaB2i76qZRXvoQ'
+  const verkey = 'HNCMJsgCB6cXAV7ztCPiAPikMAiPhpQdVPRGPhriaH2r'
 
-  const createdSchemas = await getCreatedSchemas({
-    schemaId: createdSchema.schema_id
+  const result = await registerNym({
+    did,
+    verkey
   })
-  console.log('createdSchemas: ', createdSchemas)
+  console.log('Register Nym success: ', result.success)
 
-  const schema = await getSchemaById(createdSchema.schema_id)
-  console.log('getSchemaById: ', schema)
+  const getVerkeyResult = await getVerkeyByDid({
+    did
+  })
+  console.log('Verkey: ', getVerkeyResult.verkey)
+
+  const getEndpointResult = await getEndpointByDid({
+    did
+  })
+  console.log('Endpoint: ', getEndpointResult.endpoint)
+
+  const transactionAuthorAgreement = await getTransactionAuthorAgreement()
+  console.log('Transaction author agreement: ', transactionAuthorAgreement)
+
+  // Only accept TAA when required
+  if (transactionAuthorAgreement.result.taa_required) {
+    // TODO: Add correct example for accepting TAA.
+    // Ledger needs to have a TAA, you can publish this with
+    // the ledger api from the indy sdk
+    const acceptTransactionAuthorAgreementResult = await acceptTransactionAuthorAgreement(
+      {
+        mechanism: '',
+        text: '',
+        version: ''
+      }
+    )
+    console.log('Accept TAA result:', acceptTransactionAuthorAgreementResult)
+  }
 }
 
 run()
