@@ -73,7 +73,15 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@ula-aca/test-utils": "file:packages/test-utils"
+    "@ula-aca/aca-webhook-event-models": "file:packages/aca-webhook-event-models",
+    "@ula-aca/connection": "file:packages/connection",
+    "@ula-aca/credential-definition": "file:packages/credential-definition",
+    "@ula-aca/issue-credential": "file:packages/issue-credential",
+    "@ula-aca/ledger": "file:packages/ledger",
+    "@ula-aca/present-proof": "file:packages/present-proof",
+    "@ula-aca/schema": "file:packages/schema",
+    "@ula-aca/test-utils": "file:packages/test-utils",
+    "@ula-aca/webhook-relay-event-router": "file:packages/webhook-relay-event-router"
   },
   "config": {
     "commitizen": {

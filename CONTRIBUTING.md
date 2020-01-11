@@ -14,7 +14,7 @@ In order to work on this repository the following dependencies are required:
 The setup only requires you to install Node dependencies. This can be done with
 
 ```sh
-npm install
+npx lerna bootstrap
 ```
 
 ## Creating a commit
