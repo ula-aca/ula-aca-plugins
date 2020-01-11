@@ -22,6 +22,7 @@ import {
 } from 'universal-ledger-agent'
 
 import { Configuration, LedgerApi } from '@ula-aca/aries-cloudagent-interface'
+import { AxiosError } from 'axios'
 import {
   RegisterNymPayload,
   GetVerkeyByDidPayload,
@@ -120,24 +121,34 @@ export default class LedgerController implements Plugin {
     }
 
     let response: UlaResponse
-    switch (message.properties.type) {
-      case LedgerMessageTypes.REGISER_NYM:
-        response = await this.registerNym(message.properties.payload)
-        break
-      case LedgerMessageTypes.GET_VERKEY_BY_DID:
-        response = await this.getVerkeyByDid(message.properties.payload)
-        break
-      case LedgerMessageTypes.GET_ENDPOINT_BY_DID:
-        response = await this.getEndpointByDid(message.properties.payload)
-        break
-      case LedgerMessageTypes.GET_TRANSACTION_AUTHOR_AGREEMENT:
-        response = await this.getTransactionAuthorAgreement()
-        break
-      case LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT:
-        response = await this.acceptTransactionAuthorAgreement(
-          message.properties.payload
-        )
-        break
+
+    try {
+      switch (message.properties.type) {
+        case LedgerMessageTypes.REGISER_NYM:
+          response = await this.registerNym(message.properties.payload)
+          break
+        case LedgerMessageTypes.GET_VERKEY_BY_DID:
+          response = await this.getVerkeyByDid(message.properties.payload)
+          break
+        case LedgerMessageTypes.GET_ENDPOINT_BY_DID:
+          response = await this.getEndpointByDid(message.properties.payload)
+          break
+        case LedgerMessageTypes.GET_TRANSACTION_AUTHOR_AGREEMENT:
+          response = await this.getTransactionAuthorAgreement()
+          break
+        case LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT:
+          response = await this.acceptTransactionAuthorAgreement(
+            message.properties.payload
+          )
+          break
+      }
+    } catch (err) {
+      const axiosErr = err as AxiosError
+
+      response = new UlaResponse({
+        statusCode: axiosErr.response.status,
+        body: axiosErr.response.data
+      })
     }
 
     await callback(response)
