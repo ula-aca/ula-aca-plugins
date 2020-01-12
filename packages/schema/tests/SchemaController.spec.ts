@@ -17,7 +17,10 @@
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 import { SchemaApi } from '@ula-aca/aries-cloudagent-interface'
-import { stubInterfaceFunction } from '@ula-aca/test-utils'
+import {
+  stubInterfaceFunction,
+  stubNoAxiosResponseInterfaceFunction
+} from '@ula-aca/test-utils'
 import {
   SchemaController,
   GetCreatedSchemasMessage,
@@ -103,6 +106,37 @@ describe('[package] @ula-aca/schema', () => {
           data,
           status: statusCode,
           rejects: true
+        })
+
+        const message = new Message({
+          type: '@ula-aca/schema/get-schema-by-id',
+          body: { schema_id: schemaId }
+        } as GetSchemaByIdMessage)
+
+        await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
+          res.should.deep.equal(expectedResult)
+        })
+      })
+
+      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
+        const schemaId = 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
+
+        const data = {
+          message: 'Error'
+        }
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        schemaApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: SchemaApi,
+          functionName: 'schemasIdGet',
+          data
         })
 
         const message = new Message({
