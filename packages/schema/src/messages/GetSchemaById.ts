@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { SchemaGetResults } from '@ula-aca/aries-cloudagent-interface'
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
 interface GetSchemaByIdBody {
@@ -26,6 +25,15 @@ interface GetSchemaByIdMessage {
   body: GetSchemaByIdBody
 }
 
-type GetSchemaByIdResult = SchemaGetResults
+type GetSchemaByIdResult = {
+  schema_json: {
+    ver: string
+    id: string
+    name: string
+    version: string
+    attrNames: string[]
+    seqNo: number
+  }
+}
 
 export { GetSchemaByIdBody, GetSchemaByIdMessage, GetSchemaByIdResult }
