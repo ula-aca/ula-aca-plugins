@@ -17,22 +17,22 @@
 import { SchemasCreatedResults } from '@ula-aca/aries-cloudagent-interface'
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
-interface GetCreatedSchemasPayload {
-  schemaId?: string
-  schemaIssuerDid?: string
-  schemaName?: string
-  schemaVersion?: string
+interface GetCreatedSchemasBody {
+  schema_id?: string
+  schema_issuer_did?: string
+  schema_name?: string
+  schema_version?: string
 }
 
 interface GetCreatedSchemasMessage {
   type: SchemaMessageTypes.GET_CREATED_SCHEMAS
-  payload?: GetCreatedSchemasPayload
+  body?: GetCreatedSchemasBody
 }
 
 type GetCreatedSchemasResult = SchemasCreatedResults
 
 export {
-  GetCreatedSchemasPayload,
+  GetCreatedSchemasBody,
   GetCreatedSchemasMessage,
   GetCreatedSchemasResult
 }

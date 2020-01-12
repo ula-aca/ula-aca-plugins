@@ -24,8 +24,8 @@ import {
   GetCreatedSchemasResult,
   CreateSchemaMessage,
   CreateSchemaResult,
-  GetCreatedSchemasPayload,
-  CreateSchemaPayload
+  GetCreatedSchemasBody,
+  CreateSchemaBody
 } from '../src'
 
 const ACA_URL = 'http://ula.test:7002'
@@ -36,7 +36,7 @@ async function getSchemaById(schemaId: string): Promise<GetSchemaByIdResult> {
   return new Promise((resolve, reject) => {
     const message: GetSchemaByIdMessage = {
       type: SchemaMessageTypes.GET_SCHEMA_BY_ID,
-      payload: { schemaId }
+      body: { schema_id: schemaId }
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -53,12 +53,12 @@ async function getSchemaById(schemaId: string): Promise<GetSchemaByIdResult> {
 }
 
 async function getCreatedSchemas(
-  options?: GetCreatedSchemasPayload
+  options?: GetCreatedSchemasBody
 ): Promise<GetCreatedSchemasResult> {
   return new Promise((resolve, reject) => {
     const message: GetCreatedSchemasMessage = {
       type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -75,12 +75,12 @@ async function getCreatedSchemas(
 }
 
 async function createSchema(
-  options: CreateSchemaPayload
+  options: CreateSchemaBody
 ): Promise<CreateSchemaResult> {
   return new Promise((resolve, reject) => {
     const message: CreateSchemaMessage = {
       type: SchemaMessageTypes.CREATE_SCHEMA,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -98,14 +98,14 @@ async function createSchema(
 
 async function run(): Promise<void> {
   const createdSchema = await createSchema({
-    schemaName: 'ExampleSchema',
-    schemaVersion: '1.0',
+    schema_name: 'ExampleSchema',
+    schema_version: '1.0',
     attributes: ['first_name', 'last_name']
   })
   console.log(`createSchema id: ${createdSchema.schema_id}`)
 
   const createdSchemas = await getCreatedSchemas({
-    schemaId: createdSchema.schema_id
+    schema_id: createdSchema.schema_id
   })
   console.log('createdSchemas: ', createdSchemas)
 
@@ -113,4 +113,6 @@ async function run(): Promise<void> {
   console.log('getSchemaById: ', schema)
 }
 
-run()
+run().catch(e => {
+  console.log(e)
+})

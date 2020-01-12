@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-import { SchemaSendResults } from '@ula-aca/aries-cloudagent-interface'
+import {
+  SchemaSendResults,
+  SchemaSendRequest
+} from '@ula-aca/aries-cloudagent-interface'
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
-interface CreateSchemaPayload {
-  schemaVersion: string
-  schemaName: string
-  attributes: string[]
-}
+type CreateSchemaBody = SchemaSendRequest
 
 interface CreateSchemaMessage {
   type: SchemaMessageTypes.CREATE_SCHEMA
-  payload: CreateSchemaPayload
+  body: CreateSchemaBody
 }
 
 type CreateSchemaResult = SchemaSendResults
 
-export { CreateSchemaPayload, CreateSchemaMessage, CreateSchemaResult }
+export { CreateSchemaBody, CreateSchemaMessage, CreateSchemaResult }

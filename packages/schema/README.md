@@ -31,8 +31,8 @@ const eventHandler = new EventHandler([schemaController])
 
 const message: GetSchemaByIdMessage = {
   type: SchemaMessageTypes.GET_SCHEMA_BY_ID,
-  payload: {
-    schemaId: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
+  body: {
+    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
   }
 }
 
@@ -54,8 +54,7 @@ import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
   SchemaController,
   GetCreatedSchemasMessage,
-  SchemaMessageTypes,
-  GetCreatedSchemasPayload
+  SchemaMessageTypes
 } from '@ula-aca/schema'
 
 const schemaController = new SchemaController('https://aca-py-api.test')
@@ -64,11 +63,11 @@ const eventHandler = new EventHandler([schemaController])
 
 const message: GetCreatedSchemasMessage = {
   type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
-  payload: {
-    // schemaId: '',
-    // schemaIssuerDid: '',
-    // schemaName: '',
-    // schemaVersion: ''
+  body: {
+    // schema_id: '',
+    // schema_issuer_did: '',
+    // schema_name: '',
+    // schema_version: ''
   }
 }
 
@@ -90,8 +89,7 @@ import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
   SchemaController,
   CreateSchemaMessage,
-  SchemaMessageTypes,
-  CreateSchemaPayload
+  SchemaMessageTypes
 } from '@ula-aca/schema'
 
 const schemaController = new SchemaController('https://aca-py-api.test')
@@ -100,9 +98,9 @@ const eventHandler = new EventHandler([schemaController])
 
 const message: CreateSchemaMessage = {
   type: SchemaMessageTypes.CREATE_SCHEMA,
-  payload: {
-    schemaName: 'ExampleSchema',
-    schemaVersion: '1.0',
+  body: {
+    schema_name: 'ExampleSchema',
+    schema_version: '1.0',
     attributes: ['first_name', 'last_name']
   }
 }

@@ -17,15 +17,15 @@
 import { SchemaGetResults } from '@ula-aca/aries-cloudagent-interface'
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
-interface GetSchemaByIdPayload {
-  schemaId: string
+interface GetSchemaByIdBody {
+  schema_id: string
 }
 
 interface GetSchemaByIdMessage {
   type: SchemaMessageTypes.GET_SCHEMA_BY_ID
-  payload: GetSchemaByIdPayload
+  body: GetSchemaByIdBody
 }
 
 type GetSchemaByIdResult = SchemaGetResults
 
-export { GetSchemaByIdPayload, GetSchemaByIdMessage, GetSchemaByIdResult }
+export { GetSchemaByIdBody, GetSchemaByIdMessage, GetSchemaByIdResult }

@@ -24,10 +24,11 @@ import {
 import { Configuration, SchemaApi } from '@ula-aca/aries-cloudagent-interface'
 import { AxiosError } from 'axios'
 import {
-  GetCreatedSchemasPayload,
-  CreateSchemaPayload,
+  GetCreatedSchemasBody,
+  CreateSchemaBody,
   isSchemaMessage,
-  SchemaMessageTypes
+  SchemaMessageTypes,
+  GetSchemaByIdBody
 } from './messages'
 
 export default class SchemaController implements Plugin {
@@ -51,8 +52,10 @@ export default class SchemaController implements Plugin {
     return '@ula-aca/schema/SchemaController'
   }
 
-  private async getSchemaById(schemaId: string): Promise<UlaResponse> {
-    const response = await this.schemaApi.schemasIdGet(schemaId)
+  private async getSchemaById({
+    schema_id
+  }: GetSchemaByIdBody): Promise<UlaResponse> {
+    const response = await this.schemaApi.schemasIdGet(schema_id)
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
@@ -60,16 +63,16 @@ export default class SchemaController implements Plugin {
   }
 
   private async getCreatedSchemas({
-    schemaId,
-    schemaIssuerDid,
-    schemaName,
-    schemaVersion
-  }: GetCreatedSchemasPayload = {}): Promise<UlaResponse> {
+    schema_id,
+    schema_issuer_did,
+    schema_name,
+    schema_version
+  }: GetCreatedSchemasBody = {}): Promise<UlaResponse> {
     const response = await this.schemaApi.schemasCreatedGet(
-      schemaId,
-      schemaIssuerDid,
-      schemaName,
-      schemaVersion
+      schema_id,
+      schema_issuer_did,
+      schema_name,
+      schema_version
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -77,16 +80,8 @@ export default class SchemaController implements Plugin {
     })
   }
 
-  private async createSchema({
-    attributes,
-    schemaName,
-    schemaVersion
-  }: CreateSchemaPayload): Promise<UlaResponse> {
-    const response = await this.schemaApi.schemasPost({
-      schema_name: schemaName,
-      schema_version: schemaVersion,
-      attributes
-    })
+  private async createSchema(body: CreateSchemaBody): Promise<UlaResponse> {
+    const response = await this.schemaApi.schemasPost(body)
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
@@ -106,15 +101,13 @@ export default class SchemaController implements Plugin {
     try {
       switch (message.properties.type) {
         case SchemaMessageTypes.CREATE_SCHEMA:
-          response = await this.createSchema(message.properties.payload)
+          response = await this.createSchema(message.properties.body)
           break
         case SchemaMessageTypes.GET_CREATED_SCHEMAS:
-          response = await this.getCreatedSchemas(message.properties.payload)
+          response = await this.getCreatedSchemas(message.properties.body)
           break
         case SchemaMessageTypes.GET_SCHEMA_BY_ID:
-          response = await this.getSchemaById(
-            message.properties.payload.schemaId
-          )
+          response = await this.getSchemaById(message.properties.body)
           break
       }
     } catch (err) {

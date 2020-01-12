@@ -107,7 +107,7 @@ describe('[package] @ula-aca/schema', () => {
 
         const message = new Message({
           type: '@ula-aca/schema/get-schema-by-id',
-          payload: { schemaId }
+          body: { schema_id: schemaId }
         } as GetSchemaByIdMessage)
 
         await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -142,7 +142,12 @@ describe('[package] @ula-aca/schema', () => {
 
             const message = new Message({
               type: '@ula-aca/schema/get-created-schemas',
-              payload: { schemaId, schemaIssuerDid, schemaName, schemaVersion }
+              body: {
+                schema_id: schemaId,
+                schema_issuer_did: schemaIssuerDid,
+                schema_name: schemaName,
+                schema_version: schemaVersion
+              }
             } as GetCreatedSchemasMessage)
 
             await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -156,7 +161,7 @@ describe('[package] @ula-aca/schema', () => {
             })
           })
 
-          it('should work when no payload is passed', async () => {
+          it('should work when no body is passed', async () => {
             const data = {
               schema_ids: ['WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0']
             }
@@ -214,7 +219,7 @@ describe('[package] @ula-aca/schema', () => {
 
           const message = new Message({
             type: '@ula-aca/schema/get-schema-by-id',
-            payload: { schemaId }
+            body: { schema_id: schemaId }
           } as GetSchemaByIdMessage)
 
           await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -224,9 +229,11 @@ describe('[package] @ula-aca/schema', () => {
         })
 
         it('@ula-aca/schema/create-schema', async () => {
-          const attributes = ['first_name', 'last_name']
-          const schemaName = 'schema_name'
-          const schemaVersion = '1.0'
+          const body = {
+            attributes: ['first_name', 'last_name'],
+            schema_name: 'schema_name',
+            schema_version: '1.0'
+          }
 
           const data = {
             schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
@@ -247,15 +254,11 @@ describe('[package] @ula-aca/schema', () => {
 
           const message = new Message({
             type: '@ula-aca/schema/create-schema',
-            payload: { attributes, schemaName, schemaVersion }
+            body
           } as CreateSchemaMessage)
 
           await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-            schemaApiStubbed.should.have.been.calledWith({
-              schema_name: schemaName,
-              schema_version: schemaVersion,
-              attributes
-            })
+            schemaApiStubbed.should.have.been.calledWith(body)
             res.should.deep.equal(expectedResult)
           })
         })
