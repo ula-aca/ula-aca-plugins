@@ -34,7 +34,7 @@ import {
   PairwiseConnectionRecordError
 } from '@ula-aca/aca-webhook-event-models'
 
-export default abstract class ConnectionEventHandler implements Plugin {
+abstract class ConnectionEventHandler implements Plugin {
   protected eventHandler: EventHandler
 
   initialize(eventHandler: EventHandler): void {
@@ -104,3 +104,5 @@ export default abstract class ConnectionEventHandler implements Plugin {
 
   abstract async onError(message: PairwiseConnectionRecordError): Promise<void>
 }
+
+export { ConnectionEventHandler }

@@ -13,8 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ConnectionController } from './ConnectionController'
+import { ConnectionEventHandler } from './ConnectionEventHandler'
 
-export * from './ConnectionEventHandler'
-export * from './ConnectionController'
-export * from './connection-controller-message-models'
-export * from './ConnectionControllerMessageTypes'
+export { ConnectionController, ConnectionEventHandler }
+export * from './messages'
+
+// export {
+//   messages.ConnectionMessageTypes,
+//   messages.// ConnectionMessageType,
+//   messages.isConnectionMessage,
+//   messages.AcceptInvitationMessage,
+//   messages.AcceptRequestMessage,
+//   messages.CreateInvitationMessage,
+//   messages.GetConnectionByIdMessage,
+//   messages.GetConnectionsMessage,
+//   messages.EstablishInboundMessage,
+//   messages.ReceiveInvitationMessage,
+//   messages.RemoveConnectionMessage,
+//   messages.SendBasicMessageMessage,
+//   messages.SendPingMessage
+// }

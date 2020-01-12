@@ -25,15 +25,32 @@ import {
   Configuration,
   ConnectionApi,
   BasicmessageApi,
-  TrustpingApi,
-  ConnectionInvitation
+  TrustpingApi
 } from '@ula-aca/aries-cloudagent-interface'
 
-import { ConnectionControllerMessageTypes } from '.'
+import { AxiosError } from 'axios'
+import {
+  ConnectionMessageTypes,
+  isConnectionMessage,
+  GetConnectionsBody,
+  GetConnectionsResult,
+  GetConnectionByIdBody,
+  GetConnectionByIdResult,
+  CreateInvitationBody,
+  CreateInvitationResult,
+  ReceiveInvitationBody,
+  ReceiveInvitationResult,
+  AcceptInvitationBody,
+  AcceptInvitationResult,
+  AcceptRequestBody,
+  AcceptRequestResult,
+  EstablishInboundBody,
+  RemoveConnectionBody,
+  SendPingBody,
+  SendBasicMessageBody
+} from './messages'
 
-import * as models from './connection-controller-message-models'
-
-export default class ConnectionController implements Plugin {
+class ConnectionController implements Plugin {
   protected eventHandler?: EventHandler
 
   private connectionApi: ConnectionApi
@@ -60,70 +77,148 @@ export default class ConnectionController implements Plugin {
     return '@ula-aca/connection/ConnectionController'
   }
 
-  private async getAllConnections(): Promise<UlaResponse> {
-    const response = await this.connectionApi.connectionsGet()
+  private async getAllConnections({
+    alias,
+    initiator,
+    invitation_key,
+    my_did,
+    state,
+    their_did,
+    their_role
+  }: GetConnectionsBody): Promise<UlaResponse> {
+    const response = await this.connectionApi.connectionsGet(
+      alias,
+      initiator,
+      invitation_key,
+      my_did,
+      state,
+      their_did,
+      their_role
+    )
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as GetConnectionsResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data.results
+      body
     })
   }
 
-  private async getConnectionById(connectionId: string): Promise<UlaResponse> {
-    const response = await this.connectionApi.connectionsIdGet(connectionId)
-    return new UlaResponse({
-      statusCode: response.status,
-      body: response.data
-    })
-  }
+  private async getConnectionById({
+    connection_id
+  }: GetConnectionByIdBody): Promise<UlaResponse> {
+    const response = await this.connectionApi.connectionsIdGet(connection_id)
 
-  private async createInvitation(): Promise<UlaResponse> {
-    const response = await this.connectionApi.connectionsCreateInvitationPost()
+    const body = (response.data as unknown) as GetConnectionByIdResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async receiveInvitation(
-    invitation: ConnectionInvitation
-  ): Promise<UlaResponse> {
+  private async createInvitation({
+    alias,
+    accept,
+    public: _public,
+    multi_use
+  }: CreateInvitationBody): Promise<UlaResponse> {
+    const response = await this.connectionApi.connectionsCreateInvitationPost(
+      alias,
+      accept,
+      _public,
+      multi_use
+    )
+
+    const body = (response.data as unknown) as CreateInvitationResult
+
+    return new UlaResponse({
+      statusCode: response.status,
+      body
+    })
+  }
+
+  private async receiveInvitation({
+    alias,
+    accept,
+    recipientKeys,
+    routingKeys,
+    id,
+    type,
+    did,
+    imageUrl,
+    label,
+    serviceEndpoint
+  }: ReceiveInvitationBody): Promise<UlaResponse> {
     const response = await this.connectionApi.connectionsReceiveInvitationPost(
-      undefined,
-      undefined,
-      invitation
+      alias,
+      accept,
+      {
+        recipientKeys,
+        routingKeys,
+        id,
+        type,
+        did,
+        imageUrl,
+        label,
+        serviceEndpoint
+      }
     )
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as ReceiveInvitationResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async acceptInvitation(connectionId: string): Promise<UlaResponse> {
+  private async acceptInvitation({
+    connection_id,
+    my_endpoint,
+    my_label
+  }: AcceptInvitationBody): Promise<UlaResponse> {
     const response = await this.connectionApi.connectionsIdAcceptInvitationPost(
-      connectionId
+      connection_id,
+      my_endpoint,
+      my_label
     )
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as AcceptInvitationResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async acceptRequest(connectionId: string): Promise<UlaResponse> {
+  private async acceptRequest({
+    connection_id,
+    my_endpoint
+  }: AcceptRequestBody): Promise<UlaResponse> {
     const response = await this.connectionApi.connectionsIdAcceptRequestPost(
-      connectionId
+      connection_id,
+      my_endpoint
     )
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data as unknown) as AcceptRequestResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  // TODO implement establishInbound()
-
-  private async removeConnection(connectionId: string): Promise<UlaResponse> {
-    const response = await this.connectionApi.connectionsIdRemovePost(
-      connectionId
+  private async establishInbound({
+    connection_id,
+    ref_id
+  }: EstablishInboundBody): Promise<UlaResponse> {
+    const response = await this.connectionApi.connectionsIdEstablishInboundRefIdPost(
+      connection_id,
+      ref_id
     )
 
     return new UlaResponse({
@@ -132,26 +227,43 @@ export default class ConnectionController implements Plugin {
     })
   }
 
-  private async sendPing(connectionId: string): Promise<UlaResponse> {
-    const response = await this.trustPingApi.connectionsIdSendPingPost(
-      connectionId
+  private async removeConnection({
+    connection_id
+  }: RemoveConnectionBody): Promise<UlaResponse> {
+    const response = await this.connectionApi.connectionsIdRemovePost(
+      connection_id
     )
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body: {}
     })
   }
 
-  private async sendBasicMessage(
-    connectionId: string,
-    message: string
-  ): Promise<UlaResponse> {
+  private async sendPing({
+    connection_id
+  }: SendPingBody): Promise<UlaResponse> {
+    const response = await this.trustPingApi.connectionsIdSendPingPost(
+      connection_id
+    )
+
+    return new UlaResponse({
+      statusCode: response.status,
+      body: {}
+    })
+  }
+
+  private async sendBasicMessage({
+    connection_id,
+    content
+  }: SendBasicMessageBody): Promise<UlaResponse> {
     const response = await this.basicMessageApi.connectionsIdSendMessagePost(
-      connectionId,
+      connection_id,
       {
-        content: message
+        content
       }
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: {}
@@ -159,51 +271,59 @@ export default class ConnectionController implements Plugin {
   }
 
   public async handleEvent(message: Message, callback: any): Promise<string> {
-    if (
-      !Object.values(ConnectionControllerMessageTypes).includes(
-        message.properties.type
-      )
-    ) {
+    if (!isConnectionMessage(message.properties)) {
       return 'ignored'
     }
 
-    // TODOC: Document messages and their properties
-    let response: UlaResponse = null
-    switch (message.properties.type) {
-      case ConnectionControllerMessageTypes.GET_ALL_CONNECTIONS:
-        response = await this.getAllConnections()
-        break
-      case ConnectionControllerMessageTypes.GET_CONNECTION_BY_ID:
-        response = await this.getConnectionById(message.properties.connectionId)
-        break
-      case ConnectionControllerMessageTypes.CREATE_INVITATION:
-        response = await this.createInvitation()
-        break
-      case ConnectionControllerMessageTypes.RECEIVE_INVITATION:
-        response = await this.receiveInvitation(message.properties.invitation)
-        break
-      case ConnectionControllerMessageTypes.ACCEPT_INVITATION:
-        response = await this.acceptInvitation(message.properties.connectionId)
-        break
-      case ConnectionControllerMessageTypes.ACCEPT_REQUEST:
-        response = await this.acceptRequest(message.properties.connectionId)
-        break
-      case ConnectionControllerMessageTypes.SEND_PING:
-        response = await this.sendPing(message.properties.connectionId)
-        break
-      case ConnectionControllerMessageTypes.SEND_BASIC_MESSAGE:
-        response = await this.sendBasicMessage(
-          message.properties.connectionId,
-          message.properties.message
-        )
-        break
-      case ConnectionControllerMessageTypes.ESTABLISH_INBOUND:
-        throw Error('Message not (yet) implemented!')
-      case ConnectionControllerMessageTypes.REMOVE_CONNECTION:
-        response = await this.removeConnection(message.properties.connectionId)
-        break
+    let response: UlaResponse
+    try {
+      switch (message.properties.type) {
+        case ConnectionMessageTypes.GET_CONNECTIONS:
+          response = await this.getAllConnections(message.properties.body)
+          break
+        case ConnectionMessageTypes.GET_CONNECTION_BY_ID:
+          response = await this.getConnectionById(message.properties.body)
+          break
+        case ConnectionMessageTypes.CREATE_INVITATION:
+          response = await this.createInvitation(message.properties.body)
+          break
+        case ConnectionMessageTypes.RECEIVE_INVITATION:
+          response = await this.receiveInvitation(message.properties.body)
+          break
+        case ConnectionMessageTypes.ACCEPT_INVITATION:
+          response = await this.acceptInvitation(message.properties.body)
+          break
+        case ConnectionMessageTypes.ACCEPT_REQUEST:
+          response = await this.acceptRequest(message.properties.body)
+          break
+        case ConnectionMessageTypes.ESTABLISH_INBOUND:
+          response = await this.establishInbound(message.properties.body)
+          break
+        case ConnectionMessageTypes.SEND_PING:
+          response = await this.sendPing(message.properties.body)
+          break
+        case ConnectionMessageTypes.SEND_BASIC_MESSAGE:
+          response = await this.sendBasicMessage(message.properties.body)
+          break
+        case ConnectionMessageTypes.REMOVE_CONNECTION:
+          response = await this.removeConnection(message.properties.body)
+          break
+      }
+    } catch (err) {
+      const axiosErr = err as AxiosError
+
+      response = new UlaResponse({
+        statusCode: axiosErr.response.status,
+        body: {
+          error: axiosErr.response.data
+        }
+      })
     }
     callback(response)
-    return 'success'
+    return response.statusCode < 200 || response.statusCode >= 300
+      ? 'error'
+      : 'success'
   }
 }
+
+export { ConnectionController }

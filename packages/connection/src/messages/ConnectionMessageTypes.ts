@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-export enum ConnectionControllerMessageTypes {
-  GET_ALL_CONNECTIONS = '@ula-aca/connection/get-all-connections',
+enum ConnectionMessageTypes {
+  GET_CONNECTIONS = '@ula-aca/connection/get-all-connections',
   GET_CONNECTION_BY_ID = '@ula-aca/connection/get-connection-by-id',
   CREATE_INVITATION = '@ula-aca/connection/create-invitation',
   RECEIVE_INVITATION = '@ula-aca/connection/receive-invitation',
@@ -26,3 +26,5 @@ export enum ConnectionControllerMessageTypes {
   SEND_PING = '@ula-aca/connection/send-ping',
   SEND_BASIC_MESSAGE = '@ula-aca/connection/basic-message'
 }
+
+export { ConnectionMessageTypes }
