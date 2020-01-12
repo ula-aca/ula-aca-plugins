@@ -152,21 +152,29 @@ export default class LedgerController implements Plugin {
           break
       }
     } catch (err) {
-      const axiosErr = err as AxiosError
-
-      if (axiosErr.response) {
+      if (err.response) {
+        const axiosErr = err as AxiosError
         response = new UlaResponse({
           statusCode: axiosErr.response.status,
           body: {
             error: axiosErr.response.data
           }
         })
-      } else {
+      } else if (err.toJSON) {
+        const axiosErr = err as AxiosError
         // couldn't get repsonse
         response = new UlaResponse({
           statusCode: 500,
           body: {
             error: axiosErr.toJSON()
+          }
+        })
+      } else {
+        // not an axios error
+        response = new UlaResponse({
+          statusCode: 500,
+          body: {
+            error: err
           }
         })
       }
