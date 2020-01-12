@@ -14,7 +14,8 @@
     "clean": "lerna run clean",
     "compile": "lerna run compile",
     "build": "lerna run build",
-    "types": "lerna run compile -- --noEmit"
+    "types": "lerna run compile -- --noEmit",
+    "update-headers": "copyright-header --fix --copyrightHolder 'ula-aca' --templateId 'apache' --forceModificationYear 'present' --include 'packages/.*/(src|tests)|tests'"
   },
   "keywords": [
     "aries",
@@ -54,6 +55,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "commitizen": "^4.0.3",
+    "copyright-header": "^0.4.6",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
