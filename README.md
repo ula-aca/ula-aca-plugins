@@ -45,11 +45,13 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 
 ## Running tests
 
-> TODO
+Unit tests are done with Mocha.
 
 ```bash
 npm run test
 ```
+
+We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build.
 
 ## License and disclaimer
 
