@@ -17,7 +17,10 @@
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 import { LedgerApi } from '@ula-aca/aries-cloudagent-interface'
-import { stubInterfaceFunction } from '@ula-aca/test-utils'
+import {
+  stubInterfaceFunction,
+  stubNoAxiosResponseInterfaceFunction
+} from '@ula-aca/test-utils'
 import {
   LedgerController,
   GetTransactionAuthorAgreementMessage,
@@ -107,6 +110,41 @@ describe('[package] @ula-aca/ledger', () => {
           data,
           status: statusCode,
           rejects: true
+        })
+
+        const message = new Message({
+          type: '@ula-aca/ledger/accept-transaction-author-agreement',
+          body
+        } as AcceptTransactionAuthorAgreementMessage)
+
+        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
+          res.should.deep.equal(expectedResult)
+        })
+      })
+
+      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
+        const body = {
+          mechanism: 'string',
+          version: 'string',
+          text: 'string'
+        }
+
+        const data = {
+          message: 'Error'
+        }
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        ledgerApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: LedgerApi,
+          functionName: 'ledgerTaaAcceptPost',
+          data
         })
 
         const message = new Message({
