@@ -4,6 +4,7 @@
   "description": "Aries Cloudagent plugins for the Universal Ledger Agent",
   "scripts": {
     "test": "nyc mocha",
+    "test:raw": "mocha",
     "coverage": "nyc report",
     "prettier": "prettier --list-different '**/*.{md,json}'",
     "prettier:fix": "npm run prettier -- --write",

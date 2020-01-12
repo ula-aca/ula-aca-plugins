@@ -18,19 +18,3 @@ import { ConnectionEventHandler } from './ConnectionEventHandler'
 
 export { ConnectionController, ConnectionEventHandler }
 export * from './messages'
-
-// export {
-//   messages.ConnectionMessageTypes,
-//   messages.// ConnectionMessageType,
-//   messages.isConnectionMessage,
-//   messages.AcceptInvitationMessage,
-//   messages.AcceptRequestMessage,
-//   messages.CreateInvitationMessage,
-//   messages.GetConnectionByIdMessage,
-//   messages.GetConnectionsMessage,
-//   messages.EstablishInboundMessage,
-//   messages.ReceiveInvitationMessage,
-//   messages.RemoveConnectionMessage,
-//   messages.SendBasicMessageMessage,
-//   messages.SendPingMessage
-// }
