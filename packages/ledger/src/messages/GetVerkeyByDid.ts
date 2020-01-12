@@ -16,15 +16,15 @@
 
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
-interface GetVerkeyByDidPayload {
+interface GetVerkeyByDidBody {
   did: string
 }
 
 interface GetVerkeyByDidMessage {
   type: LedgerMessageTypes.GET_VERKEY_BY_DID
-  payload: GetVerkeyByDidPayload
+  body: GetVerkeyByDidBody
 }
 
 type GetVerkeyByDidResult = { verkey: string | null }
 
-export { GetVerkeyByDidPayload, GetVerkeyByDidMessage, GetVerkeyByDidResult }
+export { GetVerkeyByDidBody, GetVerkeyByDidMessage, GetVerkeyByDidResult }

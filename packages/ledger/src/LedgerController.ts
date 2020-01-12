@@ -24,11 +24,11 @@ import {
 import { Configuration, LedgerApi } from '@ula-aca/aries-cloudagent-interface'
 import { AxiosError } from 'axios'
 import {
-  RegisterNymPayload,
+  RegisterNymBody,
   RegisterNymResult,
-  GetVerkeyByDidPayload,
-  GetEndpointByDidPayload,
-  AcceptTransactionAuthorAgreementPayload,
+  GetVerkeyByDidBody,
+  GetEndpointByDidBody,
+  AcceptTransactionAuthorAgreementBody,
   isLedgerMessage,
   LedgerMessageTypes,
   GetVerkeyByDidResult,
@@ -61,7 +61,7 @@ export default class LedgerController implements Plugin {
     verkey,
     alias,
     role
-  }: RegisterNymPayload): Promise<UlaResponse> {
+  }: RegisterNymBody): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerRegisterNymPost(
       did,
       verkey,
@@ -80,7 +80,7 @@ export default class LedgerController implements Plugin {
 
   private async getVerkeyByDid({
     did
-  }: GetVerkeyByDidPayload): Promise<UlaResponse> {
+  }: GetVerkeyByDidBody): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerDidVerkeyGet(did)
 
     // The generated API does not provide the correct response typing
@@ -94,7 +94,7 @@ export default class LedgerController implements Plugin {
 
   private async getEndpointByDid({
     did
-  }: GetEndpointByDidPayload): Promise<UlaResponse> {
+  }: GetEndpointByDidBody): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerDidEndpointGet(did)
 
     // The generated API does not provide the correct response typing
@@ -115,7 +115,7 @@ export default class LedgerController implements Plugin {
   }
 
   private async acceptTransactionAuthorAgreement(
-    payload: AcceptTransactionAuthorAgreementPayload
+    payload: AcceptTransactionAuthorAgreementBody
   ): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerTaaAcceptPost(payload)
 
@@ -143,20 +143,20 @@ export default class LedgerController implements Plugin {
     try {
       switch (message.properties.type) {
         case LedgerMessageTypes.REGISER_NYM:
-          response = await this.registerNym(message.properties.payload)
+          response = await this.registerNym(message.properties.body)
           break
         case LedgerMessageTypes.GET_VERKEY_BY_DID:
-          response = await this.getVerkeyByDid(message.properties.payload)
+          response = await this.getVerkeyByDid(message.properties.body)
           break
         case LedgerMessageTypes.GET_ENDPOINT_BY_DID:
-          response = await this.getEndpointByDid(message.properties.payload)
+          response = await this.getEndpointByDid(message.properties.body)
           break
         case LedgerMessageTypes.GET_TRANSACTION_AUTHOR_AGREEMENT:
           response = await this.getTransactionAuthorAgreement()
           break
         case LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT:
           response = await this.acceptTransactionAuthorAgreement(
-            message.properties.payload
+            message.properties.body
           )
           break
       }

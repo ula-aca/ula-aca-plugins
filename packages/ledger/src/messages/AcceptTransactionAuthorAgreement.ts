@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
+import { TAAAccept } from '@ula-aca/aries-cloudagent-interface'
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
-interface AcceptTransactionAuthorAgreementPayload {
-  mechanism: string
-  version: string
-  text: string
-}
+type AcceptTransactionAuthorAgreementBody = TAAAccept
 
 interface AcceptTransactionAuthorAgreementMessage {
   type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT
-  payload: AcceptTransactionAuthorAgreementPayload
+  body: AcceptTransactionAuthorAgreementBody
 }
 
 type AcceptTransactionAuthorAgreementResult = void
 
 export {
-  AcceptTransactionAuthorAgreementPayload,
+  AcceptTransactionAuthorAgreementBody,
   AcceptTransactionAuthorAgreementMessage,
   AcceptTransactionAuthorAgreementResult
 }

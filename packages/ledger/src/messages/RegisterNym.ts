@@ -16,7 +16,7 @@
 
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
-interface RegisterNymPayload {
+interface RegisterNymBody {
   did: string
   verkey: string
   alias?: string
@@ -25,9 +25,9 @@ interface RegisterNymPayload {
 
 interface RegisterNymMessage {
   type: LedgerMessageTypes.REGISER_NYM
-  payload: RegisterNymPayload
+  body: RegisterNymBody
 }
 
 type RegisterNymResult = { success: true }
 
-export { RegisterNymPayload, RegisterNymMessage, RegisterNymResult }
+export { RegisterNymBody, RegisterNymMessage, RegisterNymResult }

@@ -86,7 +86,7 @@ describe('[package] @ula-aca/ledger', () => {
       })
 
       it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const payload = {
+        const body = {
           mechanism: 'string',
           version: 'string',
           text: 'string'
@@ -111,7 +111,7 @@ describe('[package] @ula-aca/ledger', () => {
 
         const message = new Message({
           type: '@ula-aca/ledger/accept-transaction-author-agreement',
-          payload
+          body
         } as AcceptTransactionAuthorAgreementMessage)
 
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -144,7 +144,7 @@ describe('[package] @ula-aca/ledger', () => {
 
         const message = new Message({
           type: '@ula-aca/ledger/register-nym',
-          payload: {
+          body: {
             did,
             verkey,
             alias,
@@ -178,7 +178,7 @@ describe('[package] @ula-aca/ledger', () => {
 
         const message = new Message({
           type: '@ula-aca/ledger/get-verkey-by-did',
-          payload: {
+          body: {
             did
           }
         } as GetVerkeyByDidMessage)
@@ -209,7 +209,7 @@ describe('[package] @ula-aca/ledger', () => {
 
         const message = new Message({
           type: '@ula-aca/ledger/get-endpoint-by-did',
-          payload: {
+          body: {
             did
           }
         } as GetEndpointByDidMessage)
@@ -254,7 +254,7 @@ describe('[package] @ula-aca/ledger', () => {
       })
 
       it('@ula-aca/ledger/accept-transaction-author-agreement', async () => {
-        const payload = {
+        const body = {
           mechanism: 'mechanism',
           version: '1.0',
           text: 'text'
@@ -277,11 +277,11 @@ describe('[package] @ula-aca/ledger', () => {
 
         const message = new Message({
           type: '@ula-aca/ledger/accept-transaction-author-agreement',
-          payload
+          body
         } as AcceptTransactionAuthorAgreementMessage)
 
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          ledgerApiStubbed.should.have.been.calledWith(payload)
+          ledgerApiStubbed.should.have.been.calledWith(body)
           res.should.deep.equal(expectedResult)
         })
       })

@@ -20,18 +20,18 @@ import {
   RegisterNymMessage,
   RegisterNymResult,
   LedgerMessageTypes,
-  RegisterNymPayload,
-  GetVerkeyByDidPayload,
+  RegisterNymBody,
+  GetVerkeyByDidBody,
   GetVerkeyByDidMessage,
   GetVerkeyByDidResult,
-  GetEndpointByDidPayload,
+  GetEndpointByDidBody,
   GetEndpointByDidResult,
   GetEndpointByDidMessage,
   GetTransactionAuthorAgreementResult,
   GetTransactionAuthorAgreementMessage,
   AcceptTransactionAuthorAgreementResult,
   AcceptTransactionAuthorAgreementMessage,
-  AcceptTransactionAuthorAgreementPayload
+  AcceptTransactionAuthorAgreementBody
 } from '../src'
 
 const ACA_URL = 'http://ula.test:7002'
@@ -39,12 +39,12 @@ const ledgerController = new LedgerController(ACA_URL)
 const eventHandler = new EventHandler([ledgerController])
 
 async function registerNym(
-  options: RegisterNymPayload
+  options: RegisterNymBody
 ): Promise<RegisterNymResult> {
   return new Promise((resolve, reject) => {
     const message: RegisterNymMessage = {
       type: LedgerMessageTypes.REGISER_NYM,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -61,12 +61,12 @@ async function registerNym(
 }
 
 async function getVerkeyByDid(
-  options: GetVerkeyByDidPayload
+  options: GetVerkeyByDidBody
 ): Promise<GetVerkeyByDidResult> {
   return new Promise((resolve, reject) => {
     const message: GetVerkeyByDidMessage = {
       type: LedgerMessageTypes.GET_VERKEY_BY_DID,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -83,12 +83,12 @@ async function getVerkeyByDid(
 }
 
 async function getEndpointByDid(
-  options: GetEndpointByDidPayload
+  options: GetEndpointByDidBody
 ): Promise<GetEndpointByDidResult> {
   return new Promise((resolve, reject) => {
     const message: GetEndpointByDidMessage = {
       type: LedgerMessageTypes.GET_ENDPOINT_BY_DID,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -126,12 +126,12 @@ async function getTransactionAuthorAgreement(): Promise<
 }
 
 async function acceptTransactionAuthorAgreement(
-  options: AcceptTransactionAuthorAgreementPayload
+  options: AcceptTransactionAuthorAgreementBody
 ): Promise<AcceptTransactionAuthorAgreementResult> {
   return new Promise((resolve, reject) => {
     const message: AcceptTransactionAuthorAgreementMessage = {
       type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -148,8 +148,8 @@ async function acceptTransactionAuthorAgreement(
 }
 
 async function run(): Promise<void> {
-  const did = 'X2Y2GU6CuaB2i76qZRXvoQ'
-  const verkey = 'HNCMJsgCB6cXAV7ztCPiAPikMAiPhpQdVPRGPhriaH2r'
+  const did = 'Jg8A9jr6xqJaUu9tfKoE2t'
+  const verkey = 'AdjAyGcJ7gBGGuKX5TofZnQAAFVr3AeLxHeFKQrW3ZvS'
 
   const result = await registerNym({
     did,
@@ -186,4 +186,6 @@ async function run(): Promise<void> {
   }
 }
 
-run()
+run().catch(e => {
+  console.log(e)
+})

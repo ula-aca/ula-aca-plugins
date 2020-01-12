@@ -16,19 +16,15 @@
 
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
-interface GetEndpointByDidPayload {
+interface GetEndpointByDidBody {
   did: string
 }
 
 interface GetEndpointByDidMessage {
   type: LedgerMessageTypes.GET_ENDPOINT_BY_DID
-  payload: GetEndpointByDidPayload
+  body: GetEndpointByDidBody
 }
 
 type GetEndpointByDidResult = { endpoint: string }
 
-export {
-  GetEndpointByDidPayload,
-  GetEndpointByDidMessage,
-  GetEndpointByDidResult
-}
+export { GetEndpointByDidBody, GetEndpointByDidMessage, GetEndpointByDidResult }

@@ -32,7 +32,7 @@ const eventHandler = new EventHandler([ledgerController])
 
 const message: RegisterNymMessage = {
   type: LedgerMessageTypes.REGISER_NYM,
-  payload: {
+  body: {
     did: 'xZRz2JK8HngynkLe6m33J',
     verkey: 'XHLPXpGT9y5PaLo8n7pt379dXx6SLZYHqQN393yfA2e'
   }
@@ -66,7 +66,7 @@ const eventHandler = new EventHandler([ledgerController])
 
 const message: RegisterNymMessage = {
   type: LedgerMessageTypes.GET_VERKEY_BY_DID,
-  payload: {
+  body: {
     did: 'xZRz2JK8HngynkLe6m33J'
   }
 }
@@ -99,7 +99,7 @@ const eventHandler = new EventHandler([ledgerController])
 
 const message: GetEndpointByDidMessage = {
   type: LedgerMessageTypes.GET_ENDPOINT_BY_DID,
-  payload: {
+  body: {
     did: 'xZRz2JK8HngynkLe6m33J'
   }
 }
@@ -165,7 +165,7 @@ const eventHandler = new EventHandler([ledgerController])
 // the ledger api from the indy sdk
 const message: AcceptTransactionAuthorAgreementMessage = {
   type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT,
-  payload: {
+  body: {
     mechanism: '',
     text: '',
     version: ''
