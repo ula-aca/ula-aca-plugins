@@ -40,4 +40,16 @@ function stubInterfaceFunction({
   })
 }
 
-export { stubInterfaceFunction }
+function stubNoAxiosResponseInterfaceFunction({
+  Class,
+  functionName,
+  data
+}): sinon.SinonStub {
+  const stub = sinon.stub(Class.prototype, functionName)
+
+  return stub.rejects({
+    toJSON: () => data
+  })
+}
+
+export { stubInterfaceFunction, stubNoAxiosResponseInterfaceFunction }
