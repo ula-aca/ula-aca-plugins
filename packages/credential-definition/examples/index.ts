@@ -24,8 +24,8 @@ import {
   GetCreatedCredentialDefinitionsResult,
   CreateCredentialDefinitionMessage,
   CreateCredentialDefinitionResult,
-  GetCreatedCredentialDefinitionsPayload,
-  CreateCredentialDefinitionPayload
+  GetCreatedCredentialDefinitionsBody,
+  CreateCredentialDefinitionBody
 } from '../src'
 
 const ACA_URL = 'http://ula.test:7002'
@@ -40,7 +40,7 @@ async function getCredentialDefinitionById(
   return new Promise((resolve, reject) => {
     const message: GetCredentialDefinitionByIdMessage = {
       type: CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID,
-      payload: { credentialDefinitionId }
+      body: { credential_definition_id: credentialDefinitionId }
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -57,12 +57,12 @@ async function getCredentialDefinitionById(
 }
 
 async function getCreatedCredentialDefinitions(
-  options?: GetCreatedCredentialDefinitionsPayload
+  options?: GetCreatedCredentialDefinitionsBody
 ): Promise<GetCreatedCredentialDefinitionsResult> {
   return new Promise((resolve, reject) => {
     const message: GetCreatedCredentialDefinitionsMessage = {
       type: CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -79,12 +79,12 @@ async function getCreatedCredentialDefinitions(
 }
 
 async function createCredentialDefinition(
-  options: CreateCredentialDefinitionPayload
+  options: CreateCredentialDefinitionBody
 ): Promise<CreateCredentialDefinitionResult> {
   return new Promise((resolve, reject) => {
     const message: CreateCredentialDefinitionMessage = {
       type: CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION,
-      payload: options
+      body: options
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -102,7 +102,7 @@ async function createCredentialDefinition(
 
 async function run(): Promise<void> {
   const createdCredentialDefinition = await createCredentialDefinition({
-    schemaId: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0',
+    schema_id: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0',
     tag: 'my-cred-def'
   })
   console.log(
@@ -110,7 +110,8 @@ async function run(): Promise<void> {
   )
 
   const createdCredentialDefinitions = await getCreatedCredentialDefinitions({
-    credentialDefinitionId: createdCredentialDefinition.credential_definition_id
+    credential_definition_id:
+      createdCredentialDefinition.credential_definition_id
   })
   console.log('createdCredentialDefinitions: ', createdCredentialDefinitions)
 
@@ -120,4 +121,6 @@ async function run(): Promise<void> {
   console.log('getCredentialDefinitionById: ', credentialDefinition)
 }
 
-run()
+run().catch(e => {
+  console.log(e)
+})

@@ -17,24 +17,24 @@
 import { CredentialDefinitionsCreatedResults } from '@ula-aca/aries-cloudagent-interface'
 import { CredentialDefinitionMessageTypes } from './CredentialDefinitionMessageTypes'
 
-interface GetCreatedCredentialDefinitionsPayload {
-  schemaId?: string
-  schemaIssuerDid?: string
-  schemaName?: string
-  schemaVersion?: string
-  issuerDid?: string
-  credentialDefinitionId?: string
+interface GetCreatedCredentialDefinitionsBody {
+  schema_id?: string
+  schema_issuer_did?: string
+  schema_name?: string
+  schema_version?: string
+  issuer_did?: string
+  credential_definition_id?: string
 }
 
 interface GetCreatedCredentialDefinitionsMessage {
   type: CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS
-  payload?: GetCreatedCredentialDefinitionsPayload
+  body?: GetCreatedCredentialDefinitionsBody
 }
 
 type GetCreatedCredentialDefinitionsResult = CredentialDefinitionsCreatedResults
 
 export {
-  GetCreatedCredentialDefinitionsPayload,
+  GetCreatedCredentialDefinitionsBody,
   GetCreatedCredentialDefinitionsMessage,
   GetCreatedCredentialDefinitionsResult
 }

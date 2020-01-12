@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-import { CredentialDefinitionSendResults } from '@ula-aca/aries-cloudagent-interface'
+import {
+  CredentialDefinitionSendResults,
+  CredentialDefinitionSendRequest
+} from '@ula-aca/aries-cloudagent-interface'
 import { CredentialDefinitionMessageTypes } from './CredentialDefinitionMessageTypes'
 
-interface CreateCredentialDefinitionPayload {
-  tag: string
-  schemaId: string
-}
+type CreateCredentialDefinitionBody = CredentialDefinitionSendRequest
 
 interface CreateCredentialDefinitionMessage {
   type: CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION
-  payload: CreateCredentialDefinitionPayload
+  body: CreateCredentialDefinitionBody
 }
 
 type CreateCredentialDefinitionResult = CredentialDefinitionSendResults
 
 export {
-  CreateCredentialDefinitionPayload,
+  CreateCredentialDefinitionBody,
   CreateCredentialDefinitionMessage,
   CreateCredentialDefinitionResult
 }

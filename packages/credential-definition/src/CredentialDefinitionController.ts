@@ -27,10 +27,11 @@ import {
 } from '@ula-aca/aries-cloudagent-interface'
 import { AxiosError } from 'axios'
 import {
-  GetCreatedCredentialDefinitionsPayload,
-  CreateCredentialDefinitionPayload,
+  GetCreatedCredentialDefinitionsBody,
+  CreateCredentialDefinitionBody,
   isCredentialDefinitionMessage,
-  CredentialDefinitionMessageTypes
+  CredentialDefinitionMessageTypes,
+  GetCredentialDefinitionByIdBody
 } from './messages'
 
 export default class CredentialDefinitionController implements Plugin {
@@ -54,11 +55,11 @@ export default class CredentialDefinitionController implements Plugin {
     return '@ula-aca/credential-definition/CredentialDefinitionController'
   }
 
-  private async getCredentialDefinitionById(
-    credentialDefinitionId: string
-  ): Promise<UlaResponse> {
+  private async getCredentialDefinitionById({
+    credential_definition_id
+  }: GetCredentialDefinitionByIdBody): Promise<UlaResponse> {
     const response = await this.credentialDefinitionApi.credentialDefinitionsIdGet(
-      credentialDefinitionId
+      credential_definition_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -67,20 +68,20 @@ export default class CredentialDefinitionController implements Plugin {
   }
 
   private async getCreatedCredentialDefinitions({
-    schemaId,
-    schemaIssuerDid,
-    schemaName,
-    schemaVersion,
-    issuerDid,
-    credentialDefinitionId
-  }: GetCreatedCredentialDefinitionsPayload = {}): Promise<UlaResponse> {
+    schema_id,
+    schema_issuer_did,
+    schema_name,
+    schema_version,
+    issuer_did,
+    credential_definition_id
+  }: GetCreatedCredentialDefinitionsBody = {}): Promise<UlaResponse> {
     const response = await this.credentialDefinitionApi.credentialDefinitionsCreatedGet(
-      schemaId,
-      schemaIssuerDid,
-      schemaName,
-      schemaVersion,
-      issuerDid,
-      credentialDefinitionId
+      schema_id,
+      schema_issuer_did,
+      schema_name,
+      schema_version,
+      issuer_did,
+      credential_definition_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -88,15 +89,11 @@ export default class CredentialDefinitionController implements Plugin {
     })
   }
 
-  private async createCredentialDefinition({
-    tag,
-    schemaId
-  }: CreateCredentialDefinitionPayload): Promise<UlaResponse> {
+  private async createCredentialDefinition(
+    body: CreateCredentialDefinitionBody
+  ): Promise<UlaResponse> {
     const response = await this.credentialDefinitionApi.credentialDefinitionsPost(
-      {
-        schema_id: schemaId,
-        tag
-      }
+      body
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -118,17 +115,17 @@ export default class CredentialDefinitionController implements Plugin {
       switch (message.properties.type) {
         case CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION:
           response = await this.createCredentialDefinition(
-            message.properties.payload
+            message.properties.body
           )
           break
         case CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS:
           response = await this.getCreatedCredentialDefinitions(
-            message.properties.payload
+            message.properties.body
           )
           break
         case CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID:
           response = await this.getCredentialDefinitionById(
-            message.properties.payload.credentialDefinitionId
+            message.properties.body
           )
           break
       }

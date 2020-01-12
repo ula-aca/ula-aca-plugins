@@ -35,8 +35,8 @@ const eventHandler = new EventHandler([credentialDefinitionController])
 
 const message: GetCredentialDefinitionByIdMessage = {
   type: CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID,
-  payload: {
-    credentialDefinitionId: 'Bqqp9wananY4uW2pRHACiT:3:CL:10:my-cred-def'
+  body: {
+    credential_definition_id: 'Bqqp9wananY4uW2pRHACiT:3:CL:10:my-cred-def'
   }
 }
 
@@ -69,13 +69,13 @@ const eventHandler = new EventHandler([credentialDefinitionController])
 
 const message: GetCreatedCredentialDefinitionsMessage = {
   type: CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS,
-  payload: {
-    // schemaId: '',
-    // schemaIssuerDid: '',
-    // schemaName: '',
-    // schemaVersion: '',
-    // issuerDid: '',
-    // credentialDefinitionId: ''
+  body: {
+    // schema_id: '',
+    // schema_issuer_did: '',
+    // schema_name: '',
+    // schema_version: '',
+    // issuer_did: '',
+    // credential_definition_id: ''
   }
 }
 
@@ -108,9 +108,9 @@ const eventHandler = new EventHandler([credentialDefinitionController])
 
 const message: CreateCredentialDefinitionMessage = {
   type: CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION,
-  payload: {
+  body: {
     tag: 'my-cred-def',
-    schemaId: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0'
+    schema_id: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0'
   }
 }
 

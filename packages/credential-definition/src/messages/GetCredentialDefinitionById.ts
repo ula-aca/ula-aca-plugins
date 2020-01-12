@@ -17,19 +17,19 @@
 import { CredentialDefinitionGetResults } from '@ula-aca/aries-cloudagent-interface'
 import { CredentialDefinitionMessageTypes } from './CredentialDefinitionMessageTypes'
 
-interface GetCredentialDefinitionByIdPayload {
-  credentialDefinitionId: string
+interface GetCredentialDefinitionByIdBody {
+  credential_definition_id: string
 }
 
 interface GetCredentialDefinitionByIdMessage {
   type: CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID
-  payload: GetCredentialDefinitionByIdPayload
+  body: GetCredentialDefinitionByIdBody
 }
 
 type GetCredentialDefinitionByIdResult = CredentialDefinitionGetResults
 
 export {
-  GetCredentialDefinitionByIdPayload,
+  GetCredentialDefinitionByIdBody,
   GetCredentialDefinitionByIdMessage,
   GetCredentialDefinitionByIdResult
 }

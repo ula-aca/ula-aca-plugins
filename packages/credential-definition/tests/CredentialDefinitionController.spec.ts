@@ -119,7 +119,7 @@ describe('[package] @ula-aca/credential-definition', () => {
         const message = new Message({
           type:
             '@ula-aca/credential-definition/get-credential-definition-by-id',
-          payload: { credentialDefinitionId }
+          body: { credential_definition_id: credentialDefinitionId }
         } as GetCredentialDefinitionByIdMessage)
 
         await credentialDefinitionPlugin.handleEvent(
@@ -163,13 +163,13 @@ describe('[package] @ula-aca/credential-definition', () => {
             const message = new Message({
               type:
                 '@ula-aca/credential-definition/get-created-credential-definitions',
-              payload: {
-                schemaId,
-                schemaIssuerDid,
-                schemaName,
-                schemaVersion,
-                issuerDid,
-                credentialDefinitionId
+              body: {
+                schema_id: schemaId,
+                schema_issuer_did: schemaIssuerDid,
+                schema_name: schemaName,
+                schema_version: schemaVersion,
+                issuer_did: issuerDid,
+                credential_definition_id: credentialDefinitionId
               }
             } as GetCreatedCredentialDefinitionsMessage)
 
@@ -272,7 +272,7 @@ describe('[package] @ula-aca/credential-definition', () => {
           const message = new Message({
             type:
               '@ula-aca/credential-definition/get-credential-definition-by-id',
-            payload: { credentialDefinitionId }
+            body: { credential_definition_id: credentialDefinitionId }
           } as GetCredentialDefinitionByIdMessage)
 
           await credentialDefinitionPlugin.handleEvent(
@@ -287,8 +287,10 @@ describe('[package] @ula-aca/credential-definition', () => {
         })
 
         it('@ula-aca/credential-definition/create-credential-definition', async () => {
-          const tag = 'my-cred-def'
-          const schemaId = 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0'
+          const body = {
+            tag: 'my-cred-def',
+            schema_id: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0'
+          }
 
           const data = {
             credential_definition_id:
@@ -310,16 +312,13 @@ describe('[package] @ula-aca/credential-definition', () => {
 
           const message = new Message({
             type: '@ula-aca/credential-definition/create-credential-definition',
-            payload: { tag, schemaId }
+            body
           } as CreateCredentialDefinitionMessage)
 
           await credentialDefinitionPlugin.handleEvent(
             message,
             (res: UlaResponse) => {
-              credentialDefinitionApiStubbed.should.have.been.calledWith({
-                tag,
-                schema_id: schemaId
-              })
+              credentialDefinitionApiStubbed.should.have.been.calledWith(body)
               res.should.deep.equal(expectedResult)
             }
           )
