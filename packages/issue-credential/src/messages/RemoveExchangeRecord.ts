@@ -17,7 +17,7 @@
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface RemoveExchangeRecordBody {
-  cred_ex_id: string
+  credential_exchange_id: string
 }
 
 interface RemoveExchangeRecordMessage {

@@ -17,7 +17,7 @@
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface GetMemeTypesBody {
-  credential_id: string
+  credential_exchange_id: string
 }
 
 interface GetMemeTypesMessage {

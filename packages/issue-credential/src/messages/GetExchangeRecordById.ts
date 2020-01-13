@@ -19,7 +19,7 @@ import { V10CredentialExchange } from '@ula-aca/aries-cloudagent-interface'
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface GetExchangeRecordByIdBody {
-  credential_id: string
+  credential_exchange_id: string
 }
 
 interface GetExchangeRecordByIdMessage {

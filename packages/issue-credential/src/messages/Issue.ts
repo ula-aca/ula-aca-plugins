@@ -22,7 +22,7 @@ import {
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface IssueBody extends V10CredentialIssueRequest {
-  cred_ex_id: string
+  credential_exchange_id: string
 }
 
 interface IssueMessage {

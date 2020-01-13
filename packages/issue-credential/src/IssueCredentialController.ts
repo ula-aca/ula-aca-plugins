@@ -30,20 +30,11 @@ import {
 import { AxiosError } from 'axios'
 import {
   GetMemeTypesBody,
-  GetExchangeRecordsResult,
   GetExchangeRecordByIdBody,
-  GetExchangeRecordByIdResult,
-  SendCredentialResult,
-  SendProposalResult,
-  SendOfferResult,
   SendOfferByIdBody,
-  SendOfferByIdResult,
   SendRequestBody,
-  SendRequestResult,
   IssueBody,
-  IssueResult,
   StoreBody,
-  StoreResult,
   ProblemReportBody,
   RemoveExchangeRecordBody,
   isIssueCredentialMessage,
@@ -72,10 +63,10 @@ class IssueCredentialController implements Plugin {
   }
 
   private async getMemeTypes({
-    credential_id
+    credential_exchange_id
   }: GetMemeTypesBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialMimeTypesCredentialIdGet(
-      credential_id
+      credential_exchange_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -86,27 +77,22 @@ class IssueCredentialController implements Plugin {
   private async getAllCredentialExchangeRecords(): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsGet()
 
-    // The generated API does not provide the correct response typing
-    const body = (response.data.results as unknown) as GetExchangeRecordsResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
   private async getCredentialExchangeRecordById({
-    credential_id
+    credential_exchange_id
   }: GetExchangeRecordByIdBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdGet(
-      credential_id
+      credential_exchange_id
     )
-
-    const body = (response.data as unknown) as GetExchangeRecordByIdResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -133,11 +119,9 @@ class IssueCredentialController implements Plugin {
       schema_issuer_did
     })
 
-    const body = (response.data as unknown) as SendCredentialResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -166,11 +150,9 @@ class IssueCredentialController implements Plugin {
       }
     )
 
-    const body = (response.data as unknown) as SendProposalResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -191,84 +173,76 @@ class IssueCredentialController implements Plugin {
       }
     )
 
-    const body = (response.data as unknown) as SendOfferResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
   private async sendOfferById({
-    cred_ex_id
+    credential_exchange_id
   }: SendOfferByIdBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdSendOfferPost(
-      cred_ex_id
+      credential_exchange_id
     )
-
-    const body = (response.data as unknown) as SendOfferByIdResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
   private async sendRequest({
-    cred_ex_id
+    credential_exchange_id
   }: SendRequestBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdSendRequestPost(
-      cred_ex_id
+      credential_exchange_id
     )
-
-    const body = (response.data as unknown) as SendRequestResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
   private async issue({
-    cred_ex_id,
+    credential_exchange_id,
     comment,
     credential_preview
   }: IssueBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdIssuePost(
-      cred_ex_id,
+      credential_exchange_id,
       {
         comment,
         credential_preview
       }
     )
 
-    const body = (response.data as unknown) as IssueResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
-  private async store({ cred_ex_id }: StoreBody): Promise<UlaResponse> {
+  private async store({
+    credential_exchange_id
+  }: StoreBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdStorePost(
-      cred_ex_id
+      credential_exchange_id
     )
-
-    const body = (response.data as unknown) as StoreResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
   private async problemReport({
-    cred_ex_id,
+    credential_exchange_id,
     explain_ltxt
   }: ProblemReportBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdProblemReportPost(
-      cred_ex_id,
+      credential_exchange_id,
       {
         explain_ltxt
       }
@@ -281,10 +255,10 @@ class IssueCredentialController implements Plugin {
   }
 
   private async removeExchangeRecord({
-    cred_ex_id
+    credential_exchange_id
   }: RemoveExchangeRecordBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdRemovePost(
-      cred_ex_id
+      credential_exchange_id
     )
 
     return new UlaResponse({
@@ -350,6 +324,34 @@ class IssueCredentialController implements Plugin {
           error: axiosErr.response.data
         }
       })
+
+      // if (err.response) {
+      //   const axiosErr = err as AxiosError
+
+      //   response = new UlaResponse({
+      //     statusCode: axiosErr.response.status,
+      //     body: {
+      //       error: axiosErr.response.data
+      //     }
+      //   })
+      // } else if (err.toJSON) {
+      //   const axiosErr = err as AxiosError
+      //   // couldn't get repsonse
+      //   response = new UlaResponse({
+      //     statusCode: 500,
+      //     body: {
+      //       error: axiosErr.toJSON()
+      //     }
+      //   })
+      // } else {
+      //   // not an axios error
+      //   response = new UlaResponse({
+      //     statusCode: 500,
+      //     body: {
+      //       error: err
+      //     }
+      //   })
+      // }
     }
     callback(response)
     return response.statusCode < 200 || response.statusCode >= 300

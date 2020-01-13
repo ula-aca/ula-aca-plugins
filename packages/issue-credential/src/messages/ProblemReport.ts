@@ -19,7 +19,7 @@ import { V10CredentialProblemReportRequest } from '@ula-aca/aries-cloudagent-int
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface ProblemReportBody extends V10CredentialProblemReportRequest {
-  cred_ex_id: string
+  credential_exchange_id: string
 }
 
 interface ProblemReportMessage {
