@@ -16,7 +16,6 @@
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
 import sinon from 'sinon'
-import assert from 'assert'
 import {
   ConnectionApi,
   TrustpingApi,
@@ -34,9 +33,10 @@ import {
   AcceptRequestMessage,
   RemoveConnectionMessage,
   ReceiveInvitationMessage,
-  SendBasicMessageMessage
+  SendBasicMessageMessage,
+  EstablishInboundMessage,
+  SendPingMessage
 } from '../src'
-import { EstablishInboundMessage, SendPingMessage } from '../lib'
 
 describe('[package] @ula-aca/connection', () => {
   describe('[plugin] ConnectionController', () => {

@@ -2,9 +2,10 @@
   "spec": "packages/**/tests/**/*.spec.ts",
   "extension": ["js", "ts"],
   "require": [
+    "tsconfig-paths/register",
     "ts-node/register",
     "source-map-support/register",
-    "tests/setup.ts"
+    "./tests/setup.ts"
   ],
   "recursive": true,
   "exit": true

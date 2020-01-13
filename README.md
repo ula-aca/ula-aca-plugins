@@ -3,6 +3,7 @@
 [![Continuous Integration Badge](https://github.com/ula-aca/ula-aca-plugins/workflows/Continuous%20Integration/badge.svg)](https://github.com/ula-aca/ula-aca-plugins/actions?query=workflow%3A%22Continuous+Integration%22)
 [![Maintainability](https://api.codeclimate.com/v1/badges/29e796f6dd07eb75eb37/maintainability)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/29e796f6dd07eb75eb37/test_coverage)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/test_coverage)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fula-aca%2Fula-aca-plugins%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/ula-aca/ula-aca-plugins/master)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![GitHub license](https://img.shields.io/github/license/ula-aca/ula-aca-plugins.svg)](https://github.com/ula-aca/ula-aca-plugins/blob/master/LICENSE)
@@ -45,13 +46,14 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 
 ## Running tests
 
-Unit tests are done with Mocha.
+Besides unit testing with Mocha, the effectivity of all tests are also measured with the Stryker mutation testing framework.
 
 ```bash
 npm run test
+npm run stryker
 ```
 
-We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build.
+We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build. Stryker test scores do not have a threshold at the moment, but is planned to also fail below %80 in the future.
 
 ## License and disclaimer
 

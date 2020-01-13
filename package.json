@@ -6,6 +6,7 @@
     "test": "nyc mocha",
     "test:raw": "mocha",
     "coverage": "nyc report",
+    "stryker": "stryker run",
     "prettier": "prettier --list-different '**/*.{md,json}'",
     "prettier:fix": "npm run prettier -- --write",
     "lint": "eslint --ext .js,.ts .",
@@ -46,6 +47,10 @@
     "@commitlint/config-conventional": "^8.2.0",
     "@commitlint/config-lerna-scopes": "^8.3.4",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@stryker-mutator/core": "^2.5.0",
+    "@stryker-mutator/html-reporter": "^2.5.0",
+    "@stryker-mutator/mocha-runner": "^2.5.0",
+    "@stryker-mutator/typescript": "^2.5.0",
     "@types/chai": "^4.2.6",
     "@types/chai-as-promised": "^7.1.2",
     "@types/mocha": "^5.2.7",
@@ -73,6 +78,7 @@
     "sinon-chai": "^3.3.0",
     "source-map-support": "^0.5.16",
     "ts-node": "^8.5.4",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {

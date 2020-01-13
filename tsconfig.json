@@ -13,8 +13,20 @@
     "lib": ["es6"],
     "baseUrl": ".",
     "paths": {
-      "@scope/example/*": ["./path/to/scope/example/*"]
+      "@ula-aca/aca-webhook-event-models": [
+        "packages/aca-webhook-event-models/src/index.ts"
+      ],
+      "@ula-aca/connection": ["packages/connection/src/index.ts"],
+      "@ula-aca/credential-definition": [
+        "packages/credential-definition/src/index.ts"
+      ],
+      "@ula-aca/ledger": ["packages/ledger/src/index.ts"],
+      "@ula-aca/present-proof": ["packages/present-proof/src/index.ts"],
+      "@ula-aca/schema": ["packages/schema/src/index.ts"],
+      "@ula-aca/test-utils": ["packages/test-utils/src/index.ts"],
+      "@ula-aca/webhook-relay-event-router": [
+        "packages/webhook-relay-event-router/src/index.ts"
+      ]
     }
-  },
-  "exclude": ["node_modules"]
+  }
 }
