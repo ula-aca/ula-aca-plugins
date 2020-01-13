@@ -1,16 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "noImplicitAny": false,
-    "removeComments": true,
-    "noLib": false,
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "target": "es5",
-    "sourceMap": true,
-    "lib": ["es6"]
-  },
+  "extends": "./tsconfig.base.json",
   "include": ["packages", "tests", "stryker.conf.js"]
 }
