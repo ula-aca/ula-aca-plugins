@@ -10,7 +10,7 @@ module.exports = {
         .then(packages => [
           2,
           'always',
-          [...packages, 'deps-dev', 'dependencies']
+          [...packages, 'deps-dev', 'deps']
         ])
   }
 }
