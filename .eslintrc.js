@@ -57,7 +57,8 @@ module.exports = {
     'import/resolver': {
       node: {
         extensions: ['.js', '.ts']
-      }
+      },
+      typescript: {}
     }
   },
   overrides: [
