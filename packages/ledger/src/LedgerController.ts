@@ -16,28 +16,23 @@
 
 import {
   Plugin,
-  EventHandler,
   Message,
-  UlaResponse
+  UlaResponse,
+  EventHandler
 } from 'universal-ledger-agent'
 
 import { Configuration, LedgerApi } from '@ula-aca/aries-cloudagent-interface'
 import { AxiosError } from 'axios'
 import {
   RegisterNymBody,
-  RegisterNymResult,
   GetVerkeyByDidBody,
   GetEndpointByDidBody,
   AcceptTransactionAuthorAgreementBody,
   isLedgerMessage,
-  LedgerMessageTypes,
-  GetVerkeyByDidResult,
-  GetEndpointByDidResult
+  LedgerMessageTypes
 } from './messages'
 
 export default class LedgerController implements Plugin {
-  private eventHandler?: EventHandler
-
   private ledgerApi: LedgerApi
 
   constructor(acaUrl: string) {
@@ -48,9 +43,8 @@ export default class LedgerController implements Plugin {
     this.ledgerApi = new LedgerApi(apiConfig)
   }
 
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+  initialize(eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/ledger/LedgerController'
