@@ -1,0 +1,25 @@
+diff --git a/manage b/manage
+index 61a47d3..3f14033 100755
+--- a/manage
++++ b/manage
+@@ -228,9 +228,6 @@ case "${COMMAND}" in
+       docker-compose \
+         --log-level ERROR up \
+         -d webserver node1 node2 node3 node4
+-      docker-compose \
+-        --log-level ERROR logs \
+-        -f
+     ;;
+   start-combined)
+       initEnv "$@"
+@@ -266,9 +263,7 @@ case "${COMMAND}" in
+     ;;
+   logs)
+       initEnv "$@"
+-      docker-compose \
+-        --log-level ERROR logs \
+-        -f
++      docker-compose logs --no-color
+     ;;
+   stop)
+       initEnv "$@"

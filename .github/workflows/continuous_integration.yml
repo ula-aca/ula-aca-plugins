@@ -45,8 +45,8 @@ jobs:
       - name: Check formatting with prettier
         run: npm run prettier
 
-  test:
-    name: Test
+  unit-test:
+    name: Unit Tests
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -81,8 +81,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run tests
-        run: npm run test
+      - name: Run unit tests
+        run: npm run test:unit
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.3.0
@@ -112,7 +112,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
       - name: Install dependencies
         # Github Package Registry doesn't work with Yarn.
         # --update-checksums fixes this somehow
@@ -130,3 +129,70 @@ jobs:
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: npm run stryker
+
+  integration-test:
+    runs-on: ubuntu-latest
+    name: Integration Tests
+    steps:
+      - name: Checkout ula-aca-plugins
+        uses: actions/checkout@v2
+
+      - name: Checkout von-network
+        uses: actions/checkout@v2
+        with:
+          repository: bcgov/von-network
+          path: von-network
+          ref: e92f15194fad5a56ac301a25f9f1d43b42470bfb
+
+      - name: Setup VON Network
+        run: |
+          cd von-network
+          git apply ../network-setup/fix_von_network_manage_log.patch
+          ./manage build
+          ./manage start
+      - name: Docker login
+        run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Run aca-py and aca-whr
+        run: docker-compose -f network-setup/docker-compose.yml up -d --force-recreate
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com
+
+      - name: Install dependencies
+        # Github Package Registry doesn't work with Yarn.
+        # --update-checksums fixes this somehow
+        # see https://github.com/yarnpkg/yarn/issues/7552
+        # this seems to keep causing trouble, so we use
+        # npm for now.
+        run: npx lerna bootstrap
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_REGISTRY_READ_PACKAGES_TOKEN }}
+
+      - name: Run Integration Tests
+        run: npm run test:integration
+
+      - name: Export docker logs
+        if: always()
+        run: |
+          mkdir logs
+          docker-compose -f network-setup/docker-compose.yml logs --no-color > logs/docker-aca-log.txt
+          cd von-network
+          ./manage logs > ../logs/docker-von-log.txt
+
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: docker-logs
+          path: logs

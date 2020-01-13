@@ -17,6 +17,8 @@
   - [Packages](#packages)
   - [Contributing](#contributing)
   - [Running tests](#running-tests)
+    - [Unit tests](#unit-tests)
+    - [Integration tests](#integration-tests)
   - [License and disclaimer](#license-and-disclaimer)
 
 ## Usage
@@ -46,14 +48,26 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 
 ## Running tests
 
+### Unit tests
+
 Besides unit testing with Mocha, the effectivity of all tests are also measured with the Stryker mutation testing framework.
 
 ```bash
-npm run test
+npm run test:unit
 npm run stryker
 ```
 
-We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build. Stryker test scores do not have a threshold at the moment, but is planned to also fail below %80 in the future.
+We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build. Stryker test scores do not have a threshold at the moment, but is planned to also fail below 80% in the future.
+
+### Integration tests
+
+> TODO: Add setup instructions for von-network, aca-py and aca-whr. For now see the [Github Action](./.github/workflows/continuous_integration.yml) in combination with [`./network-setup`](./network-setup)
+
+Integration tests are run against a real Aries Cloudagent.
+
+```bash
+npm run test:integration
+```
 
 ## License and disclaimer
 

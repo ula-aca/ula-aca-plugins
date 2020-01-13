@@ -1,0 +1,84 @@
+version: '3'
+services:
+  faber-register-seed:
+    image: byrnedo/alpine-curl
+    networks:
+      - von
+    command: >-
+      http://von_webserver_1:8000/register
+      -X POST
+      -d '{"alias":"Faber Agent","seed":"faber_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
+  faber-aca-py:
+    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
+    ports:
+      - 7002:7002
+      - 7000:7000
+      - 7001:7001
+    depends_on:
+      - faber-webhook-receiver
+      - faber-register-seed
+    networks:
+      - von
+      - aca-py
+    command: >-
+      start
+        --label "Faber Agent"
+        --endpoint http://faber-aca-py:7000
+        --genesis-url http://von_webserver_1:8000/genesis
+        --webhook-url http://faber-webhook-receiver:8080
+        --admin 0.0.0.0 7002 
+        --admin-insecure-mode 
+        --inbound-transport http 0.0.0.0 7000
+        --inbound-transport ws 0.0.0.0 7001 
+        --outbound-transport http 
+        --outbound-transport ws
+        --wallet-type indy
+        --wallet-name "Faber Wallet"
+        --wallet-key FaberWallet000000
+        --seed faber_seed_000000000000000000001
+
+  alice-aca-py:
+    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
+    ports:
+      - 8002:8002
+      - 8000:8000
+      - 8001:8001
+    depends_on:
+      - alice-webhook-receiver
+    networks:
+      - von
+      - aca-py
+    command: >-
+      start 
+        --endpoint http://alice-aca-py:8000 
+        --admin 0.0.0.0 8002    
+        --admin-insecure-mode
+        --webhook-url http://alice-webhook-receiver:8080
+        --label "Alice Agent"
+        --inbound-transport http 0.0.0.0 8000 
+        --inbound-transport ws 0.0.0.0 8001 
+        --outbound-transport http 
+        --outbound-transport ws 
+        --genesis-url http://von_webserver_1:8000/genesis
+        --wallet-type indy
+        --wallet-name "Alice Wallet"
+        --wallet-key AliceWallet000000
+
+  faber-webhook-receiver:
+    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-receiver/aca-whr:development
+    networks:
+      - aca-py
+    ports:
+      - 7080:8080
+  alice-webhook-receiver:
+    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-receiver/aca-whr:development
+    networks:
+      - aca-py
+    ports:
+      - 8080:8080
+
+networks:
+  von:
+    external:
+      name: von_von
+  aca-py:

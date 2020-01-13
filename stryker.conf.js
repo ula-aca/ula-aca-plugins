@@ -5,6 +5,9 @@ module.exports = config => {
     packageManager: 'npm',
     reporters: ['html', 'clear-text', 'progress', 'dashboard'],
     testRunner: 'mocha',
+    mochaOptions: {
+      config: '.mocharc.unit.json'
+    },
     tsconfigFile: 'tsconfig.json',
     mutate: ['packages/**/src/**/*.ts'],
     thresholds: {
