@@ -35,7 +35,7 @@ import {
   PresentationExchangeRecordBase
 } from '@ula-aca/aca-webhook-event-models'
 
-export default abstract class ConnectionEventHandler implements Plugin {
+abstract class PresentProofEventHandler implements Plugin {
   protected eventHandler: EventHandler
 
   initialize(eventHandler: EventHandler): void {
@@ -102,3 +102,5 @@ export default abstract class ConnectionEventHandler implements Plugin {
     message: PresentationExchangeRecordVerified
   ): Promise<void>
 }
+
+export { PresentProofEventHandler }

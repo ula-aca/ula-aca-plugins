@@ -15,5 +15,8 @@
  */
 
 import { PresentProofController } from './PresentProofController'
+import { PresentProofEventHandler } from './PresentProofEventHandler'
 
-export { PresentProofController }
+export { PresentProofController, PresentProofEventHandler }
+
+export * from './messages'

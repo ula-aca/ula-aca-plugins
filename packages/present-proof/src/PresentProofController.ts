@@ -230,7 +230,7 @@ export class PresentProofController implements Plugin {
   }
 
   async handleEvent(message: Message, callback: any): Promise<string> {
-    if (!isPresentProofMessage(message)) {
+    if (!isPresentProofMessage(message.properties)) {
       return 'ignored'
     }
 
@@ -282,8 +282,6 @@ export class PresentProofController implements Plugin {
         case PresentProofMessageTypes.REMOVE_EXCHANGE_RECORD:
           response = await this.removeExchangeRecord(message.properties.body)
           break
-        default:
-          throw new Error(`unhandled message type: ${message.properties.type}`)
       }
     } catch (err) {
       const axiosErr = err as AxiosError
