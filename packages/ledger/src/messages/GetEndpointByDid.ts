@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { LedgerEndpointGetResults } from '@ula-aca/aries-cloudagent-interface'
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
 interface GetEndpointByDidBody {
@@ -25,6 +26,6 @@ interface GetEndpointByDidMessage {
   body: GetEndpointByDidBody
 }
 
-type GetEndpointByDidResult = { endpoint: string }
+type GetEndpointByDidResult = LedgerEndpointGetResults
 
 export { GetEndpointByDidBody, GetEndpointByDidMessage, GetEndpointByDidResult }

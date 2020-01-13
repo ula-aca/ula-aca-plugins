@@ -69,12 +69,9 @@ export default class LedgerController implements Plugin {
       role
     )
 
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as RegisterNymResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -83,12 +80,9 @@ export default class LedgerController implements Plugin {
   }: GetVerkeyByDidBody): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerDidVerkeyGet(did)
 
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as GetVerkeyByDidResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -97,12 +91,9 @@ export default class LedgerController implements Plugin {
   }: GetEndpointByDidBody): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerDidEndpointGet(did)
 
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as GetEndpointByDidResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 

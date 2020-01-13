@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { RegisterNymPostResults } from '@ula-aca/aries-cloudagent-interface'
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
 interface RegisterNymBody {
@@ -28,6 +29,6 @@ interface RegisterNymMessage {
   body: RegisterNymBody
 }
 
-type RegisterNymResult = { success: true }
+type RegisterNymResult = RegisterNymPostResults
 
 export { RegisterNymBody, RegisterNymMessage, RegisterNymResult }

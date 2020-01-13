@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { LedgerVerkeyGetResults } from '@ula-aca/aries-cloudagent-interface'
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
 interface GetVerkeyByDidBody {
@@ -25,6 +26,6 @@ interface GetVerkeyByDidMessage {
   body: GetVerkeyByDidBody
 }
 
-type GetVerkeyByDidResult = { verkey: string | null }
+type GetVerkeyByDidResult = LedgerVerkeyGetResults
 
 export { GetVerkeyByDidBody, GetVerkeyByDidMessage, GetVerkeyByDidResult }

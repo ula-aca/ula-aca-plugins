@@ -41,7 +41,7 @@
     "lib"
   ],
   "dependencies": {
-    "@ula-aca/aries-cloudagent-interface": "1.0.0",
+    "@ula-aca/aries-cloudagent-interface": "^1.0.1",
     "axios": "^0.19.0",
     "universal-ledger-agent": "^0.1.1"
   }
