@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-import { IssueCredentialController } from './IssueCredentialController'
-import { IssueCredentialEventHandler } from './IssueCredentialEventHandler'
+import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
-export { IssueCredentialController, IssueCredentialEventHandler }
-export * from './messages'
+interface RemoveExchangeRecordBody {
+  cred_ex_id: string
+}
+
+interface RemoveExchangeRecordMessage {
+  type: IssueCredentialMessageTypes.REMOVE_EXCHANGE_RECORD
+  body: RemoveExchangeRecordBody
+}
+
+export { RemoveExchangeRecordMessage, RemoveExchangeRecordBody }

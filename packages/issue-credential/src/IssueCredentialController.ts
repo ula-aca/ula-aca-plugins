@@ -25,27 +25,32 @@ import {
   Configuration,
   IssueCredentialApi,
   V10CredentialProposalRequest,
-  V10CredentialOfferRequest,
-  V10CredentialIssueRequest,
-  V10CredentialProblemReportRequest
+  V10CredentialOfferRequest
 } from '@ula-aca/aries-cloudagent-interface'
+import { AxiosError } from 'axios'
+import {
+  GetMemeTypesBody,
+  GetExchangeRecordsResult,
+  GetExchangeRecordByIdBody,
+  GetExchangeRecordByIdResult,
+  SendCredentialResult,
+  SendProposalResult,
+  SendOfferResult,
+  SendOfferByIdBody,
+  SendOfferByIdResult,
+  SendRequestBody,
+  SendRequestResult,
+  IssueBody,
+  IssueResult,
+  StoreBody,
+  StoreResult,
+  ProblemReportBody,
+  RemoveExchangeRecordBody,
+  isIssueCredentialMessage,
+  IssueCredentialMessageTypes
+} from './messages'
 
-export enum IssueCredentialControllerMessages {
-  GET_MEME_TYPES = '@ula-aca/issue-credential/get-meme-types',
-  GET_ALL_EXCHANGE_RECORDS = '@ula-aca/issue-credential/get-all-exchange-records',
-  GET_EXCHANGE_RECORD_BY_ID = '@ula-aca/issue-credential/get-exchange-record-by-id',
-  SEND_CREDENTIAL = '@ula-aca/issue-credential/send-credential',
-  SEND_PROPOSAL = '@ula-aca/issue-credential/send-proposal',
-  SEND_OFFER = '@ula-aca/issue-credential/send-offer',
-  SEND_OFFER_BY_ID = '@ula-aca/issue-credential/send-offer-by-id',
-  SEND_REQUEST = '@ula-aca/issue-credential/send-request',
-  ISSUE = '@ula-aca/issue-credential/issue',
-  STORE = '@ula-aca/issue-credential/store',
-  PROBLEM_REPORT = '@ula-aca/issue-credential/problem-report',
-  REMOVE_EXCHANGE_RECORD = '@ula-aca/issue-credential/remove'
-}
-
-export class IssueCredentialController implements Plugin {
+class IssueCredentialController implements Plugin {
   protected eventHandler?: EventHandler
 
   private issueCredentialApi: IssueCredentialApi
@@ -66,9 +71,11 @@ export class IssueCredentialController implements Plugin {
     return '@ula-aca/issue-credential/IssueCredentialController'
   }
 
-  private async getMemeTypes(credentialId: string): Promise<UlaResponse> {
+  private async getMemeTypes({
+    credential_id
+  }: GetMemeTypesBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialMimeTypesCredentialIdGet(
-      credentialId
+      credential_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -78,120 +85,208 @@ export class IssueCredentialController implements Plugin {
 
   private async getAllCredentialExchangeRecords(): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsGet()
+
+    // The generated API does not provide the correct response typing
+    const body = (response.data.results as unknown) as GetExchangeRecordsResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data.results
+      body
     })
   }
 
-  private async getCredentialExchangeRecordById(
-    credExId: string
-  ): Promise<UlaResponse> {
+  private async getCredentialExchangeRecordById({
+    credential_id
+  }: GetExchangeRecordByIdBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdGet(
-      credExId
+      credential_id
     )
+
+    const body = (response.data as unknown) as GetExchangeRecordByIdResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async sendCredential(
-    data: V10CredentialProposalRequest
-  ): Promise<UlaResponse> {
-    const response = await this.issueCredentialApi.issueCredentialSendPost(data)
+  private async sendCredential({
+    issuer_did,
+    credential_proposal,
+    schema_name,
+    cred_def_id,
+    connection_id,
+    schema_version,
+    schema_id,
+    comment,
+    schema_issuer_did
+  }: V10CredentialProposalRequest): Promise<UlaResponse> {
+    const response = await this.issueCredentialApi.issueCredentialSendPost({
+      issuer_did,
+      credential_proposal,
+      schema_name,
+      cred_def_id,
+      connection_id,
+      schema_version,
+      schema_id,
+      comment,
+      schema_issuer_did
+    })
+
+    const body = (response.data as unknown) as SendCredentialResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async sendProposal(
-    data: V10CredentialProposalRequest
-  ): Promise<UlaResponse> {
+  private async sendProposal({
+    issuer_did,
+    credential_proposal,
+    schema_name,
+    cred_def_id,
+    connection_id,
+    schema_version,
+    schema_id,
+    comment,
+    schema_issuer_did
+  }: V10CredentialProposalRequest): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialSendProposalPost(
-      data
+      {
+        issuer_did,
+        credential_proposal,
+        schema_name,
+        cred_def_id,
+        connection_id,
+        schema_version,
+        schema_id,
+        comment,
+        schema_issuer_did
+      }
     )
+
+    const body = (response.data as unknown) as SendProposalResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async sendOffer(
-    data: V10CredentialOfferRequest
-  ): Promise<UlaResponse> {
+  private async sendOffer({
+    credential_preview,
+    auto_issue,
+    cred_def_id,
+    connection_id,
+    comment
+  }: V10CredentialOfferRequest): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialSendOfferPost(
-      data
+      {
+        credential_preview,
+        auto_issue,
+        cred_def_id,
+        connection_id,
+        comment
+      }
     )
+
+    const body = (response.data as unknown) as SendOfferResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async sendOfferById(credExId: string): Promise<UlaResponse> {
+  private async sendOfferById({
+    cred_ex_id
+  }: SendOfferByIdBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdSendOfferPost(
-      credExId
+      cred_ex_id
     )
+
+    const body = (response.data as unknown) as SendOfferByIdResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async sendRequest(credExId: string): Promise<UlaResponse> {
+  private async sendRequest({
+    cred_ex_id
+  }: SendRequestBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdSendRequestPost(
-      credExId
+      cred_ex_id
     )
+
+    const body = (response.data as unknown) as SendRequestResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async issue(
-    credExId: string,
-    data: V10CredentialIssueRequest
-  ): Promise<UlaResponse> {
+  private async issue({
+    cred_ex_id,
+    comment,
+    credential_preview
+  }: IssueBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdIssuePost(
-      credExId,
-      data
+      cred_ex_id,
+      {
+        comment,
+        credential_preview
+      }
     )
+
+    const body = (response.data as unknown) as IssueResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async store(credExId: string): Promise<UlaResponse> {
+  private async store({ cred_ex_id }: StoreBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdStorePost(
-      credExId
+      cred_ex_id
     )
+
+    const body = (response.data as unknown) as StoreResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data
+      body
     })
   }
 
-  private async problemReport(
-    credExId: string,
-    data: V10CredentialProblemReportRequest
-  ): Promise<UlaResponse> {
+  private async problemReport({
+    cred_ex_id,
+    explain_ltxt
+  }: ProblemReportBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdProblemReportPost(
-      credExId,
-      data
+      cred_ex_id,
+      {
+        explain_ltxt
+      }
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: {}
     })
   }
 
-  private async removeExchangeRecord(credExId: string): Promise<UlaResponse> {
+  private async removeExchangeRecord({
+    cred_ex_id
+  }: RemoveExchangeRecordBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdRemovePost(
-      credExId
+      cred_ex_id
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: {}
@@ -199,66 +294,68 @@ export class IssueCredentialController implements Plugin {
   }
 
   async handleEvent(message: Message, callback: any): Promise<string> {
-    if (
-      !Object.values(IssueCredentialControllerMessages).includes(
-        message.properties.type
-      )
-    ) {
+    if (!isIssueCredentialMessage(message.properties)) {
       return 'ignored'
     }
 
-    // TODOC: Document messages and their properties
-    let response: UlaResponse = null
-    switch (message.properties.type) {
-      case IssueCredentialControllerMessages.GET_MEME_TYPES:
-        response = await this.getMemeTypes(message.properties.credId)
-        break
-      case IssueCredentialControllerMessages.GET_ALL_EXCHANGE_RECORDS:
-        response = await this.getAllCredentialExchangeRecords()
-        break
-      case IssueCredentialControllerMessages.GET_EXCHANGE_RECORD_BY_ID:
-        response = await this.getCredentialExchangeRecordById(
-          message.properties.credExId
-        )
-        break
-      case IssueCredentialControllerMessages.SEND_CREDENTIAL:
-        response = await this.sendCredential(message.properties.credExId)
-        break
-      case IssueCredentialControllerMessages.SEND_PROPOSAL:
-        response = await this.sendProposal(message.properties.data)
-        break
-      case IssueCredentialControllerMessages.SEND_OFFER:
-        response = await this.sendOffer(message.properties.data)
-        break
-      case IssueCredentialControllerMessages.SEND_OFFER_BY_ID:
-        response = await this.sendOfferById(message.properties.credExId)
-        break
-      case IssueCredentialControllerMessages.SEND_REQUEST:
-        response = await this.sendRequest(message.properties.credExId)
-        break
-      case IssueCredentialControllerMessages.ISSUE:
-        response = await this.issue(
-          message.properties.credExId,
-          message.properties.data
-        )
-        break
-      case IssueCredentialControllerMessages.STORE:
-        response = await this.store(message.properties.credExId)
-        break
+    let response: UlaResponse
+    try {
+      switch (message.properties.type) {
+        case IssueCredentialMessageTypes.GET_MEME_TYPES:
+          response = await this.getMemeTypes(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS:
+          response = await this.getAllCredentialExchangeRecords()
+          break
+        case IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID:
+          response = await this.getCredentialExchangeRecordById(
+            message.properties.body
+          )
+          break
+        case IssueCredentialMessageTypes.SEND_CREDENTIAL:
+          response = await this.sendCredential(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.SEND_PROPOSAL:
+          response = await this.sendProposal(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.SEND_OFFER:
+          response = await this.sendOffer(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.SEND_OFFER_BY_ID:
+          response = await this.sendOfferById(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.SEND_REQUEST:
+          response = await this.sendRequest(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.ISSUE:
+          response = await this.issue(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.STORE:
+          response = await this.store(message.properties.body)
+          break
 
-      case IssueCredentialControllerMessages.PROBLEM_REPORT:
-        response = await this.problemReport(
-          message.properties.presExId,
-          message.properties.data
-        )
-        break
-      case IssueCredentialControllerMessages.REMOVE_EXCHANGE_RECORD:
-        response = await this.removeExchangeRecord(message.properties.presExId)
-        break
-      default:
-        throw new Error(`unhandled message type: ${message.properties.type}`)
+        case IssueCredentialMessageTypes.PROBLEM_REPORT:
+          response = await this.problemReport(message.properties.body)
+          break
+        case IssueCredentialMessageTypes.REMOVE_EXCHANGE_RECORD:
+          response = await this.removeExchangeRecord(message.properties.body)
+          break
+      }
+    } catch (err) {
+      const axiosErr = err as AxiosError
+
+      response = new UlaResponse({
+        statusCode: axiosErr.response.status,
+        body: {
+          error: axiosErr.response.data
+        }
+      })
     }
     callback(response)
-    return 'success'
+    return response.statusCode < 200 || response.statusCode >= 300
+      ? 'error'
+      : 'success'
   }
 }
+
+export { IssueCredentialController }

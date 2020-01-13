@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-import { IssueCredentialController } from './IssueCredentialController'
-import { IssueCredentialEventHandler } from './IssueCredentialEventHandler'
+import { V10CredentialExchange } from '@ula-aca/aries-cloudagent-interface'
 
-export { IssueCredentialController, IssueCredentialEventHandler }
-export * from './messages'
+import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
+
+interface StoreBody {
+  cred_ex_id: string
+}
+
+interface StoreMessage {
+  type: IssueCredentialMessageTypes.STORE
+  body: StoreBody
+}
+
+type StoreResult = V10CredentialExchange
+
+export { StoreMessage, StoreBody, StoreResult }

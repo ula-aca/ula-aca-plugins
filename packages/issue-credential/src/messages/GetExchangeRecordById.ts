@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,23 @@
  * limitations under the License.
  */
 
-import { IssueCredentialController } from './IssueCredentialController'
-import { IssueCredentialEventHandler } from './IssueCredentialEventHandler'
+import { V10CredentialExchange } from '@ula-aca/aries-cloudagent-interface'
 
-export { IssueCredentialController, IssueCredentialEventHandler }
-export * from './messages'
+import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
+
+interface GetExchangeRecordByIdBody {
+  credential_id: string
+}
+
+interface GetExchangeRecordByIdMessage {
+  type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID
+  body: GetExchangeRecordByIdBody
+}
+
+type GetExchangeRecordByIdResult = V10CredentialExchange
+
+export {
+  GetExchangeRecordByIdMessage,
+  GetExchangeRecordByIdBody,
+  GetExchangeRecordByIdResult
+}

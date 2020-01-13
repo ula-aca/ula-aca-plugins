@@ -38,7 +38,7 @@ import {
   CredentialExchangeRecordBase
 } from '@ula-aca/aca-webhook-event-models'
 
-export default abstract class ConnectionEventHandler implements Plugin {
+abstract class IssueCredentialEventHandler implements Plugin {
   protected eventHandler: EventHandler
 
   initialize(eventHandler: EventHandler): void {
@@ -115,3 +115,5 @@ export default abstract class ConnectionEventHandler implements Plugin {
     message: CredentialExchangeRecordCredentialReceived
   ): Promise<void>
 }
+
+export { IssueCredentialEventHandler }
