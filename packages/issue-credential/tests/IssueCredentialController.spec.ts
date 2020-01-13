@@ -251,7 +251,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         )
       })
       it('@ula-aca/issue-credential/get-exchange-record-by-id', async () => {
-        const credential_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           raw_credential: {},
@@ -293,7 +293,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID,
           body: {
-            credential_id
+            credential_exchange_id
           }
         } as GetExchangeRecordByIdMessage)
 
@@ -563,7 +563,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_OFFER_BY_ID,
           body: {
-            cred_ex_id: credential_exchange_id
+            credential_exchange_id
           }
         } as SendOfferByIdMessage)
 
@@ -618,7 +618,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_REQUEST,
           body: {
-            cred_ex_id: credential_exchange_id
+            credential_exchange_id
           }
         } as SendRequestMessage)
 
@@ -739,7 +739,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.STORE,
           body: {
-            cred_ex_id: credential_exchange_id
+            credential_exchange_id
           }
         } as StoreMessage)
 
@@ -770,7 +770,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.PROBLEM_REPORT,
           body: {
-            cred_ex_id: credential_exchange_id,
+            credential_exchange_id,
             explain_ltxt: report_text
           }
         } as ProblemReportMessage)
@@ -801,7 +801,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.REMOVE_EXCHANGE_RECORD,
           body: {
-            cred_ex_id: credential_exchange_id
+            credential_exchange_id
           }
         } as RemoveExchangeRecordMessage)
 
