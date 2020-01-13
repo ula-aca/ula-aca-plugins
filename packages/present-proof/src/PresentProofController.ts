@@ -23,25 +23,24 @@ import {
 
 import {
   Configuration,
-  PresentProofApi,
-  V10PresentationProposalRequest,
-  V10PresentationRequestRequest,
-  V10PresentationRequest
+  PresentProofApi
 } from '@ula-aca/aries-cloudagent-interface'
 
-export enum PresentProofControllerMessages {
-  GET_ALL_EXCHANGE_RECORDS = '@ula-aca/present-proof/get-all-exchange-records',
-  GET_EXCHANGE_RECORD_BY_ID = '@ula-aca/present-proof/get-exchange-record-by-id',
-  GET_PRESENTATION_REQUEST_CREDENTIALS = '@ula-aca/present-proof/get-presentation-request-credentials',
-  GET_PRESENTATION_REQUEST_CREDENTIALS_WITH_REFERENT = '@ula-aca/present-proof/get-presentation-request-credentials-with-referent',
-  SEND_PROPOSAL = '@ula-aca/present-proof/send-proposal',
-  CREATE_PRESENTATION_REQUEST = '@ula-aca/present-proof/create-presentation-request',
-  SEND_REQUEST = '@ula-aca/present-proof/send-request',
-  SEND_REQUEST_BY_ID = '@ula-aca/present-proof/send-proof-presentation-request-by-id',
-  SEND_PRESENTATION = '@ula-aca/present-proof/send-presentation',
-  VERIFY_PRESENTATION = '@ula-aca/present-proof/verify-presentation',
-  REMOVE_EXCHANGE_RECORD = '@ula-aca/present-proof/remove-exchange-record'
-}
+import { AxiosError } from 'axios'
+import {
+  GetPresentationExchangeRecordByIdBody,
+  GetPresentationRequestCredentialsBody,
+  SendPresentationProposalBody,
+  CreatePresentationRequestBody,
+  SendPresentationRequestBody,
+  SendPresentationRequestByIdBody,
+  SendPresentationBody,
+  VerifyPresentationBody,
+  RemovePresentationExchangeRecordBody,
+  isPresentProofMessage,
+  PresentProofMessageTypes,
+  GetPresentationRequestCredentialsByReferentIdBody
+} from './messages'
 
 export class PresentProofController implements Plugin {
   protected eventHandler?: EventHandler
@@ -72,11 +71,11 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async getPresentProofExchangeRecordById(
-    presExId: string
-  ): Promise<UlaResponse> {
+  private async getPresentProofExchangeRecordById({
+    presentation_exchange_id
+  }: GetPresentationExchangeRecordByIdBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdGet(
-      presExId
+      presentation_exchange_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -84,11 +83,11 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async getPresentationRequestCredentials(
-    presExId: string
-  ): Promise<UlaResponse> {
+  private async getPresentationRequestCredentials({
+    presentation_exchange_id
+  }: GetPresentationRequestCredentialsBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdCredentialsGet(
-      presExId
+      presentation_exchange_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -96,13 +95,19 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async getPresentationRequestCredentialsWithReferent(
-    presExId: string,
-    referent: string
-  ): Promise<UlaResponse> {
+  private async getPresentationRequestCredentialsWithReferent({
+    presentation_exchange_id,
+    referent,
+    start,
+    count,
+    extra_query
+  }: GetPresentationRequestCredentialsByReferentIdBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdCredentialsReferentGet(
-      presExId,
-      referent
+      presentation_exchange_id,
+      referent,
+      start,
+      count,
+      extra_query
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -110,49 +115,69 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async sendPresentProofProposal(
-    body: V10PresentationProposalRequest
-  ): Promise<UlaResponse> {
-    const response = await this.presentProofApi.presentProofSendProposalPost(
-      body
-    )
+  private async sendPresentProofProposal({
+    comment,
+    connection_id,
+    presentation_proposal,
+    auto_present
+  }: SendPresentationProposalBody): Promise<UlaResponse> {
+    const response = await this.presentProofApi.presentProofSendProposalPost({
+      comment,
+      connection_id,
+      presentation_proposal,
+      auto_present
+    })
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
     })
   }
 
-  private async createPresentationRequest(
-    body: V10PresentationRequestRequest
-  ): Promise<UlaResponse> {
-    const response = await this.presentProofApi.presentProofCreateRequestPost(
-      body
-    )
+  private async createPresentationRequest({
+    comment,
+    proof_request,
+    connection_id
+  }: CreatePresentationRequestBody): Promise<UlaResponse> {
+    const response = await this.presentProofApi.presentProofCreateRequestPost({
+      comment,
+      proof_request,
+      connection_id
+    })
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
     })
   }
 
-  private async sendRequest(
-    body: V10PresentationRequestRequest
-  ): Promise<UlaResponse> {
-    const response = await this.presentProofApi.presentProofSendRequestPost(
-      body
-    )
+  private async sendRequest({
+    comment,
+    proof_request,
+    connection_id
+  }: SendPresentationRequestBody): Promise<UlaResponse> {
+    const response = await this.presentProofApi.presentProofSendRequestPost({
+      comment,
+      proof_request,
+      connection_id
+    })
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
     })
   }
 
-  private async sendRequestById(
-    presExId: string,
-    body: V10PresentationRequestRequest
-  ): Promise<UlaResponse> {
+  private async sendRequestById({
+    presentation_exchange_id,
+    comment,
+    proof_request,
+    connection_id
+  }: SendPresentationRequestByIdBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdSendRequestPost(
-      presExId,
-      body
+      presentation_exchange_id,
+      {
+        comment,
+        proof_request,
+        connection_id
+      }
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -160,13 +185,19 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async sendPresentation(
-    presExId: string,
-    body: V10PresentationRequest
-  ): Promise<UlaResponse> {
+  private async sendPresentation({
+    presentation_exchange_id,
+    requested_attributes,
+    self_attested_attributes,
+    requested_predicates
+  }: SendPresentationBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdSendPresentationPost(
-      presExId,
-      body
+      presentation_exchange_id,
+      {
+        requested_attributes,
+        self_attested_attributes,
+        requested_predicates
+      }
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -174,11 +205,11 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async verifyProofPresentation(
-    presExId: string
-  ): Promise<UlaResponse> {
+  private async verifyProofPresentation({
+    presentation_exchange_id
+  }: VerifyPresentationBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdVerifyPresentationPost(
-      presExId
+      presentation_exchange_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -186,9 +217,11 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  private async removeExchangeRecord(presExId: string): Promise<UlaResponse> {
+  private async removeExchangeRecord({
+    presentation_exchange_id
+  }: RemovePresentationExchangeRecordBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdRemovePost(
-      presExId
+      presentation_exchange_id
     )
     return new UlaResponse({
       statusCode: response.status,
@@ -197,70 +230,74 @@ export class PresentProofController implements Plugin {
   }
 
   async handleEvent(message: Message, callback: any): Promise<string> {
-    if (
-      !Object.values(PresentProofControllerMessages).includes(
-        message.properties.type
-      )
-    ) {
+    if (!isPresentProofMessage(message)) {
       return 'ignored'
     }
 
-    // TODOC: Document messages and their properties
-    let response: UlaResponse = null
-    switch (message.properties.type) {
-      case PresentProofControllerMessages.GET_ALL_EXCHANGE_RECORDS:
-        response = await this.getAllPresentProofExchangeRecords()
-        break
-      case PresentProofControllerMessages.GET_EXCHANGE_RECORD_BY_ID:
-        response = await this.getPresentProofExchangeRecordById(
-          message.properties.presExId
-        )
-        break
-      case PresentProofControllerMessages.GET_PRESENTATION_REQUEST_CREDENTIALS:
-        response = await this.getPresentationRequestCredentials(
-          message.properties.presExId
-        )
-        break
-      case PresentProofControllerMessages.GET_PRESENTATION_REQUEST_CREDENTIALS_WITH_REFERENT:
-        response = await this.getPresentationRequestCredentialsWithReferent(
-          message.properties.presExId,
-          message.properties.referent
-        )
-        break
-      case PresentProofControllerMessages.SEND_PROPOSAL:
-        response = await this.sendPresentProofProposal(message.properties.body)
-        break
-      case PresentProofControllerMessages.CREATE_PRESENTATION_REQUEST:
-        response = await this.createPresentationRequest(message.properties.body)
-        break
-      case PresentProofControllerMessages.SEND_REQUEST:
-        response = await this.sendRequest(message.properties.body)
-        break
-      case PresentProofControllerMessages.SEND_REQUEST_BY_ID:
-        response = await this.sendRequestById(
-          message.properties.presExId,
-          message.properties.body
-        )
-        break
-      case PresentProofControllerMessages.SEND_PRESENTATION:
-        response = await this.sendPresentation(
-          message.properties.presExId,
-          message.properties.body
-        )
-        break
-      case PresentProofControllerMessages.VERIFY_PRESENTATION:
-        response = await this.verifyProofPresentation(
-          message.properties.presExId
-        )
-        break
+    let response: UlaResponse
 
-      case PresentProofControllerMessages.REMOVE_EXCHANGE_RECORD:
-        response = await this.removeExchangeRecord(message.properties.presExId)
-        break
-      default:
-        throw new Error(`unhandled message type: ${message.properties.type}`)
+    try {
+      switch (message.properties.type) {
+        case PresentProofMessageTypes.GET_EXCHANGE_RECORDS:
+          response = await this.getAllPresentProofExchangeRecords()
+          break
+        case PresentProofMessageTypes.GET_EXCHANGE_RECORD_BY_ID:
+          response = await this.getPresentProofExchangeRecordById(
+            message.properties.body
+          )
+          break
+        case PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS:
+          response = await this.getPresentationRequestCredentials(
+            message.properties.body
+          )
+          break
+        case PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS_WITH_REFERENT:
+          response = await this.getPresentationRequestCredentialsWithReferent(
+            message.properties.body
+          )
+          break
+        case PresentProofMessageTypes.SEND_PROPOSAL:
+          response = await this.sendPresentProofProposal(
+            message.properties.body
+          )
+          break
+        case PresentProofMessageTypes.CREATE_PRESENTATION_REQUEST:
+          response = await this.createPresentationRequest(
+            message.properties.body
+          )
+          break
+        case PresentProofMessageTypes.SEND_REQUEST:
+          response = await this.sendRequest(message.properties.body)
+          break
+        case PresentProofMessageTypes.SEND_REQUEST_BY_ID:
+          response = await this.sendRequestById(message.properties.body)
+          break
+        case PresentProofMessageTypes.SEND_PRESENTATION:
+          response = await this.sendPresentation(message.properties.body)
+          break
+        case PresentProofMessageTypes.VERIFY_PRESENTATION:
+          response = await this.verifyProofPresentation(message.properties.body)
+          break
+
+        case PresentProofMessageTypes.REMOVE_EXCHANGE_RECORD:
+          response = await this.removeExchangeRecord(message.properties.body)
+          break
+        default:
+          throw new Error(`unhandled message type: ${message.properties.type}`)
+      }
+    } catch (err) {
+      const axiosErr = err as AxiosError
+
+      response = new UlaResponse({
+        statusCode: axiosErr.response.status,
+        body: {
+          error: axiosErr.response.data
+        }
+      })
     }
     callback(response)
-    return 'success'
+    return response.statusCode < 200 || response.statusCode >= 300
+      ? 'error'
+      : 'success'
   }
 }

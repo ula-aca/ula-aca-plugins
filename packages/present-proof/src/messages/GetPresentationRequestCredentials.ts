@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,21 @@
  * limitations under the License.
  */
 
-import { PresentProofController } from './PresentProofController'
+import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
-export { PresentProofController }
+interface GetPresentationRequestCredentialsBody {
+  presentation_exchange_id: string
+  start?: string
+  count?: string
+  extra_query?: string
+}
+
+interface GetPresentationRequestCredentialsMessage {
+  type: PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS
+  body: GetPresentationRequestCredentialsBody
+}
+
+export {
+  GetPresentationRequestCredentialsMessage,
+  GetPresentationRequestCredentialsBody
+}

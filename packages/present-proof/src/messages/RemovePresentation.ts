@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,18 @@
  * limitations under the License.
  */
 
-import { PresentProofController } from './PresentProofController'
+import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
-export { PresentProofController }
+interface RemovePresentationExchangeRecordBody {
+  presentation_exchange_id: string
+}
+
+interface RemovePresentationExchangeRecordMessage {
+  type: PresentProofMessageTypes.REMOVE_EXCHANGE_RECORD
+  body: RemovePresentationExchangeRecordBody
+}
+
+export {
+  RemovePresentationExchangeRecordMessage,
+  RemovePresentationExchangeRecordBody
+}

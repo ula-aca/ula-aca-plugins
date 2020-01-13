@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,17 @@
  * limitations under the License.
  */
 
-import { PresentProofController } from './PresentProofController'
+import { V10PresentationExchangeList } from '@ula-aca/aries-cloudagent-interface'
+import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
-export { PresentProofController }
+interface GetPresentationExchangeRecordsMessage {
+  type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS
+  body: {}
+}
+
+type GetPresentationExchangeRecordsResult = V10PresentationExchangeList
+
+export {
+  GetPresentationExchangeRecordsMessage,
+  GetPresentationExchangeRecordsResult
+}
