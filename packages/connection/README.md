@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Connection Plugin
 
-This package handles everything that has to do with establishing and maintaining connections. It has classes to perform connection related actions aswell as to listen for connection connection events.
+This package handles everything that has to do with establishing and maintaining connections. It has classes to perform connection related actions aswell as to listen for connection events.
 
 > **ATTENTION**: Relative to the ACA-Py Swagger API, this package handles everything related to the `/connections` endpoint. Thus it also handles TrustPing and BasicMessage functionality. The groups shown in the Swagger Web Interface can be misleading.
 
@@ -18,6 +18,8 @@ const eventHandler = new EventHandler([ledgerController])
 ```
 
 #### @ula-aca/connection/get-all-connections
+
+Query agent-to-agent connections.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -41,8 +43,6 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/get_connections
     const result: GetConnectionsResult = response.body
     console.log(result)
   }
@@ -50,6 +50,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/connection/get-connection-by-id
+
+Fetch a single connection record.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -85,6 +87,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 #### @ula-aca/connection/create-invitation
 
+Create a new connection invitation.
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -116,6 +120,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/connection/receive-invitation
+
+Receive a new connection invitation.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -151,8 +157,6 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections_receive_invitation
     const result: ReceiveInvitationResult = response.body
     console.log(result)
   }
@@ -160,6 +164,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/connection/accept-invitation
+
+Accept a stored connection invitation.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -185,8 +191,6 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections__id__accept_invitation
     const result: AcceptInvitationResult = response.body
     console.log(result)
   }
@@ -194,6 +198,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/connection/accept-request
+
+Accept a stored connection request.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -219,8 +225,6 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections__id__accept_request
     const result: AcceptRequestResult = response.body
     console.log(result)
   }
@@ -228,6 +232,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/connection/establish-inbound
+
+Assign another connection as the inbound connection.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -260,6 +266,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 #### @ula-aca/connection/remove-connection
 
+Remove an existing connection record.
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -290,6 +298,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 #### @ula-aca/connection/send-ping
 
+Send a trust ping to a connection.
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -319,6 +329,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/connection/basic-message
+
+Send a basic message to a connection.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -357,40 +369,57 @@ In order to react to incoming connection events, we need to setup out event hand
 There is also a callback method for incoming basic message events.
 
 ```typescript
+import { ConnectionEventHandler } from '@ula-aca/connection'
+import { EventHandler } from 'universal-ledger-agent'
+import WebhookRelayEventRouter from '@ula-aca/webhook-relay-event-router'
+
 import {
-  ConnectionEventHandler,
-  ConnectionEvent
-  BasicMessageEvent
-  } from '@ula-aca/connection'
+  BasicMessage,
+  PairwiseConnectionRecordInvitation,
+  PairwiseConnectionRecordRequest,
+  PairwiseConnectionRecordResponse,
+  PairwiseConnectionRecordActive,
+  PairwiseConnectionRecordInactive,
+  PairwiseConnectionRecordError,
+  PairwiseConnectionRecordInit
+} from '@ula-aca/aca-webhook-event-models'
 
 class ConnectionHandler extends ConnectionEventHandler {
-
-  async onInit(message: ConnectionEvent): Promise<void> {
+  onInit(message: PairwiseConnectionRecordInit): Promise<void> {
     // connection record state changed to 'init'
-
-    this.eventHandler.processMsg('example-message', () => {}) // use this.eventHandler to call the ULA ✉️
   }
-  async onInvitation(message: ConnectionEvent): Promise<void> {
+  onInvitation(message: PairwiseConnectionRecordInvitation): Promise<void> {
     // connection record state changed to 'invitation'
   }
-  async onRequest(message: ConnectionEvent): Promise<void> {
+  onRequest(message: PairwiseConnectionRecordRequest): Promise<void> {
     // connection record state changed to 'request'
   }
-  async onResponse(message: ConnectionEvent): Promise<void> {
+  onResponse(message: PairwiseConnectionRecordResponse): Promise<void> {
     // connection record state changed to 'response'
   }
-  async onActive(message: ConnectionEvent): Promise<void> {
+  onActive(message: PairwiseConnectionRecordActive): Promise<void> {
     // connection record state changed to 'active'
   }
-  async onError(message: ConnectionEvent): Promise<void> {
-    // connection record state changed to 'error'
-  }
-  async onInactive(message: ConnectionEvent): Promise<void> {
+  onInactive(message: PairwiseConnectionRecordInactive): Promise<void> {
     // connection record state changed to 'inactive'
   }
-  async onBasicMessage(message: BasicMessageEvent): Promise<void> {
+  onError(message: PairwiseConnectionRecordError): Promise<void> {
+    // connection record state changed to 'error'
+  }
+  onBasicMessage(message: BasicMessage): Promise<void> {
     // basic message received
   }
 }
 
+// set up the event router
+const eventRouter = new WebhookRelayEventRouter(
+  'https://webhook-relay-urk.com',
+  {
+    Authorization: 'your auth token'
+  }
+)
+// initialize the issue event handler
+const issueHandler = new ConnectionHandler()
+
+const eventHandler = new EventHandler([eventRouter, issueHandler])
 ```
