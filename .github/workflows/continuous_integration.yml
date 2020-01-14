@@ -128,7 +128,7 @@ jobs:
       - name: Run Stryker tests
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
-        run: npm run stryker
+        run: npm run test:stryker
 
   integration-test:
     runs-on: ubuntu-latest

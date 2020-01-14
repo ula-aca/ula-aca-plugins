@@ -54,7 +54,7 @@ Besides unit testing with Mocha, the effectivity of all tests are also measured 
 
 ```bash
 npm run test:unit
-npm run stryker
+npm run test:stryker
 ```
 
 We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build. Stryker test scores do not have a threshold at the moment, but is planned to also fail below 80% in the future.
