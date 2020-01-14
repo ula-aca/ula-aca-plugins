@@ -4,11 +4,11 @@ This package handles everything that has to do with issueing and exchanging cred
 
 ## Usage
 
-### ConnectionController
+### IssueCredentialController
 
 ```typescript
 import { EventHandler } from 'universal-ledger-agent'
-import { ConnectionController } from '@ula-aca/connection'
+import { IssueCredentialController } from '@ula-aca/issue-credential'
 
 const ledgerController = new LedgerController('https://aca-py-url.com')
 
