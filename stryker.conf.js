@@ -8,7 +8,7 @@ module.exports = config => {
     mochaOptions: {
       config: '.mocharc.unit.json'
     },
-    tsconfigFile: 'tsconfig.json',
+    tsconfigFile: 'tsconfig.test.json',
     mutate: ['packages/**/src/**/*.ts'],
     thresholds: {
       high: 100,
