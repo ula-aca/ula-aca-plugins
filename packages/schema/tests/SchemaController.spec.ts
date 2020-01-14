@@ -19,7 +19,8 @@ import sinon from 'sinon'
 import { SchemaApi } from '@ula-aca/aries-cloudagent-interface'
 import {
   stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction
+  stubNoAxiosResponseInterfaceFunction,
+  stubInterfaceRejectsFunction
 } from '@ula-aca/test-utils'
 import {
   SchemaController,
@@ -134,6 +135,35 @@ describe('[package] @ula-aca/schema', () => {
         })
 
         schemaApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: SchemaApi,
+          functionName: 'schemasIdGet',
+          data
+        })
+
+        const message = new Message({
+          type: '@ula-aca/schema/get-schema-by-id',
+          body: { schema_id: schemaId }
+        } as GetSchemaByIdMessage)
+
+        await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
+          res.should.deep.equal(expectedResult)
+        })
+      })
+
+      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
+        const schemaId = 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
+
+        const data = new Error('Something went wrong')
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        schemaApiStubbed = stubInterfaceRejectsFunction({
           Class: SchemaApi,
           functionName: 'schemasIdGet',
           data
