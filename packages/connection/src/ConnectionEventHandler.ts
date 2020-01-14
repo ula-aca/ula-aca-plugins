@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
+import {
+  Plugin,
+  EventHandler,
+  Message,
+  UlaResponse
+} from 'universal-ledger-agent'
 import {
   isPairwiseConnectionRecordInit,
   PairwiseConnectionRecordInit,
@@ -41,7 +46,7 @@ abstract class ConnectionEventHandler implements Plugin {
     this.eventHandler = eventHandler
   }
 
-  get name() {
+  get name(): string {
     return '@ula-aca/connection/ConnectionEventHandler'
   }
 
@@ -54,28 +59,45 @@ abstract class ConnectionEventHandler implements Plugin {
       return 'ignored'
     }
 
-    if (message.properties.type === 'aca-connection-event') {
-      const payload = message.properties.payload as PairwiseConnectionRecordBase
+    let response: UlaResponse
 
-      if (isPairwiseConnectionRecordInit(payload)) {
-        await this.onInit(payload)
-      } else if (isPairwiseConnectionRecordInvitation(payload)) {
-        await this.onInvitation(payload)
-      } else if (isPairwiseConnectionRecordRequest(payload)) {
-        await this.onRequest(payload)
-      } else if (isPairwiseConnectionRecordResponse(payload)) {
-        await this.onResponse(payload)
-      } else if (isPairwiseConnectionRecordActive(payload)) {
-        await this.onActive(payload)
-      } else if (isPairwiseConnectionRecordInactive(payload)) {
-        await this.onInactive(payload)
-      } else if (isPairwiseConnectionRecordError(payload)) {
-        await this.onError(payload)
+    try {
+      if (message.properties.type === 'aca-connection-event') {
+        const payload = message.properties
+          .payload as PairwiseConnectionRecordBase
+
+        if (isPairwiseConnectionRecordInit(payload)) {
+          await this.onInit(payload)
+        } else if (isPairwiseConnectionRecordInvitation(payload)) {
+          await this.onInvitation(payload)
+        } else if (isPairwiseConnectionRecordRequest(payload)) {
+          await this.onRequest(payload)
+        } else if (isPairwiseConnectionRecordResponse(payload)) {
+          await this.onResponse(payload)
+        } else if (isPairwiseConnectionRecordActive(payload)) {
+          await this.onActive(payload)
+        } else if (isPairwiseConnectionRecordInactive(payload)) {
+          await this.onInactive(payload)
+        } else if (isPairwiseConnectionRecordError(payload)) {
+          await this.onError(payload)
+        }
+      } else if (message.properties.type === 'aca-basic-message-event') {
+        await this.onBasicMessage(message.properties.payload as BasicMessage)
       }
-    } else if (message.properties.type === 'aca-basic-message-event') {
-      await this.onBasicMessage(message.properties.payload as BasicMessage)
+      response = new UlaResponse({ statusCode: 200, body: {} })
+    } catch (err) {
+      response = new UlaResponse({
+        statusCode: 500,
+        body: {
+          error: err
+        }
+      })
     }
-    return 'success'
+    _callback(response)
+
+    return response.statusCode < 200 || response.statusCode >= 300
+      ? 'error'
+      : 'success'
   }
 
   abstract onBasicMessage(message: BasicMessage): Promise<void>
