@@ -16,6 +16,8 @@
 
 import sinon from 'sinon'
 
+// TODO: rename and improve functions
+
 function stubInterfaceFunction({
   Class,
   functionName,
@@ -40,6 +42,14 @@ function stubInterfaceFunction({
   })
 }
 
+function stubInterfaceRejectsFunction({
+  Class,
+  functionName,
+  data = undefined
+}): sinon.SinonStub {
+  return sinon.stub(Class.prototype, functionName).rejects(data)
+}
+
 function stubNoAxiosResponseInterfaceFunction({
   Class,
   functionName,
@@ -52,4 +62,8 @@ function stubNoAxiosResponseInterfaceFunction({
   })
 }
 
-export { stubInterfaceFunction, stubNoAxiosResponseInterfaceFunction }
+export {
+  stubInterfaceFunction,
+  stubInterfaceRejectsFunction,
+  stubNoAxiosResponseInterfaceFunction
+}
