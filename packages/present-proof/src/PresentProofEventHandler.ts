@@ -16,7 +16,12 @@
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
+import {
+  Plugin,
+  EventHandler,
+  Message,
+  UlaResponse
+} from 'universal-ledger-agent'
 import {
   isPresentationExchangeRecordProposalSent,
   PresentationExchangeRecordProposalSent,
@@ -52,26 +57,42 @@ abstract class PresentProofEventHandler implements Plugin {
       return 'ignored'
     }
 
-    const payload = message.properties.payload as PresentationExchangeRecordBase
+    let response: UlaResponse
 
-    if (isPresentationExchangeRecordProposalSent(payload)) {
-      await this.onProposalSent(payload)
-    } else if (isPresentationExchangeRecordProposalReceived(payload)) {
-      await this.onProposalReceived(payload)
-    } else if (isPresentationExchangeRecordRequestSent(payload)) {
-      await this.onRequestSent(payload)
-    } else if (isPresentationExchangeRecordRequestReceived(payload)) {
-      await this.onRequestReceived(payload)
-    } else if (isPresentationExchangeRecordPresentationSent(payload)) {
-      await this.onPresentationSent(payload)
-    } else if (isPresentationExchangeRecordPresentationReceived(payload)) {
-      await this.onPresentationReceived(payload)
-    } else if (isPresentationExchangeRecordVerified(payload)) {
-      await this.onVerified(payload)
-    } else {
-      throw Error('unknown PresentationExchangeRecord state')
+    try {
+      const payload = message.properties
+        .payload as PresentationExchangeRecordBase
+
+      if (isPresentationExchangeRecordProposalSent(payload)) {
+        await this.onProposalSent(payload)
+      } else if (isPresentationExchangeRecordProposalReceived(payload)) {
+        await this.onProposalReceived(payload)
+      } else if (isPresentationExchangeRecordRequestSent(payload)) {
+        await this.onRequestSent(payload)
+      } else if (isPresentationExchangeRecordRequestReceived(payload)) {
+        await this.onRequestReceived(payload)
+      } else if (isPresentationExchangeRecordPresentationSent(payload)) {
+        await this.onPresentationSent(payload)
+      } else if (isPresentationExchangeRecordPresentationReceived(payload)) {
+        await this.onPresentationReceived(payload)
+      } else if (isPresentationExchangeRecordVerified(payload)) {
+        await this.onVerified(payload)
+      }
+      response = new UlaResponse({ statusCode: 200, body: {} })
+    } catch (err) {
+      response = new UlaResponse({
+        statusCode: 500,
+        body: {
+          error: err
+        }
+      })
     }
-    return 'success'
+
+    _callback(response)
+
+    return response.statusCode < 200 || response.statusCode >= 300
+      ? 'error'
+      : 'success'
   }
 
   abstract async onProposalSent(
