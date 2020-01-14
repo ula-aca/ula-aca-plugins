@@ -16,7 +16,12 @@
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
+import {
+  Plugin,
+  EventHandler,
+  Message,
+  UlaResponse
+} from 'universal-ledger-agent'
 import {
   isCredentialExchangeRecordProposalSent,
   isCredentialExchangeRecordProposalReceived,
@@ -35,7 +40,8 @@ import {
   isCredentialExchangeRecordStored,
   isCredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialReceived,
-  CredentialExchangeRecordBase
+  CredentialExchangeRecordBase,
+  isCredentialExchangeRecordOfferReceived
 } from '@ula-aca/aca-webhook-event-models'
 
 abstract class IssueCredentialEventHandler implements Plugin {
@@ -55,28 +61,45 @@ abstract class IssueCredentialEventHandler implements Plugin {
       return 'ignored'
     }
 
-    const payload = message.properties.payload as CredentialExchangeRecordBase
+    let response: UlaResponse
 
-    if (isCredentialExchangeRecordProposalSent(payload)) {
-      await this.onProposalSent(payload)
-    } else if (isCredentialExchangeRecordProposalReceived(payload)) {
-      await this.onProposalReceived(payload)
-    } else if (isCredentialExchangeRecordOfferSent(payload)) {
-      await this.onOfferSent(payload)
-    } else if (isCredentialExchangeRecordRequestSent(payload)) {
-      await this.onRequestSent(payload)
-    } else if (isCredentialExchangeRecordRequestReceived(payload)) {
-      await this.onRequestReceived(payload)
-    } else if (isCredentialExchangeRecordIssued(payload)) {
-      await this.onIssued(payload)
-    } else if (isCredentialExchangeRecordStored(payload)) {
-      await this.onStored(payload)
-    } else if (isCredentialExchangeRecordCredentialReceived(payload)) {
-      await this.onCredentialReceived(payload)
-    } else {
-      throw Error('unknown connection state')
+    try {
+      const payload = message.properties.payload as CredentialExchangeRecordBase
+
+      if (isCredentialExchangeRecordProposalSent(payload)) {
+        await this.onProposalSent(payload)
+      } else if (isCredentialExchangeRecordProposalReceived(payload)) {
+        await this.onProposalReceived(payload)
+      } else if (isCredentialExchangeRecordOfferSent(payload)) {
+        await this.onOfferSent(payload)
+      } else if (isCredentialExchangeRecordOfferReceived(payload)) {
+        await this.onOfferReceived(payload)
+      } else if (isCredentialExchangeRecordRequestSent(payload)) {
+        await this.onRequestSent(payload)
+      } else if (isCredentialExchangeRecordRequestReceived(payload)) {
+        await this.onRequestReceived(payload)
+      } else if (isCredentialExchangeRecordIssued(payload)) {
+        await this.onIssued(payload)
+      } else if (isCredentialExchangeRecordStored(payload)) {
+        await this.onStored(payload)
+      } else if (isCredentialExchangeRecordCredentialReceived(payload)) {
+        await this.onCredentialReceived(payload)
+      }
+      response = new UlaResponse({ statusCode: 200, body: {} })
+    } catch (err) {
+      response = new UlaResponse({
+        statusCode: 500,
+        body: {
+          error: err
+        }
+      })
     }
-    return 'success'
+
+    _callback(response)
+
+    return response.statusCode < 200 || response.statusCode >= 300
+      ? 'error'
+      : 'success'
   }
 
   abstract async onProposalSent(
