@@ -15,7 +15,8 @@
  */
 
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
-import { SchemaController } from '@ula-aca/schema/src'
+import { SchemaController } from '@ula-aca/schema'
+import { CredentialDefinitionController } from '@ula-aca/credential-definition'
 
 function eventPromise(
   eventHandler: EventHandler,
@@ -28,7 +29,10 @@ function eventPromise(
 }
 
 function getEventHandler({ acaUrl }: { acaUrl: string }): EventHandler {
-  const plugins = [new SchemaController(acaUrl)]
+  const plugins = [
+    new SchemaController(acaUrl),
+    new CredentialDefinitionController(acaUrl)
+  ]
   const eventHandler = new EventHandler(plugins)
 
   return eventHandler

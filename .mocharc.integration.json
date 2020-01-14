@@ -1,9 +1,10 @@
 {
   "spec": "tests/integration/**/*.spec.ts",
   "coverage": false,
-  "timeout": 20000,
+  "timeout": 100000,
   "extension": ["js", "ts"],
   "require": [
+    "tsconfig-paths/register",
     "ts-node/register",
     "source-map-support/register",
     "tests/setup.ts"

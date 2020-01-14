@@ -21,7 +21,7 @@ import {
   GetSchemaByIdResult,
   CreateSchemaBody,
   GetCreatedSchemasResult
-} from '@ula-aca/schema/src'
+} from '@ula-aca/schema'
 
 import {
   createSchema,
@@ -34,16 +34,13 @@ import { getEventHandler } from './utils'
 
 describe('[package] @ula-aca/schema', () => {
   describe('[plugin] SchemaController', () => {
-    let eventHandler: EventHandler
+    const eventHandler: EventHandler = getEventHandler({
+      acaUrl: process.env.ACA_URL || 'http://localhost:7002'
+    })
     const testSchemas: {
       data: CreateSchemaBody
       schemaId?: string
-    }[] = getTestSchemas(10).map(val => ({ data: val }))
-
-    beforeEach(() => {
-      const acaUrl = process.env.ACA_URL || 'http://localhost:7002'
-      eventHandler = getEventHandler({ acaUrl })
-    })
+    }[] = getTestSchemas(3).map(val => ({ data: val }))
 
     it('@ula-aca/schema/create-schema', async () => {
       for (const testSchema of testSchemas) {

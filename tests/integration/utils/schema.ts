@@ -22,8 +22,10 @@ import {
   GetSchemaByIdBody,
   GetSchemaByIdMessage,
   GetCreatedSchemasBody,
-  GetCreatedSchemasMessage
-} from '@ula-aca/schema/src'
+  GetCreatedSchemasMessage,
+  GetCreatedSchemasResult,
+  CreateSchemaResult
+} from '@ula-aca/schema'
 import faker from 'faker'
 
 import { eventPromise } from '.'
@@ -74,4 +76,36 @@ const getTestSchemas = (noOfSchemas: number): CreateSchemaBody[] =>
     )
   }))
 
-export { createSchema, getSchemaById, getCreatedSchemas, getTestSchemas }
+const getExistingSchemaIds = async (
+  eventHandler: EventHandler,
+  noOfIds: number
+): Promise<string[]> => {
+  let existingSchemaIds = Array.from(
+    new Set(
+      ((await getCreatedSchemas(eventHandler))
+        .body as GetCreatedSchemasResult).schema_ids
+    )
+  )
+
+  if (existingSchemaIds.length < noOfIds) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const schema of getTestSchemas(noOfIds - existingSchemaIds.length)) {
+      // eslint-disable-next-line no-await-in-loop
+      const createdSchema = (await createSchema(eventHandler, schema))
+        .body as CreateSchemaResult
+      existingSchemaIds.push(createdSchema.schema_id)
+    }
+  } else {
+    existingSchemaIds = existingSchemaIds.slice(0, noOfIds)
+  }
+
+  return existingSchemaIds
+}
+
+export {
+  createSchema,
+  getSchemaById,
+  getCreatedSchemas,
+  getExistingSchemaIds,
+  getTestSchemas
+}
