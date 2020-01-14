@@ -96,6 +96,7 @@
     "@ula-aca/present-proof": "file:packages/present-proof",
     "@ula-aca/schema": "file:packages/schema",
     "@ula-aca/test-utils": "file:packages/test-utils",
+    "@ula-aca/wallet": "file:packages/wallet",
     "@ula-aca/webhook-relay-event-router": "file:packages/webhook-relay-event-router"
   },
   "config": {
