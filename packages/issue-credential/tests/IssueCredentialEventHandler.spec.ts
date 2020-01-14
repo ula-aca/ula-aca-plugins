@@ -340,7 +340,6 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          console.log(res)
           issueHandlerStubbed.calledWith(data).should.be.ok
           res.statusCode.should.equal(200)
         })
