@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
-
 import sinon from 'sinon'
-
 import { PresentProofApi } from '@ula-aca/aries-cloudagent-interface'
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
-import { PresentationExchangeRecordState } from 'packages/aca-webhook-event-models/lib/PresentationExchangeRecordEvent'
-import { SendRequestMessage } from 'packages/issue-credential/lib/issue-credential/src'
 import {
   PresentProofController,
   GetPresentationExchangeRecordsMessage,
@@ -32,12 +28,10 @@ import {
   SendPresentationRequestByIdMessage,
   SendPresentationMessage,
   VerifyPresentationMessage,
-  RemovePresentationExchangeRecordMessage
-} from '../src'
-import {
+  RemovePresentationExchangeRecordMessage,
   PresentProofMessageTypes,
   GetPresentationExchangeRecordByIdMessage
-} from '../lib/present-proof/src/messages'
+} from '../src'
 
 describe('[package] @ula-aca/present-proof', () => {
   describe('[plugin] PresentProofController', () => {

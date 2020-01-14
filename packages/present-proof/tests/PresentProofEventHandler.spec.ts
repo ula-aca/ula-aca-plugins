@@ -27,13 +27,7 @@ import {
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
 } from '@ula-aca/aca-webhook-event-models'
-import { PresentProofApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  PresentProofEventHandler,
-  PresentProofController,
-  PresentProofMessageTypes,
-  GetPresentationExchangeRecordsMessage
-} from '../src'
+import { PresentProofEventHandler } from '../src'
 
 class ProofHandler extends PresentProofEventHandler {
   async onProposalSent(
@@ -80,7 +74,7 @@ describe('[package] @ula-aca/present-proof', () => {
     afterEach(() => {
       proofHandlerStubbed && proofHandlerStubbed.restore()
     })
-    it("plugin name should be '@ula-aca/present-proof/PresentProofController'", () => {
+    it("plugin name should be '@ula-aca/present-proof/PresentProofEventHandler'", () => {
       proofHandler.name.should.equal(
         '@ula-aca/present-proof/PresentProofEventHandler'
       )
