@@ -21,7 +21,10 @@ import {
   TrustpingApi,
   BasicmessageApi
 } from '@ula-aca/aries-cloudagent-interface'
-import { stubInterfaceFunction } from '@ula-aca/test-utils'
+import {
+  stubInterfaceFunction,
+  stubNoAxiosResponseInterfaceFunction
+} from '@ula-aca/test-utils'
 
 import {
   ConnectionController,
@@ -126,6 +129,43 @@ describe('[package] @ula-aca/connection', () => {
           type: ConnectionMessageTypes.CREATE_INVITATION,
           body: {}
         } as CreateInvitationMessage)
+
+        await connectionControllerPlugin.handleEvent(
+          message,
+          (res: UlaResponse) => {
+            res.should.deep.equal(expectedResult)
+          }
+        )
+      })
+      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
+        const body = {
+          mechanism: 'string',
+          version: 'string',
+          text: 'string'
+        }
+
+        const data = {
+          message: 'Error'
+        }
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        connectionApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: ConnectionApi,
+          functionName: 'connectionsGet',
+          data
+        })
+
+        const message = new Message({
+          type: '@ula-aca/connection/get-all-connection',
+          body: {}
+        })
 
         await connectionControllerPlugin.handleEvent(
           message,
