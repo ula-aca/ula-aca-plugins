@@ -1,4 +1,5 @@
 .nyc_output
+.stryker-tmp
 coverage
 node_modules
 **/package-lock.json
