@@ -19,7 +19,8 @@ import sinon from 'sinon'
 import { CredentialDefinitionApi } from '@ula-aca/aries-cloudagent-interface'
 import {
   stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction
+  stubNoAxiosResponseInterfaceFunction,
+  stubInterfaceRejectsFunction
 } from '@ula-aca/test-utils'
 import {
   CredentialDefinitionController,
@@ -150,6 +151,40 @@ describe('[package] @ula-aca/credential-definition', () => {
         })
 
         credentialDefinitionApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: CredentialDefinitionApi,
+          functionName: 'credentialDefinitionsIdGet',
+          data
+        })
+
+        const message = new Message({
+          type:
+            '@ula-aca/credential-definition/get-credential-definition-by-id',
+          body: { credential_definition_id: credentialDefinitionId }
+        } as GetCredentialDefinitionByIdMessage)
+
+        await credentialDefinitionPlugin.handleEvent(
+          message,
+          (res: UlaResponse) => {
+            res.should.deep.equal(expectedResult)
+          }
+        )
+      })
+
+      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
+        const credentialDefinitionId =
+          'Bqqp9wananY4uW2pRHACiT:3:CL:10:my-cred-def'
+
+        const data = new Error('Something went wrong')
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        credentialDefinitionApiStubbed = stubInterfaceRejectsFunction({
           Class: CredentialDefinitionApi,
           functionName: 'credentialDefinitionsIdGet',
           data
