@@ -84,6 +84,8 @@ abstract class IssueCredentialEventHandler implements Plugin {
         await this.onStored(payload)
       } else if (isCredentialExchangeRecordCredentialReceived(payload)) {
         await this.onCredentialReceived(payload)
+      } else {
+        throw new Error('object not recognized')
       }
       response = new UlaResponse({ statusCode: 200, body: {} })
     } catch (err) {

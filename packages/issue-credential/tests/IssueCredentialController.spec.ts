@@ -18,7 +18,10 @@ import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 
 import { IssueCredentialApi } from '@ula-aca/aries-cloudagent-interface'
-import { stubInterfaceFunction } from '@ula-aca/test-utils'
+import {
+  stubInterfaceFunction,
+  stubNoAxiosResponseInterfaceFunction
+} from '@ula-aca/test-utils'
 import {
   IssueCredentialController,
   IssueCredentialMessageTypes,
@@ -154,6 +157,43 @@ describe('[package] @ula-aca/issue-credential', () => {
           type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS,
           body: {}
         } as GetExchangeRecordsMessage)
+
+        await issueCredentialControllerPlugin.handleEvent(
+          message,
+          (res: UlaResponse) => {
+            res.should.deep.equal(expectedResult)
+          }
+        )
+      })
+      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
+        const body = {
+          mechanism: 'string',
+          version: 'string',
+          text: 'string'
+        }
+
+        const data = {
+          message: 'Error'
+        }
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        issueCredentialApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: IssueCredentialApi,
+          functionName: 'issueCredentialRecordsGet',
+          data
+        })
+
+        const message = new Message({
+          type: '@ula-aca/issue-credential/get-all-exchange-records',
+          body: {}
+        })
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
