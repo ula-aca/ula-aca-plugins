@@ -19,7 +19,8 @@ import sinon from 'sinon'
 import { LedgerApi } from '@ula-aca/aries-cloudagent-interface'
 import {
   stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction
+  stubNoAxiosResponseInterfaceFunction,
+  stubInterfaceRejectsFunction
 } from '@ula-aca/test-utils'
 import {
   LedgerController,
@@ -142,6 +143,39 @@ describe('[package] @ula-aca/ledger', () => {
         })
 
         ledgerApiStubbed = stubNoAxiosResponseInterfaceFunction({
+          Class: LedgerApi,
+          functionName: 'ledgerTaaAcceptPost',
+          data
+        })
+
+        const message = new Message({
+          type: '@ula-aca/ledger/accept-transaction-author-agreement',
+          body
+        } as AcceptTransactionAuthorAgreementMessage)
+
+        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
+          res.should.deep.equal(expectedResult)
+        })
+      })
+
+      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
+        const body = {
+          mechanism: 'string',
+          version: 'string',
+          text: 'string'
+        }
+
+        const data = new Error('Something went wrong')
+        const statusCode = 500
+
+        const expectedResult = new UlaResponse({
+          body: {
+            error: data
+          },
+          statusCode
+        })
+
+        ledgerApiStubbed = stubInterfaceRejectsFunction({
           Class: LedgerApi,
           functionName: 'ledgerTaaAcceptPost',
           data
