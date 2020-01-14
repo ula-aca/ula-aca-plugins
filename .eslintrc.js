@@ -51,7 +51,10 @@ module.exports = {
       }
     ],
     '@typescript-eslint/camelcase': 'off',
-    'default-case': 'off'
+    'default-case': 'off',
+    'no-restricted-imports': ["error", {
+      patterns: ["../lib/*", "*/../lib/*", "packages/*/lib/*", "./lib/*"]
+    }]
   },
   settings: {
     'import/resolver': {
