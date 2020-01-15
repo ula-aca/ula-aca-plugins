@@ -26,4 +26,6 @@ interface SendBasicMessageMessage {
   body: SendBasicMessageBody
 }
 
-export { SendBasicMessageMessage, SendBasicMessageBody }
+type SendBasicMessageResult = {}
+
+export { SendBasicMessageMessage, SendBasicMessageBody, SendBasicMessageResult }

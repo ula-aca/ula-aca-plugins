@@ -25,4 +25,6 @@ interface RemoveConnectionMessage {
   body: RemoveConnectionBody
 }
 
-export { RemoveConnectionMessage, RemoveConnectionBody }
+type RemoveConnectionResult = {}
+
+export { RemoveConnectionMessage, RemoveConnectionBody, RemoveConnectionResult }

@@ -31,7 +31,7 @@ interface GetConnectionsBody {
 
 interface GetConnectionsMessage {
   type: ConnectionMessageTypes.GET_CONNECTIONS
-  body: GetConnectionsBody
+  body?: GetConnectionsBody
 }
 
 type GetConnectionsResult = ConnectionList

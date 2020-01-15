@@ -33,21 +33,18 @@ import {
   ConnectionMessageTypes,
   isConnectionMessage,
   GetConnectionsBody,
-  GetConnectionsResult,
   GetConnectionByIdBody,
-  GetConnectionByIdResult,
   CreateInvitationBody,
-  CreateInvitationResult,
   ReceiveInvitationBody,
-  ReceiveInvitationResult,
   AcceptInvitationBody,
-  AcceptInvitationResult,
   AcceptRequestBody,
-  AcceptRequestResult,
   EstablishInboundBody,
   RemoveConnectionBody,
   SendPingBody,
-  SendBasicMessageBody
+  SendBasicMessageBody,
+  EstablishInboundResult,
+  SendBasicMessageResult,
+  RemoveConnectionResult
 } from './messages'
 
 class ConnectionController implements Plugin {
@@ -85,7 +82,7 @@ class ConnectionController implements Plugin {
     state,
     their_did,
     their_role
-  }: GetConnectionsBody): Promise<UlaResponse> {
+  }: GetConnectionsBody = {}): Promise<UlaResponse> {
     const response = await this.connectionApi.connectionsGet(
       alias,
       initiator,
@@ -95,12 +92,10 @@ class ConnectionController implements Plugin {
       their_did,
       their_role
     )
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as GetConnectionsResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -109,11 +104,9 @@ class ConnectionController implements Plugin {
   }: GetConnectionByIdBody): Promise<UlaResponse> {
     const response = await this.connectionApi.connectionsIdGet(connection_id)
 
-    const body = (response.data as unknown) as GetConnectionByIdResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -122,7 +115,7 @@ class ConnectionController implements Plugin {
     accept,
     public: _public,
     multi_use
-  }: CreateInvitationBody): Promise<UlaResponse> {
+  }: CreateInvitationBody = {}): Promise<UlaResponse> {
     const response = await this.connectionApi.connectionsCreateInvitationPost(
       alias,
       accept,
@@ -130,47 +123,25 @@ class ConnectionController implements Plugin {
       multi_use
     )
 
-    const body = (response.data as unknown) as CreateInvitationResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
-  private async receiveInvitation({
-    alias,
-    accept,
-    recipientKeys,
-    routingKeys,
-    id,
-    type,
-    did,
-    imageUrl,
-    label,
-    serviceEndpoint
-  }: ReceiveInvitationBody): Promise<UlaResponse> {
+  private async receiveInvitation(
+    body: ReceiveInvitationBody
+  ): Promise<UlaResponse> {
+    const { alias, accept, ...invitationBody } = body
     const response = await this.connectionApi.connectionsReceiveInvitationPost(
       alias,
       accept,
-      {
-        recipientKeys,
-        routingKeys,
-        id,
-        type,
-        did,
-        imageUrl,
-        label,
-        serviceEndpoint
-      }
+      invitationBody
     )
-
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as ReceiveInvitationResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -185,12 +156,9 @@ class ConnectionController implements Plugin {
       my_label
     )
 
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as AcceptInvitationResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -203,12 +171,9 @@ class ConnectionController implements Plugin {
       my_endpoint
     )
 
-    // The generated API does not provide the correct response typing
-    const body = (response.data as unknown) as AcceptRequestResult
-
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: response.data
     })
   }
 
@@ -221,9 +186,11 @@ class ConnectionController implements Plugin {
       ref_id
     )
 
+    const body = (response.data as unknown) as EstablishInboundResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 
@@ -234,22 +201,26 @@ class ConnectionController implements Plugin {
       connection_id
     )
 
+    const body = (response.data as unknown) as RemoveConnectionResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 
   private async sendPing({
-    connection_id
+    connection_id,
+    comment
   }: SendPingBody): Promise<UlaResponse> {
     const response = await this.trustPingApi.connectionsIdSendPingPost(
-      connection_id
+      connection_id,
+      { comment }
     )
 
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body: response.data
     })
   }
 
@@ -264,9 +235,11 @@ class ConnectionController implements Plugin {
       }
     )
 
+    const body = (response.data as unknown) as SendBasicMessageResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 

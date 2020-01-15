@@ -26,7 +26,7 @@ interface CreateInvitationBody {
 
 interface CreateInvitationMessage {
   type: ConnectionMessageTypes.CREATE_INVITATION
-  body: CreateInvitationBody
+  body?: CreateInvitationBody
 }
 
 type CreateInvitationResult = InvitationResult

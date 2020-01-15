@@ -26,4 +26,7 @@ interface EstablishInboundMessage {
   body: EstablishInboundBody
 }
 
-export { EstablishInboundBody, EstablishInboundMessage }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type EstablishInboundResult = any
+
+export { EstablishInboundBody, EstablishInboundMessage, EstablishInboundResult }

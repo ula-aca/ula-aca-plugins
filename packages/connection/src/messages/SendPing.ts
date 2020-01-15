@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+import { PingRequestResponse } from '@ula-aca/aries-cloudagent-interface'
 import { ConnectionMessageTypes } from './ConnectionMessageTypes'
 
 interface SendPingBody {
   connection_id: string
+  comment?: string
 }
 
 interface SendPingMessage {
@@ -25,4 +27,6 @@ interface SendPingMessage {
   body: SendPingBody
 }
 
-export { SendPingMessage, SendPingBody }
+type SendPingResult = PingRequestResponse
+
+export { SendPingMessage, SendPingBody, SendPingResult }

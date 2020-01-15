@@ -23,7 +23,6 @@ import {
 import {
   isPairwiseConnectionRecordInit,
   PairwiseConnectionRecordInit,
-  PairwiseConnectionRecordBase,
   isPairwiseConnectionRecordInvitation,
   isPairwiseConnectionRecordRequest,
   isPairwiseConnectionRecordResponse,
@@ -36,7 +35,9 @@ import {
   PairwiseConnectionRecordResponse,
   PairwiseConnectionRecordActive,
   PairwiseConnectionRecordInactive,
-  PairwiseConnectionRecordError
+  PairwiseConnectionRecordError,
+  isConnectionEventMessage,
+  isBasicMessageEventMessage
 } from '@ula-aca/aca-webhook-event-models'
 
 abstract class ConnectionEventHandler implements Plugin {
@@ -50,11 +51,13 @@ abstract class ConnectionEventHandler implements Plugin {
     return '@ula-aca/connection/ConnectionEventHandler'
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-  async handleEvent(message: Message, _callback: any): Promise<string> {
+  async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void> | void
+  ): Promise<string> {
     if (
-      message.properties.type !== 'aca-connection-event' &&
-      message.properties.type !== 'aca-basic-message-event'
+      !isConnectionEventMessage(message.properties) &&
+      !isBasicMessageEventMessage(message.properties)
     ) {
       return 'ignored'
     }
@@ -62,27 +65,28 @@ abstract class ConnectionEventHandler implements Plugin {
     let response: UlaResponse
 
     try {
-      if (message.properties.type === 'aca-connection-event') {
-        const payload = message.properties
-          .payload as PairwiseConnectionRecordBase
+      if (isConnectionEventMessage(message.properties)) {
+        const { body } = message.properties
 
-        if (isPairwiseConnectionRecordInit(payload)) {
-          await this.onInit(payload)
-        } else if (isPairwiseConnectionRecordInvitation(payload)) {
-          await this.onInvitation(payload)
-        } else if (isPairwiseConnectionRecordRequest(payload)) {
-          await this.onRequest(payload)
-        } else if (isPairwiseConnectionRecordResponse(payload)) {
-          await this.onResponse(payload)
-        } else if (isPairwiseConnectionRecordActive(payload)) {
-          await this.onActive(payload)
-        } else if (isPairwiseConnectionRecordInactive(payload)) {
-          await this.onInactive(payload)
-        } else if (isPairwiseConnectionRecordError(payload)) {
-          await this.onError(payload)
+        if (isPairwiseConnectionRecordInit(body)) {
+          await this.onInit(body)
+        } else if (isPairwiseConnectionRecordInvitation(body)) {
+          await this.onInvitation(body)
+        } else if (isPairwiseConnectionRecordRequest(body)) {
+          await this.onRequest(body)
+        } else if (isPairwiseConnectionRecordResponse(body)) {
+          await this.onResponse(body)
+        } else if (isPairwiseConnectionRecordActive(body)) {
+          await this.onActive(body)
+        } else if (isPairwiseConnectionRecordInactive(body)) {
+          await this.onInactive(body)
+        } else if (isPairwiseConnectionRecordError(body)) {
+          await this.onError(body)
+        } else {
+          throw new Error(`Unknown state: ${body.state}`)
         }
-      } else if (message.properties.type === 'aca-basic-message-event') {
-        await this.onBasicMessage(message.properties.payload as BasicMessage)
+      } else {
+        await this.onBasicMessage(message.properties.body)
       }
       response = new UlaResponse({ statusCode: 200, body: {} })
     } catch (err) {
@@ -93,14 +97,14 @@ abstract class ConnectionEventHandler implements Plugin {
         }
       })
     }
-    _callback(response)
+    callback(response)
 
     return response.statusCode < 200 || response.statusCode >= 300
       ? 'error'
       : 'success'
   }
 
-  abstract onBasicMessage(message: BasicMessage): Promise<void>
+  abstract async onBasicMessage(message: BasicMessage): Promise<void>
 
   abstract async onInit(message: PairwiseConnectionRecordInit): Promise<void>
 
