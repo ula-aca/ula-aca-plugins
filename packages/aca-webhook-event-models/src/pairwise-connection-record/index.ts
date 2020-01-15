@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 export * from './base'
+export * from './message'
 export * from './PairwiseConnectionRecordInit'
 export * from './PairwiseConnectionRecordInvitation'
 export * from './PairwiseConnectionRecordRequest'

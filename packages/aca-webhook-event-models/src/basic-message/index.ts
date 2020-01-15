@@ -15,3 +15,4 @@
  */
 
 export * from './BasicMessage'
+export * from './message'

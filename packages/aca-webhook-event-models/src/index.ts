@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+export * from './AcaWebhookEventTypes'
 export * from './pairwise-connection-record'
 export * from './basic-message'
 export * from './presentation-exchange-record'

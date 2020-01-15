@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-export * from './base'
-export * from './message'
-export * from './PresentationExchangeRecordProposalReceived'
-export * from './PresentationExchangeRecordProposalSent'
-export * from './PresentationExchangeRecordRequestReceived'
-export * from './PresentationExchangeRecordRequestSent'
-export * from './PresentationExchangeRecordPresentationSent'
-export * from './PresentationExchangeRecordPresentationReceived'
-export * from './PresentationExchangeRecordVerified'
+import { BasicMessage } from './BasicMessage'
+import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
+
+export interface BasicMessageEventMessage {
+  type: AcaWebhookEventTypes.BASIC_MESSAGE_EVENT
+  body: BasicMessage
+}
+
+export function isBasicMessageEventMessage(
+  properties
+): properties is BasicMessageEventMessage {
+  return properties.type === AcaWebhookEventTypes.BASIC_MESSAGE_EVENT
+}

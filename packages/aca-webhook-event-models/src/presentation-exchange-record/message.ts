@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-export * from './base'
-export * from './message'
-export * from './PresentationExchangeRecordProposalReceived'
-export * from './PresentationExchangeRecordProposalSent'
-export * from './PresentationExchangeRecordRequestReceived'
-export * from './PresentationExchangeRecordRequestSent'
-export * from './PresentationExchangeRecordPresentationSent'
-export * from './PresentationExchangeRecordPresentationReceived'
-export * from './PresentationExchangeRecordVerified'
+import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
+import { PresentationExchangeRecordBase } from './base/PresentationExchangeRecordBase'
+
+export interface PresentProofEventMessage {
+  type: AcaWebhookEventTypes.PRESENT_PROOF
+  body: PresentationExchangeRecordBase
+}
+
+export function isPresentProofEventMessage(
+  properties
+): properties is PresentProofEventMessage {
+  return properties.type === AcaWebhookEventTypes.PRESENT_PROOF
+}
