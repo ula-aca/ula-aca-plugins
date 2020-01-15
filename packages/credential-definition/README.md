@@ -19,6 +19,8 @@ const eventHandler = new EventHandler([credentialDefinitionController])
 
 #### @ula-aca/credential-definition/get-credential-definition-by-id
 
+Gets a credential definition from the ledger
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -52,6 +54,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/credential-definition/get-created-credential-definitions
+
+Search for matching credential definitions that agent originated
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -91,6 +95,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/credential-definition/create-credential-definition
+
+Sends a credential definition to the ledger
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
