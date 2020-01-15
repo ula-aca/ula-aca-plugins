@@ -62,6 +62,7 @@ function stubNoAxiosResponseInterfaceFunction({
   })
 }
 
+export * from './eventLogger'
 export {
   stubInterfaceFunction,
   stubInterfaceRejectsFunction,

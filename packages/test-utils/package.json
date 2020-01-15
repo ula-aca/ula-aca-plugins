@@ -3,6 +3,9 @@
   "private": true,
   "main": "src/index.ts",
   "dependencies": {
+    "chalk": "^3.0.0",
+    "emphasize": "^2.1.0",
+    "indent-string": "^4.0.0",
     "sinon": "^8.0.4"
   }
 }
