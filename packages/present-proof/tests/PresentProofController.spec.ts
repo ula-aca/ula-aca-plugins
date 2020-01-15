@@ -19,18 +19,18 @@ import { PresentProofApi } from '@ula-aca/aries-cloudagent-interface'
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
 import {
   PresentProofController,
-  GetPresentationExchangeRecordsMessage,
-  GetPresentationRequestCredentialsMessage,
+  GetExchangeRecordsMessage,
+  GetRequestCredentialsMessage,
   GetPresentationRequestCredentialsByReferentIdMessage,
-  SendPresentationProposalMessage,
+  SendProposalMessage,
   CreatePresentationRequestMessage,
-  SendPresentationRequestMessage,
-  SendPresentationRequestByIdMessage,
+  SendRequestMessage,
+  SendRequestByIdMessage,
   SendPresentationMessage,
   VerifyPresentationMessage,
-  RemovePresentationExchangeRecordMessage,
+  RemoveExchangeRecordMessage,
   PresentProofMessageTypes,
-  GetPresentationExchangeRecordByIdMessage
+  GetExchangeRecordByIdMessage
 } from '../src'
 
 const presentation_request_request = {
@@ -162,7 +162,7 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS,
           body: {}
-        } as GetPresentationExchangeRecordsMessage)
+        } as GetExchangeRecordsMessage)
 
         const eventRes = await presentProofControllerPlugin.handleEvent(
           message,
@@ -193,7 +193,7 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS,
           body: {}
-        } as GetPresentationExchangeRecordsMessage)
+        } as GetExchangeRecordsMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
@@ -239,7 +239,7 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS,
           body: {}
-        } as GetPresentationExchangeRecordsMessage)
+        } as GetExchangeRecordsMessage)
 
         const eventRes = await presentProofControllerPlugin.handleEvent(
           message,
@@ -286,7 +286,7 @@ describe('[package] @ula-aca/present-proof', () => {
           body: {
             presentation_exchange_id
           }
-        } as GetPresentationExchangeRecordByIdMessage)
+        } as GetExchangeRecordByIdMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
@@ -319,7 +319,7 @@ describe('[package] @ula-aca/present-proof', () => {
           body: {
             presentation_exchange_id
           }
-        } as GetPresentationRequestCredentialsMessage)
+        } as GetRequestCredentialsMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
@@ -425,7 +425,7 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.SEND_PROPOSAL,
           body: presentation_proposal_request
-        } as SendPresentationProposalMessage)
+        } as SendProposalMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
@@ -498,7 +498,7 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.SEND_REQUEST,
           body: presentation_request_request
-        } as SendPresentationRequestMessage)
+        } as SendRequestMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
@@ -547,7 +547,7 @@ describe('[package] @ula-aca/present-proof', () => {
             presentation_exchange_id,
             ...presentation_request_request
           }
-        } as SendPresentationRequestByIdMessage)
+        } as SendRequestByIdMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
@@ -710,7 +710,7 @@ describe('[package] @ula-aca/present-proof', () => {
           body: {
             presentation_exchange_id
           }
-        } as RemovePresentationExchangeRecordMessage)
+        } as RemoveExchangeRecordMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
