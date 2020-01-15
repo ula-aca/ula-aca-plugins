@@ -29,7 +29,8 @@ import {
   GetEndpointByDidBody,
   AcceptTransactionAuthorAgreementBody,
   isLedgerMessage,
-  LedgerMessageTypes
+  LedgerMessageTypes,
+  AcceptTransactionAuthorAgreementResult
 } from './messages'
 
 export default class LedgerController implements Plugin {
@@ -104,10 +105,7 @@ export default class LedgerController implements Plugin {
   ): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerTaaAcceptPost(payload)
 
-    // The generated API does not provide the correct response typing
-    // TODO: change any when return type is known
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const body = (response.data as unknown) as any
+    const body = (response.data as unknown) as AcceptTransactionAuthorAgreementResult
 
     return new UlaResponse({
       statusCode: response.status,

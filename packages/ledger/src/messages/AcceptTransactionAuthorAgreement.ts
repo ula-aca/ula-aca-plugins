@@ -24,7 +24,8 @@ interface AcceptTransactionAuthorAgreementMessage {
   body: AcceptTransactionAuthorAgreementBody
 }
 
-type AcceptTransactionAuthorAgreementResult = void
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AcceptTransactionAuthorAgreementResult = any
 
 export {
   AcceptTransactionAuthorAgreementBody,
