@@ -6,7 +6,8 @@
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc -p tsconfig.build.json",
     "clean": "rm -rf ./lib",
-    "build": "npm run clean && npm run compile"
+    "build": "npm run clean && npm run compile",
+    "example": "../../node_modules/.bin/ts-node --require tsconfig-paths/register examples/run.ts"
   },
   "keywords": [
     "aries",
