@@ -17,6 +17,8 @@ const eventHandler = new EventHandler([ledgerController])
 
 #### @ula-aca/ledger/register-nym
 
+Send a NYM registration to the ledger.
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -51,6 +53,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 #### @ula-aca/ledger/get-verkey-by-did
 
+Get the verkey for a DID from the ledger.
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -83,6 +87,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/ledger/get-endpoint-by-did
+
+Get the endpoint for a DID from the ledger.
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -117,6 +123,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 #### @ula-aca/ledger/get-transaction-author-agreement
 
+Fetch the current transaction author agreement, if any
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -146,6 +154,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/ledger/accept-transaction-author-agreement
+
+Accept the transaction author agreement
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
