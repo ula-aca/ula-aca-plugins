@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -19,45 +18,22 @@ import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
-import {
-  PresentationExchangeRecordProposalSent,
-  PresentationExchangeRecordProposalReceived,
-  PresentationExchangeRecordRequestSent,
-  PresentationExchangeRecordRequestReceived,
-  PresentationExchangeRecordPresentationSent,
-  PresentationExchangeRecordPresentationReceived,
-  PresentationExchangeRecordVerified
-} from '@ula-aca/aca-webhook-event-models'
 import { PresentProofEventHandler } from '../src'
 
 class ProofHandler extends PresentProofEventHandler {
-  async onProposalSent(
-    message: PresentationExchangeRecordProposalSent
-  ): Promise<void> {}
+  async onProposalSent(): Promise<void> {}
 
-  async onProposalReceived(
-    message: PresentationExchangeRecordProposalReceived
-  ): Promise<void> {}
+  async onProposalReceived(): Promise<void> {}
 
-  async onRequestSent(
-    message: PresentationExchangeRecordRequestSent
-  ): Promise<void> {}
+  async onRequestSent(): Promise<void> {}
 
-  async onRequestReceived(
-    message: PresentationExchangeRecordRequestReceived
-  ): Promise<void> {}
+  async onRequestReceived(): Promise<void> {}
 
-  async onPresentationSent(
-    message: PresentationExchangeRecordPresentationSent
-  ): Promise<void> {}
+  async onPresentationSent(): Promise<void> {}
 
-  async onPresentationReceived(
-    message: PresentationExchangeRecordPresentationReceived
-  ): Promise<void> {}
+  async onPresentationReceived(): Promise<void> {}
 
-  async onVerified(
-    message: PresentationExchangeRecordVerified
-  ): Promise<void> {}
+  async onVerified(): Promise<void> {}
 }
 
 describe('[package] @ula-aca/present-proof', () => {
@@ -140,12 +116,12 @@ describe('[package] @ula-aca/present-proof', () => {
         const data = '400: Bad Request'
         const statusCode = 400
 
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
+        // const expectedResult = new UlaResponse({
+        //   body: {
+        //     error: data
+        //   },
+        //   statusCode
+        // })
 
         proofHandlerStubbed = stubInterfaceFunction({
           Class: ProofHandler,

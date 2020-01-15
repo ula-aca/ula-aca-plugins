@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -15,55 +14,29 @@
  * limitations under the License.
  */
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
-
 import sinon from 'sinon'
-
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
-import {
-  CredentialExchangeRecordProposalSent,
-  CredentialExchangeRecordProposalReceived,
-  CredentialExchangeRecordOfferSent,
-  CredentialExchangeRecordOfferReceived,
-  CredentialExchangeRecordRequestSent,
-  CredentialExchangeRecordRequestReceived,
-  CredentialExchangeRecordIssued,
-  CredentialExchangeRecordStored,
-  CredentialExchangeRecordCredentialReceived
-} from '@ula-aca/aca-webhook-event-models'
+
 import { IssueCredentialEventHandler } from '../src'
 
 class IssueHandler extends IssueCredentialEventHandler {
-  async onProposalSent(
-    message: CredentialExchangeRecordProposalSent
-  ): Promise<void> {}
+  async onProposalSent(): Promise<void> {}
 
-  async onProposalReceived(
-    message: CredentialExchangeRecordProposalReceived
-  ): Promise<void> {}
+  async onProposalReceived(): Promise<void> {}
 
-  async onOfferSent(
-    message: CredentialExchangeRecordOfferSent
-  ): Promise<void> {}
+  async onOfferSent(): Promise<void> {}
 
-  async onOfferReceived(
-    message: CredentialExchangeRecordOfferReceived
-  ): Promise<void> {}
+  async onOfferReceived(): Promise<void> {}
 
-  async onRequestSent(
-    message: CredentialExchangeRecordRequestSent
-  ): Promise<void> {}
+  async onRequestSent(): Promise<void> {}
 
-  async onRequestReceived(
-    message: CredentialExchangeRecordRequestReceived
-  ): Promise<void> {}
+  async onRequestReceived(): Promise<void> {}
 
-  async onIssued(message: CredentialExchangeRecordIssued): Promise<void> {}
+  async onIssued(): Promise<void> {}
 
-  async onStored(message: CredentialExchangeRecordStored): Promise<void> {}
+  async onStored(): Promise<void> {}
 
-  async onCredentialReceived(
-    message: CredentialExchangeRecordCredentialReceived
-  ): Promise<void> {}
+  async onCredentialReceived(): Promise<void> {}
 }
 
 describe('[package] @ula-aca/present-proof', () => {

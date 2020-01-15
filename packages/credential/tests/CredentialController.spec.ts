@@ -16,7 +16,7 @@
 
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
-import { WalletApi, CredentialsApi } from '@ula-aca/aries-cloudagent-interface'
+import { CredentialsApi } from '@ula-aca/aries-cloudagent-interface'
 import {
   stubInterfaceFunction,
   stubNoAxiosResponseInterfaceFunction,

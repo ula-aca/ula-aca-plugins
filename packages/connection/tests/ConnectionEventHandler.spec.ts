@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -19,36 +18,24 @@ import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
-import {
-  BasicMessage,
-  PairwiseConnectionRecordInit,
-  PairwiseConnectionRecordInvitation,
-  PairwiseConnectionRecordRequest,
-  PairwiseConnectionRecordResponse,
-  PairwiseConnectionRecordActive,
-  PairwiseConnectionRecordInactive,
-  PairwiseConnectionRecordError
-} from '@ula-aca/aca-webhook-event-models'
 import { ConnectionEventHandler } from '../src'
 
 class ConnectionHandler extends ConnectionEventHandler {
-  async onBasicMessage(message: BasicMessage): Promise<void> {}
+  async onBasicMessage(): Promise<void> {}
 
-  async onInit(message: PairwiseConnectionRecordInit): Promise<void> {}
+  async onInit(): Promise<void> {}
 
-  async onInvitation(
-    message: PairwiseConnectionRecordInvitation
-  ): Promise<void> {}
+  async onInvitation(): Promise<void> {}
 
-  async onRequest(message: PairwiseConnectionRecordRequest): Promise<void> {}
+  async onRequest(): Promise<void> {}
 
-  async onResponse(message: PairwiseConnectionRecordResponse): Promise<void> {}
+  async onResponse(): Promise<void> {}
 
-  async onActive(message: PairwiseConnectionRecordActive): Promise<void> {}
+  async onActive(): Promise<void> {}
 
-  async onInactive(message: PairwiseConnectionRecordInactive): Promise<void> {}
+  async onInactive(): Promise<void> {}
 
-  async onError(message: PairwiseConnectionRecordError): Promise<void> {}
+  async onError(): Promise<void> {}
 }
 
 describe('[package] @ula-aca/present-proof', () => {
