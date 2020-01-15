@@ -10,6 +10,4 @@ interface SetTagPolicyMessage {
   body: SetTagPolicyBody
 }
 
-type SetTagPolicyResult = {}
-
-export { SetTagPolicyMessage, SetTagPolicyBody, SetTagPolicyResult }
+export { SetTagPolicyMessage, SetTagPolicyBody }

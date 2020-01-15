@@ -3,7 +3,6 @@ import { WalletMessageTypes } from './WalletMessageTypes'
 
 interface FetchPublicDidMessage {
   type: WalletMessageTypes.FETCH_PUBLIC_DID
-  body: {}
 }
 
 type FetchPublicDidResult = DIDResult
