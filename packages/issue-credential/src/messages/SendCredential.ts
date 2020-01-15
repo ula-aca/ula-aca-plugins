@@ -21,11 +21,13 @@ import {
 
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
+type SendCredentialBody = V10CredentialProposalRequest
+
 interface SendCredentialMessage {
   type: IssueCredentialMessageTypes.SEND_CREDENTIAL
-  body: V10CredentialProposalRequest
+  body: SendCredentialBody
 }
 
 type SendCredentialResult = V10CredentialExchange
 
-export { SendCredentialMessage, SendCredentialResult }
+export { SendCredentialMessage, SendCredentialBody, SendCredentialResult }

@@ -19,7 +19,6 @@ import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface GetExchangeRecordsMessage {
   type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS
-  body: {}
 }
 
 type GetExchangeRecordsResult = V10CredentialExchangeListResult

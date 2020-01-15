@@ -21,11 +21,13 @@ import {
 
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
+type SendOfferBody = V10CredentialOfferRequest
+
 interface SendOfferMessage {
   type: IssueCredentialMessageTypes.SEND_OFFER
-  body: V10CredentialOfferRequest
+  body: SendOfferBody
 }
 
 type SendOfferResult = V10CredentialExchange
 
-export { SendOfferMessage, SendOfferResult }
+export { SendOfferMessage, SendOfferBody, SendOfferResult }
