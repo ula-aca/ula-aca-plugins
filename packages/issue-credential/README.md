@@ -1,6 +1,6 @@
-# Universal Ledger Agent - Aries Cloudagent Connection Plugin
+# Universal Ledger Agent - Aries Cloudagent Issue Credential Plugin
 
-This package handles everything that has to do with issueing and exchanging credentials. It has classes to perform connection related actions aswell as to listen for credential exchnage events.
+This package handles everything that has to do with issueing and exchanging credentials. It has classes to perform credential related actions aswell as to listen for credential exchange events.
 
 ## Usage
 
@@ -10,9 +10,11 @@ This package handles everything that has to do with issueing and exchanging cred
 import { EventHandler } from 'universal-ledger-agent'
 import { IssueCredentialController } from '@ula-aca/issue-credential'
 
-const ledgerController = new LedgerController('https://aca-py-url.com')
+const issueCredentialController = new IssueCredentialController(
+  'https://aca-py-url.com'
+)
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([issueCredentialController])
 ```
 
 #### @ula-aca/issue-credential/get-meme-types
