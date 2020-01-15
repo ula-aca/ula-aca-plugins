@@ -12,9 +12,9 @@ This package handles everything that has to do with establishing and maintaining
 import { EventHandler } from 'universal-ledger-agent'
 import { ConnectionController } from '@ula-aca/connection'
 
-const ledgerController = new LedgerController('https://aca-py-url.com')
+const connectionController = new ConnectionController('https://aca-py-url.com')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([connectionController])
 ```
 
 #### @ula-aca/connection/get-all-connections
@@ -36,15 +36,16 @@ const eventHandler = new EventHandler([connectionController])
 
 const message: GetConnectionsMessage = {
   type: ConnectionMessageTypes.GET_CONNECTIONS,
-  body: {}
+  body: {} // GetConnectionsBody
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /connections api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/get_connections
     const result: GetConnectionsResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -77,10 +78,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
+    // response.body is response from /connections/{id} api endpoint in aca-py
     // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/get_connections__id_
     const result: GetConnectionByIdResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -104,17 +104,16 @@ const eventHandler = new EventHandler([connectionController])
 
 const message: CreateInvitationMessage = {
   type: ConnectionMessageTypes.CREATE_INVITATION,
-  body: {}
+  body: {} // CreateInvitationBody
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
+    // response.body is response from /connections/create-invitation api endpoint in aca-py
     // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections_create_invitation
     const result: CreateInvitationResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -157,8 +156,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /connections/receive-invitation api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections_receive_invitation
     const result: ReceiveInvitationResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -191,8 +191,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /connections/accept-invitation api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections__id__accept_invitation
     const result: AcceptInvitationResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -225,8 +226,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /connections/accept-request api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections__id__accept_request
     const result: AcceptRequestResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -260,6 +262,7 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     // inbound set
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections__id__establish_inbound__ref_id_
   }
 })
 ```
@@ -292,6 +295,7 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     // connection removed
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/connection/post_connections__id__remove
   }
 })
 ```
@@ -305,7 +309,8 @@ import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
   ConnectionController,
   ConnectionMessageTypes,
-  SendPingMessage
+  SendPingMessage,
+  SendPingResult
 } from '@ula-aca/connection'
 
 const connectionController = new ConnectionController('https://aca-py-url.com')
@@ -315,7 +320,8 @@ const eventHandler = new EventHandler([connectionController])
 const message: SendPingMessage = {
   type: ConnectionMessageTypes.SEND_PING,
   body: {
-    connection_id: '25e0602d-aa2b-4685-bf03-084e1c27818'
+    connection_id: '25e0602d-aa2b-4685-bf03-084e1c27818',
+    comment: 'Hi'
   }
 }
 
@@ -323,7 +329,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // ping sent
+    // response.body is response from /connections/{id}/send-ping api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/trustping/post_connections__id__send_ping
+    const result: SendPingResult = response.body
   }
 })
 ```
@@ -337,7 +345,6 @@ import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
   ConnectionController,
   ConnectionMessageTypes,
-  SendPingMessage,
   SendBasicMessageMessage
 } from '@ula-aca/connection'
 
@@ -358,6 +365,7 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     // message sent
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/basicmessage/post_connections__id__send_message
   }
 })
 ```
@@ -371,7 +379,7 @@ There is also a callback method for incoming basic message events.
 ```typescript
 import { ConnectionEventHandler } from '@ula-aca/connection'
 import { EventHandler } from 'universal-ledger-agent'
-import WebhookRelayEventRouter from '@ula-aca/webhook-relay-event-router'
+import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 
 import {
   BasicMessage,
@@ -419,7 +427,7 @@ const eventRouter = new WebhookRelayEventRouter(
   }
 )
 // initialize the issue event handler
-const issueHandler = new ConnectionHandler()
+const connectionHandler = new ConnectionHandler()
 
-const eventHandler = new EventHandler([eventRouter, issueHandler])
+const eventHandler = new EventHandler([eventRouter, connectionHandler])
 ```
