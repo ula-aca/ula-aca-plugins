@@ -16,7 +16,6 @@
 
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  SchemaController,
   GetSchemaByIdMessage,
   SchemaMessageTypes,
   GetSchemaByIdResult,
@@ -25,18 +24,18 @@ import {
   CreateSchemaMessage,
   CreateSchemaResult,
   GetCreatedSchemasBody,
-  CreateSchemaBody
+  CreateSchemaBody,
+  GetSchemaByIdBody
 } from '../src'
 
-const ACA_URL = 'http://ula.test:7002'
-const schemaController = new SchemaController(ACA_URL)
-const eventHandler = new EventHandler([schemaController])
-
-async function getSchemaById(schemaId: string): Promise<GetSchemaByIdResult> {
+async function getSchemaById(
+  eventHandler: EventHandler,
+  body: GetSchemaByIdBody
+): Promise<GetSchemaByIdResult> {
   return new Promise((resolve, reject) => {
     const message: GetSchemaByIdMessage = {
       type: SchemaMessageTypes.GET_SCHEMA_BY_ID,
-      body: { schema_id: schemaId }
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -53,12 +52,13 @@ async function getSchemaById(schemaId: string): Promise<GetSchemaByIdResult> {
 }
 
 async function getCreatedSchemas(
-  options?: GetCreatedSchemasBody
+  eventHandler: EventHandler,
+  body?: GetCreatedSchemasBody
 ): Promise<GetCreatedSchemasResult> {
   return new Promise((resolve, reject) => {
     const message: GetCreatedSchemasMessage = {
       type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -75,12 +75,13 @@ async function getCreatedSchemas(
 }
 
 async function createSchema(
-  options: CreateSchemaBody
+  eventHandler: EventHandler,
+  body: CreateSchemaBody
 ): Promise<CreateSchemaResult> {
   return new Promise((resolve, reject) => {
     const message: CreateSchemaMessage = {
       type: SchemaMessageTypes.CREATE_SCHEMA,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -96,23 +97,4 @@ async function createSchema(
   })
 }
 
-async function run(): Promise<void> {
-  const createdSchema = await createSchema({
-    schema_name: 'ExampleSchema',
-    schema_version: '1.0',
-    attributes: ['first_name', 'last_name']
-  })
-  console.log(`createSchema id: ${createdSchema.schema_id}`)
-
-  const createdSchemas = await getCreatedSchemas({
-    schema_id: createdSchema.schema_id
-  })
-  console.log('createdSchemas: ', createdSchemas)
-
-  const schema = await getSchemaById(createdSchema.schema_id)
-  console.log('getSchemaById: ', schema)
-}
-
-run().catch(e => {
-  console.log(e)
-})
+export { getSchemaById, getCreatedSchemas, createSchema }
