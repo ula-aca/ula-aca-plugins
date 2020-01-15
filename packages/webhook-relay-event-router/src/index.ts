@@ -70,7 +70,7 @@ export default class WebhookRelayEventRouter implements Plugin {
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   handleEvent(_message: Message, _callback: any): Promise<string> {
     return Promise.resolve('ignored')
   }
