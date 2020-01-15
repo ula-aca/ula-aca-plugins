@@ -16,7 +16,7 @@
 
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  CredentialDefinitionController,
+  GetCredentialDefinitionByIdBody,
   GetCredentialDefinitionByIdMessage,
   CredentialDefinitionMessageTypes,
   GetCredentialDefinitionByIdResult,
@@ -28,19 +28,14 @@ import {
   CreateCredentialDefinitionBody
 } from '../src'
 
-const ACA_URL = 'http://ula.test:7002'
-const credentialDefinitionController = new CredentialDefinitionController(
-  ACA_URL
-)
-const eventHandler = new EventHandler([credentialDefinitionController])
-
 async function getCredentialDefinitionById(
-  credentialDefinitionId: string
+  eventHandler: EventHandler,
+  body: GetCredentialDefinitionByIdBody
 ): Promise<GetCredentialDefinitionByIdResult> {
   return new Promise((resolve, reject) => {
     const message: GetCredentialDefinitionByIdMessage = {
       type: CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID,
-      body: { credential_definition_id: credentialDefinitionId }
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -57,12 +52,13 @@ async function getCredentialDefinitionById(
 }
 
 async function getCreatedCredentialDefinitions(
-  options?: GetCreatedCredentialDefinitionsBody
+  eventHandler: EventHandler,
+  body?: GetCreatedCredentialDefinitionsBody
 ): Promise<GetCreatedCredentialDefinitionsResult> {
   return new Promise((resolve, reject) => {
     const message: GetCreatedCredentialDefinitionsMessage = {
       type: CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -79,12 +75,13 @@ async function getCreatedCredentialDefinitions(
 }
 
 async function createCredentialDefinition(
-  options: CreateCredentialDefinitionBody
+  eventHandler: EventHandler,
+  body: CreateCredentialDefinitionBody
 ): Promise<CreateCredentialDefinitionResult> {
   return new Promise((resolve, reject) => {
     const message: CreateCredentialDefinitionMessage = {
       type: CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -100,27 +97,8 @@ async function createCredentialDefinition(
   })
 }
 
-async function run(): Promise<void> {
-  const createdCredentialDefinition = await createCredentialDefinition({
-    schema_id: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0',
-    tag: 'my-cred-def'
-  })
-  console.log(
-    `createCredentialDefinition id: ${createdCredentialDefinition.credential_definition_id}`
-  )
-
-  const createdCredentialDefinitions = await getCreatedCredentialDefinitions({
-    credential_definition_id:
-      createdCredentialDefinition.credential_definition_id
-  })
-  console.log('createdCredentialDefinitions: ', createdCredentialDefinitions)
-
-  const credentialDefinition = await getCredentialDefinitionById(
-    createdCredentialDefinition.credential_definition_id
-  )
-  console.log('getCredentialDefinitionById: ', credentialDefinition)
+export {
+  getCredentialDefinitionById,
+  getCreatedCredentialDefinitions,
+  createCredentialDefinition
 }
-
-run().catch(e => {
-  console.log(e)
-})

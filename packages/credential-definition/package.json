@@ -7,7 +7,7 @@
     "compile": "tsc",
     "clean": "rm -rf ./lib",
     "build": "npm run clean && npm run compile",
-    "example": "../../node_modules/.bin/ts-node examples"
+    "example": "../../node_modules/.bin/ts-node examples/run.ts"
   },
   "keywords": [
     "aries",
