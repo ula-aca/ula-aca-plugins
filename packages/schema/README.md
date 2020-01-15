@@ -17,6 +17,8 @@ const eventHandler = new EventHandler([schemaController])
 
 #### @ula-aca/schema/get-schema-by-id
 
+Gets a schema from the ledger
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -48,6 +50,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/schema/get-created-schemas
+
+Search for matching schema that agent originated
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -83,6 +87,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/schema/create-schema
+
+Sends a schema to the ledger
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
