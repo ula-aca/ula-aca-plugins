@@ -229,7 +229,10 @@ export class PresentProofController implements Plugin {
     })
   }
 
-  async handleEvent(message: Message, callback: any): Promise<string> {
+  async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void> | void
+  ): Promise<string> {
     if (!isPresentProofMessage(message.properties)) {
       return 'ignored'
     }

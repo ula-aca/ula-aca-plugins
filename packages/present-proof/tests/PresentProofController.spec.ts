@@ -33,6 +33,56 @@ import {
   GetPresentationExchangeRecordByIdMessage
 } from '../src'
 
+const presentation_request_request = {
+  connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  comment: 'string',
+  proof_request: {
+    name: 'Proof request',
+    requested_attributes: {
+      additionalProp1: {
+        name: 'favouriteDrink',
+        restrictions: [
+          {
+            schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
+            issuer_did: 'WgWxqztrNooG92RXvxSTWv',
+            cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
+            schema_name: 'transcript',
+            schema_version: '1.0',
+            schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
+            credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
+          }
+        ],
+        non_revoked: {
+          to_epoch: 1576152338,
+          from_epoch: 1576152338
+        }
+      }
+    },
+    nonce: '1234567890',
+    requested_predicates: {
+      additionalProp1: {
+        name: 'index',
+        restrictions: [
+          {
+            schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
+            issuer_did: 'WgWxqztrNooG92RXvxSTWv',
+            cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
+            schema_name: 'transcript',
+            schema_version: '1.0',
+            schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
+            credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
+          }
+        ],
+        non_revoked: {
+          to_epoch: 1576152338,
+          from_epoch: 1576152338
+        }
+      }
+    },
+    version: '1.0'
+  }
+}
+
 describe('[package] @ula-aca/present-proof', () => {
   describe('[plugin] PresentProofController', () => {
     let eventHandler: EventHandler
@@ -386,134 +436,6 @@ describe('[package] @ula-aca/present-proof', () => {
         )
       })
       it('@ula-aca/present-proof/create-presentation-request', async () => {
-        const presentation_request_request = {
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          comment: 'string',
-          proof_request: {
-            name: 'Proof request',
-            requested_attributes: {
-              additionalProp1: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp2: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp3: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              }
-            },
-            nonce: '1234567890',
-            requested_predicates: {
-              additionalProp1: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp2: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp3: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              }
-            },
-            version: '1.0'
-          }
-        }
-
         const data = {}
         const statusCode = 200
 
@@ -543,134 +465,6 @@ describe('[package] @ula-aca/present-proof', () => {
         )
       })
       it('@ula-aca/present-proof/send-request', async () => {
-        const presentation_request_request = {
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          comment: 'string',
-          proof_request: {
-            name: 'Proof request',
-            requested_attributes: {
-              additionalProp1: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp2: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp3: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              }
-            },
-            nonce: '1234567890',
-            requested_predicates: {
-              additionalProp1: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp2: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp3: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              }
-            },
-            version: '1.0'
-          }
-        }
-
         const data = {
           presentation: {},
           error_msg: 'Invalid structure',
@@ -716,133 +510,6 @@ describe('[package] @ula-aca/present-proof', () => {
       })
       it('@ula-aca/present-proof/send-proof-presentation-request-by-id', async () => {
         const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-        const presentation_request_request = {
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          comment: 'string',
-          proof_request: {
-            name: 'Proof request',
-            requested_attributes: {
-              additionalProp1: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp2: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp3: {
-                name: 'favouriteDrink',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              }
-            },
-            nonce: '1234567890',
-            requested_predicates: {
-              additionalProp1: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp2: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              },
-              additionalProp3: {
-                name: 'index',
-                restrictions: [
-                  {
-                    schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-                    issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-                    schema_name: 'transcript',
-                    schema_version: '1.0',
-                    schema_issuer_did: 'WgWxqztrNooG92RXvxSTWv',
-                    credential_definition_id:
-                      'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag'
-                  }
-                ],
-                non_revoked: {
-                  to_epoch: 1576152338,
-                  from_epoch: 1576152338
-                }
-              }
-            },
-            version: '1.0'
-          }
-        }
 
         const data = {
           presentation: {},
