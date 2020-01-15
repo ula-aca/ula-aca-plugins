@@ -15,30 +15,30 @@
  */
 
 import { CreatePresentationRequestMessage } from './CreatePresentationRequest'
-import { GetPresentationExchangeRecordByIdMessage } from './GetPresentationExchangeRecordById'
-import { GetPresentationExchangeRecordsMessage } from './GetPresentationExchangeRecords'
-import { GetPresentationRequestCredentialsMessage } from './GetPresentationRequestCredentials'
+import { GetExchangeRecordByIdMessage } from './GetExchangeRecordById'
+import { GetExchangeRecordsMessage } from './GetExchangeRecords'
+import { GetRequestCredentialsMessage } from './GetRequestCredentials'
 import { GetPresentationRequestCredentialsByReferentIdMessage } from './GetPresentationRequestCredentialsByReferentId'
-import { RemovePresentationExchangeRecordMessage } from './RemovePresentation'
+import { RemoveExchangeRecordMessage } from './RemoveExchangeRecord'
 import { SendPresentationMessage } from './SendPresentation'
-import { SendPresentationProposalMessage } from './SendPresentationProposal'
-import { SendPresentationRequestMessage } from './SendPresentationRequest'
-import { SendPresentationRequestByIdMessage } from './SendPresentationRequestById'
+import { SendProposalMessage } from './SendProposal'
+import { SendRequestMessage } from './SendRequest'
+import { SendRequestByIdMessage } from './SendRequestById'
 import { VerifyPresentationMessage } from './VerifyPresentation'
 
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
 type IssueCredentialMessageType =
   | CreatePresentationRequestMessage
-  | GetPresentationExchangeRecordByIdMessage
-  | GetPresentationExchangeRecordsMessage
-  | GetPresentationRequestCredentialsMessage
+  | GetExchangeRecordByIdMessage
+  | GetExchangeRecordsMessage
+  | GetRequestCredentialsMessage
   | GetPresentationRequestCredentialsByReferentIdMessage
-  | RemovePresentationExchangeRecordMessage
+  | RemoveExchangeRecordMessage
   | SendPresentationMessage
-  | SendPresentationProposalMessage
-  | SendPresentationRequestMessage
-  | SendPresentationRequestByIdMessage
+  | SendProposalMessage
+  | SendRequestMessage
+  | SendRequestByIdMessage
   | VerifyPresentationMessage
 
 function isPresentProofMessage(
@@ -51,13 +51,13 @@ export { IssueCredentialMessageType, isPresentProofMessage }
 
 export * from './PresentProofMessageTypes'
 export * from './CreatePresentationRequest'
-export * from './GetPresentationExchangeRecordById'
-export * from './GetPresentationExchangeRecords'
-export * from './GetPresentationRequestCredentials'
+export * from './GetExchangeRecordById'
+export * from './GetExchangeRecords'
+export * from './GetRequestCredentials'
 export * from './GetPresentationRequestCredentialsByReferentId'
-export * from './RemovePresentation'
+export * from './RemoveExchangeRecord'
 export * from './SendPresentation'
-export * from './SendPresentationProposal'
-export * from './SendPresentationRequest'
-export * from './SendPresentationRequestById'
+export * from './SendProposal'
+export * from './SendRequest'
+export * from './SendRequestById'
 export * from './VerifyPresentation'

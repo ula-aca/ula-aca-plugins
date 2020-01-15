@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-import { V10PresentationExchange } from '@ula-aca/aries-cloudagent-interface'
+import {
+  V10PresentationExchange,
+  V10PresentationRequestRequest
+} from '@ula-aca/aries-cloudagent-interface'
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
-interface GetPresentationExchangeRecordByIdBody {
+interface SendRequestByIdBody extends V10PresentationRequestRequest {
   presentation_exchange_id: string
 }
 
-interface GetPresentationExchangeRecordByIdMessage {
-  type: PresentProofMessageTypes.GET_EXCHANGE_RECORD_BY_ID
-  body: GetPresentationExchangeRecordByIdBody
+interface SendRequestByIdMessage {
+  type: PresentProofMessageTypes.SEND_REQUEST_BY_ID
+  body: SendRequestByIdBody
 }
 
-type GetPresentationExchangeRecordByIdResult = V10PresentationExchange
+type SendRequestByIdResult = V10PresentationExchange
 
-export {
-  GetPresentationExchangeRecordByIdMessage,
-  GetPresentationExchangeRecordByIdBody,
-  GetPresentationExchangeRecordByIdResult
-}
+export { SendRequestByIdMessage, SendRequestByIdBody, SendRequestByIdResult }

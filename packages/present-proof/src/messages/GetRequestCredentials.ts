@@ -16,16 +16,16 @@
 
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
-interface RemovePresentationExchangeRecordBody {
+interface GetRequestCredentialsBody {
   presentation_exchange_id: string
+  start?: string
+  count?: string
+  extra_query?: string
 }
 
-interface RemovePresentationExchangeRecordMessage {
-  type: PresentProofMessageTypes.REMOVE_EXCHANGE_RECORD
-  body: RemovePresentationExchangeRecordBody
+interface GetRequestCredentialsMessage {
+  type: PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS
+  body: GetRequestCredentialsBody
 }
 
-export {
-  RemovePresentationExchangeRecordMessage,
-  RemovePresentationExchangeRecordBody
-}
+export { GetRequestCredentialsMessage, GetRequestCredentialsBody }

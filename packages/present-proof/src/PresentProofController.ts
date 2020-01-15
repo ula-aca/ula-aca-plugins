@@ -28,15 +28,15 @@ import {
 
 import { AxiosError } from 'axios'
 import {
-  GetPresentationExchangeRecordByIdBody,
-  GetPresentationRequestCredentialsBody,
-  SendPresentationProposalBody,
+  GetExchangeRecordByIdBody,
+  GetRequestCredentialsBody,
+  SendProposalBody,
   CreatePresentationRequestBody,
-  SendPresentationRequestBody,
-  SendPresentationRequestByIdBody,
+  SendRequestBody,
+  SendRequestByIdBody,
   SendPresentationBody,
   VerifyPresentationBody,
-  RemovePresentationExchangeRecordBody,
+  RemoveExchangeRecordBody,
   isPresentProofMessage,
   PresentProofMessageTypes,
   GetPresentationRequestCredentialsByReferentIdBody
@@ -73,7 +73,7 @@ export class PresentProofController implements Plugin {
 
   private async getPresentProofExchangeRecordById({
     presentation_exchange_id
-  }: GetPresentationExchangeRecordByIdBody): Promise<UlaResponse> {
+  }: GetExchangeRecordByIdBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdGet(
       presentation_exchange_id
     )
@@ -85,10 +85,11 @@ export class PresentProofController implements Plugin {
 
   private async getPresentationRequestCredentials({
     presentation_exchange_id
-  }: GetPresentationRequestCredentialsBody): Promise<UlaResponse> {
+  }: GetRequestCredentialsBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdCredentialsGet(
       presentation_exchange_id
     )
+    console.log(response)
     return new UlaResponse({
       statusCode: response.status,
       body: {}
@@ -120,7 +121,7 @@ export class PresentProofController implements Plugin {
     connection_id,
     presentation_proposal,
     auto_present
-  }: SendPresentationProposalBody): Promise<UlaResponse> {
+  }: SendProposalBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofSendProposalPost({
       comment,
       connection_id,
@@ -153,7 +154,7 @@ export class PresentProofController implements Plugin {
     comment,
     proof_request,
     connection_id
-  }: SendPresentationRequestBody): Promise<UlaResponse> {
+  }: SendRequestBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofSendRequestPost({
       comment,
       proof_request,
@@ -170,7 +171,7 @@ export class PresentProofController implements Plugin {
     comment,
     proof_request,
     connection_id
-  }: SendPresentationRequestByIdBody): Promise<UlaResponse> {
+  }: SendRequestByIdBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdSendRequestPost(
       presentation_exchange_id,
       {
@@ -219,7 +220,7 @@ export class PresentProofController implements Plugin {
 
   private async removeExchangeRecord({
     presentation_exchange_id
-  }: RemovePresentationExchangeRecordBody): Promise<UlaResponse> {
+  }: RemoveExchangeRecordBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdRemovePost(
       presentation_exchange_id
     )

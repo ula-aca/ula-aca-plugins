@@ -15,22 +15,17 @@
  */
 
 import {
-  V10PresentationExchange,
-  V10PresentationRequestRequest
+  V10PresentationProposalRequest,
+  V10PresentationExchange
 } from '@ula-aca/aries-cloudagent-interface'
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
-type SendPresentationRequestBody = V10PresentationRequestRequest
-
-interface SendPresentationRequestMessage {
-  type: PresentProofMessageTypes.SEND_REQUEST
-  body: SendPresentationRequestBody
+type SendProposalBody = V10PresentationProposalRequest
+interface SendProposalMessage {
+  type: PresentProofMessageTypes.SEND_PROPOSAL
+  body: SendProposalBody
 }
 
-type SendPresentationRequestResult = V10PresentationExchange
+type SendProposalResult = V10PresentationExchange
 
-export {
-  SendPresentationRequestMessage,
-  SendPresentationRequestBody,
-  SendPresentationRequestResult
-}
+export { SendProposalMessage, SendProposalBody, SendProposalResult }
