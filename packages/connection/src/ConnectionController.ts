@@ -270,7 +270,10 @@ class ConnectionController implements Plugin {
     })
   }
 
-  public async handleEvent(message: Message, callback: any): Promise<string> {
+  public async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void> | void
+  ): Promise<string> {
     if (!isConnectionMessage(message.properties)) {
       return 'ignored'
     }

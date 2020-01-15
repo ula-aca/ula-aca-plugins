@@ -138,12 +138,6 @@ describe('[package] @ula-aca/connection', () => {
         )
       })
       it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const body = {
-          mechanism: 'string',
-          version: 'string',
-          text: 'string'
-        }
-
         const data = {
           message: 'Error'
         }
