@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+import { UlaResponse, EventHandler } from 'universal-ledger-agent'
 import {
-  LedgerController,
   RegisterNymMessage,
   RegisterNymResult,
   LedgerMessageTypes,
@@ -34,11 +33,8 @@ import {
   AcceptTransactionAuthorAgreementBody
 } from '../src'
 
-const ACA_URL = 'http://ula.test:7002'
-const ledgerController = new LedgerController(ACA_URL)
-const eventHandler = new EventHandler([ledgerController])
-
 async function registerNym(
+  eventHandler: EventHandler,
   options: RegisterNymBody
 ): Promise<RegisterNymResult> {
   return new Promise((resolve, reject) => {
@@ -61,12 +57,13 @@ async function registerNym(
 }
 
 async function getVerkeyByDid(
-  options: GetVerkeyByDidBody
+  eventHandler: EventHandler,
+  body: GetVerkeyByDidBody
 ): Promise<GetVerkeyByDidResult> {
   return new Promise((resolve, reject) => {
     const message: GetVerkeyByDidMessage = {
       type: LedgerMessageTypes.GET_VERKEY_BY_DID,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -83,12 +80,13 @@ async function getVerkeyByDid(
 }
 
 async function getEndpointByDid(
-  options: GetEndpointByDidBody
+  eventHandler: EventHandler,
+  body: GetEndpointByDidBody
 ): Promise<GetEndpointByDidResult> {
   return new Promise((resolve, reject) => {
     const message: GetEndpointByDidMessage = {
       type: LedgerMessageTypes.GET_ENDPOINT_BY_DID,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -104,9 +102,9 @@ async function getEndpointByDid(
   })
 }
 
-async function getTransactionAuthorAgreement(): Promise<
-  GetTransactionAuthorAgreementResult
-> {
+async function getTransactionAuthorAgreement(
+  eventHandler: EventHandler
+): Promise<GetTransactionAuthorAgreementResult> {
   return new Promise((resolve, reject) => {
     const message: GetTransactionAuthorAgreementMessage = {
       type: LedgerMessageTypes.GET_TRANSACTION_AUTHOR_AGREEMENT
@@ -126,12 +124,13 @@ async function getTransactionAuthorAgreement(): Promise<
 }
 
 async function acceptTransactionAuthorAgreement(
-  options: AcceptTransactionAuthorAgreementBody
+  eventHandler: EventHandler,
+  body: AcceptTransactionAuthorAgreementBody
 ): Promise<AcceptTransactionAuthorAgreementResult> {
   return new Promise((resolve, reject) => {
     const message: AcceptTransactionAuthorAgreementMessage = {
       type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -147,45 +146,10 @@ async function acceptTransactionAuthorAgreement(
   })
 }
 
-async function run(): Promise<void> {
-  const did = 'Jg8A9jr6xqJaUu9tfKoE2t'
-  const verkey = 'AdjAyGcJ7gBGGuKX5TofZnQAAFVr3AeLxHeFKQrW3ZvS'
-
-  const result = await registerNym({
-    did,
-    verkey
-  })
-  console.log('Register Nym success: ', result.success)
-
-  const getVerkeyResult = await getVerkeyByDid({
-    did
-  })
-  console.log('Verkey: ', getVerkeyResult.verkey)
-
-  const getEndpointResult = await getEndpointByDid({
-    did
-  })
-  console.log('Endpoint: ', getEndpointResult.endpoint)
-
-  const transactionAuthorAgreement = await getTransactionAuthorAgreement()
-  console.log('Transaction author agreement: ', transactionAuthorAgreement)
-
-  // Only accept TAA when required
-  if (transactionAuthorAgreement.result.taa_required) {
-    // TODO: Add correct example for accepting TAA.
-    // Ledger needs to have a TAA, you can publish this with
-    // the ledger api from the indy sdk
-    const acceptTransactionAuthorAgreementResult = await acceptTransactionAuthorAgreement(
-      {
-        mechanism: '',
-        text: '',
-        version: ''
-      }
-    )
-    console.log('Accept TAA result:', acceptTransactionAuthorAgreementResult)
-  }
+export {
+  registerNym,
+  getVerkeyByDid,
+  getEndpointByDid,
+  getTransactionAuthorAgreement,
+  acceptTransactionAuthorAgreement
 }
-
-run().catch(e => {
-  console.log(e)
-})
