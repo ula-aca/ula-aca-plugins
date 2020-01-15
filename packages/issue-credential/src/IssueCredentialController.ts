@@ -267,7 +267,10 @@ class IssueCredentialController implements Plugin {
     })
   }
 
-  async handleEvent(message: Message, callback: any): Promise<string> {
+  async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void> | void
+  ): Promise<string> {
     if (!isIssueCredentialMessage(message.properties)) {
       return 'ignored'
     }
