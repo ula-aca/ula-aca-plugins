@@ -1,7 +1,6 @@
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
   GetExchangeRecordsResult,
-  IssueCredentialController,
   IssueCredentialMessageTypes,
   GetExchangeRecordsMessage,
   GetExchangeRecordByIdMessage,
