@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["packages", "tests", "stryker.conf.js"]
+  "include": ["packages", "tests", "stryker.conf.js", "examples"]
 }

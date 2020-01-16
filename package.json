@@ -18,7 +18,8 @@
     "compile": "lerna run compile",
     "build": "lerna run build",
     "types": "lerna run compile -- --noEmit",
-    "update-headers": "copyright-header --fix --copyrightHolder 'ula-aca' --templateId 'apache' --forceModificationYear 'present' --include 'packages/.*/(src|tests)|tests'"
+    "update-headers": "copyright-header --fix --copyrightHolder 'ula-aca' --templateId 'apache' --forceModificationYear 'present' --include 'packages/.*/(src|tests)|tests'",
+    "example": "ts-node --require tsconfig-paths/register examples/run.ts"
   },
   "keywords": [
     "aries",

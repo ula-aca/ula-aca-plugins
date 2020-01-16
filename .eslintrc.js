@@ -68,7 +68,7 @@ module.exports = {
     {
       files: '**/examples/**',
       rules: {
-        'no-console': 'off'
+        'no-console': 'off',
       }
     },
     {
@@ -80,6 +80,19 @@ module.exports = {
         '@typescript-eslint/no-empty-function': 'off',
         'no-await-in-loop': 'off',
         'no-restricted-syntax': 'off'
+      }
+    },
+    {
+      files: './examples/**',
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: true,
+            optionalDependencies: false,
+            peerDependencies: false,
+          },
+        ],
       }
     },
     ...noExtraneousOverrides
