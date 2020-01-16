@@ -31,16 +31,24 @@ const { bold } = chalk
 function logEvent({
   type,
   input,
-  output
+  output,
+  comment
 }: {
   type: string
   input?: object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   output?: any
+  comment?: string
 }): void {
   log(`${inverse('START EVENT:')} ${bold(type)}`)
 
   emptyLine()
+
+  if (comment) {
+    log(indent(bold('Comment: ')))
+    log(indent(comment))
+    emptyLine()
+  }
 
   if (input) {
     log(indent(bold('Input: ')))
