@@ -89,7 +89,6 @@ export class PresentProofController implements Plugin {
     const response = await this.presentProofApi.presentProofRecordsPresExIdCredentialsGet(
       presentation_exchange_id
     )
-    console.log(response)
     return new UlaResponse({
       statusCode: response.status,
       body: {}
