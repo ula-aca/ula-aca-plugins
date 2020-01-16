@@ -75,4 +75,35 @@ function logEvent({
   emptyLine()
 }
 
-export { logEvent }
+function logWebhookEvent({
+  type,
+  input,
+  comment
+}: {
+  type: string
+  input: object
+  comment?: string
+}): void {
+  log(`${inverse('START WEBHOOK EVENT:')} ${bold(type)}`)
+
+  emptyLine()
+
+  if (comment) {
+    log(indent(bold('Comment: ')))
+    log(indent(comment))
+    emptyLine()
+  }
+
+  if (input) {
+    log(indent(bold('Input: ')))
+    log(indent(prettyJSON(input)))
+  } else {
+    log(indent(bold('No input')))
+  }
+
+  emptyLine()
+  log(`${inverse('END WEBHOOK EVENT:')} ${bold(type)}`)
+  emptyLine()
+}
+
+export { logEvent, logWebhookEvent }
