@@ -43,12 +43,14 @@ export default class WebhookRelayEventRouter implements Plugin {
     const event: AriesEvent = JSON.parse(msg.data.toString())
     let ulaMsgType: string
 
+    // TODO: Switch to webhook-models types and messages
+
     switch (event.topic) {
       case AriesEventTopic.CONNECTIONS:
-        ulaMsgType = 'aca-connection-event'
+        ulaMsgType = '@ula-aca/connection-event'
         break
       case AriesEventTopic.BASIC_MESSAGE:
-        ulaMsgType = 'aca-basic-message-event'
+        ulaMsgType = '@ula-aca/basic-message-event'
         break
       case AriesEventTopic.ISSUE_CREDENTIAL:
         ulaMsgType = 'aca-issue-credential-event'
@@ -60,14 +62,28 @@ export default class WebhookRelayEventRouter implements Plugin {
         break
     }
 
-    await this.eventHandler.processMsg(
-      {
-        type: ulaMsgType,
-        payload: event.payload
-      },
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {}
-    )
+    if (
+      event.topic === AriesEventTopic.CONNECTIONS ||
+      event.topic === AriesEventTopic.BASIC_MESSAGE
+    ) {
+      await this.eventHandler.processMsg(
+        {
+          type: ulaMsgType,
+          body: event.payload
+        },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        () => {}
+      )
+    } else {
+      await this.eventHandler.processMsg(
+        {
+          type: ulaMsgType,
+          payload: event.payload
+        },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        () => {}
+      )
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
