@@ -27,5 +27,5 @@ export interface CredentialExchangeRecordProposalReceived
 export function isCredentialExchangeRecordProposalReceived(
   event: CredentialExchangeRecordBase
 ): event is CredentialExchangeRecordProposalReceived {
-  return event.state === 'proposal_received'
+  return event.state === CredentialExchangeRecordState.PROPOSAL_RECEIVED
 }

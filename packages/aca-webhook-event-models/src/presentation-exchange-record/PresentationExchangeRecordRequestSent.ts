@@ -27,5 +27,5 @@ export interface PresentationExchangeRecordRequestSent
 export function isPresentationExchangeRecordRequestSent(
   event: PresentationExchangeRecordBase
 ): event is PresentationExchangeRecordRequestSent {
-  return event.state === 'request_sent'
+  return event.state === PresentationExchangeRecordState.REQUEST_SENT
 }

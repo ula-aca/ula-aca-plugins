@@ -27,5 +27,5 @@ export interface PresentationExchangeRecordProposalReceived
 export function isPresentationExchangeRecordProposalReceived(
   event: PresentationExchangeRecordBase
 ): event is PresentationExchangeRecordProposalReceived {
-  return event.state === 'proposal_received'
+  return event.state === PresentationExchangeRecordState.PROPOSAL_RECEIVED
 }

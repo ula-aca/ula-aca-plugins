@@ -27,5 +27,5 @@ export interface CredentialExchangeRecordOfferSent
 export function isCredentialExchangeRecordOfferSent(
   event: CredentialExchangeRecordBase
 ): event is CredentialExchangeRecordOfferSent {
-  return event.state === 'offer_sent'
+  return event.state === CredentialExchangeRecordState.OFFER_SENT
 }

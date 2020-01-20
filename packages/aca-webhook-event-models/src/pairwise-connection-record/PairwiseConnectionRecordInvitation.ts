@@ -27,5 +27,5 @@ export interface PairwiseConnectionRecordInvitation
 export function isPairwiseConnectionRecordInvitation(
   event: PairwiseConnectionRecordBase
 ): event is PairwiseConnectionRecordInvitation {
-  return event.state === 'invitation'
+  return event.state === PairwiseConnectionRecordState.INVITATION
 }

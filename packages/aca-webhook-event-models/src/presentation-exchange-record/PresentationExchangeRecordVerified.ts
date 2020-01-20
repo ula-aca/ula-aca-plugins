@@ -27,5 +27,5 @@ export interface PresentationExchangeRecordVerified
 export function isPresentationExchangeRecordVerified(
   event: PresentationExchangeRecordBase
 ): event is PresentationExchangeRecordVerified {
-  return event.state === 'verified'
+  return event.state === PresentationExchangeRecordState.VERIFIED
 }

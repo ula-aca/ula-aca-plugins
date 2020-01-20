@@ -27,5 +27,5 @@ export interface PairwiseConnectionRecordActive
 export function isPairwiseConnectionRecordActive(
   event: PairwiseConnectionRecordBase
 ): event is PairwiseConnectionRecordActive {
-  return event.state === 'active'
+  return event.state === PairwiseConnectionRecordState.ACTIVE
 }

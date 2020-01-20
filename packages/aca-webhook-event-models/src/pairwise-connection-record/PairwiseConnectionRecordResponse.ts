@@ -27,5 +27,5 @@ export interface PairwiseConnectionRecordResponse
 export function isPairwiseConnectionRecordResponse(
   event: PairwiseConnectionRecordBase
 ): event is PairwiseConnectionRecordResponse {
-  return event.state === 'response'
+  return event.state === PairwiseConnectionRecordState.RESPONSE
 }

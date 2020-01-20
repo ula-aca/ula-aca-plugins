@@ -27,5 +27,5 @@ export interface PairwiseConnectionRecordError
 export function isPairwiseConnectionRecordError(
   event: PairwiseConnectionRecordBase
 ): event is PairwiseConnectionRecordError {
-  return event.state === 'error'
+  return event.state === PairwiseConnectionRecordState.ERROR
 }

@@ -27,5 +27,5 @@ export interface PairwiseConnectionRecordInit
 export function isPairwiseConnectionRecordInit(
   event: PairwiseConnectionRecordBase
 ): event is PairwiseConnectionRecordInit {
-  return event.state === 'init'
+  return event.state === PairwiseConnectionRecordState.INIT
 }

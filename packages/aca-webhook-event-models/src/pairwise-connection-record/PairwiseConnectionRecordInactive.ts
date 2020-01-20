@@ -27,5 +27,5 @@ export interface PairwiseConnectionRecordInactive
 export function isPairwiseConnectionRecordInactive(
   event: PairwiseConnectionRecordBase
 ): event is PairwiseConnectionRecordInactive {
-  return event.state === 'inactive'
+  return event.state === PairwiseConnectionRecordState.INACTIVE
 }
