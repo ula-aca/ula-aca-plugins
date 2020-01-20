@@ -17,6 +17,6 @@
 export enum AcaWebhookEventTypes {
   CONNECTION_EVENT = '@ula-aca/connection-event',
   BASIC_MESSAGE_EVENT = '@ula-aca/basic-message-event',
-  ISSUE_CREDENTIAL = '@ula-aca/issue-credential-event',
-  PRESENT_PROOF = '@ula-aca/present-proof-event'
+  ISSUE_CREDENTIAL_EVENT = '@ula-aca/issue-credential-event',
+  PRESENT_PROOF_EVENT = '@ula-aca/present-proof-event'
 }

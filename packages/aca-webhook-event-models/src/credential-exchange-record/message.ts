@@ -18,12 +18,12 @@ import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
 import { CredentialExchangeRecordBase } from './base/CredentialExchangeRecordBase'
 
 export interface IssueCredentialEvent {
-  type: AcaWebhookEventTypes.ISSUE_CREDENTIAL
+  type: AcaWebhookEventTypes.ISSUE_CREDENTIAL_EVENT
   body: CredentialExchangeRecordBase
 }
 
 export function isIssueCredentialEventMessage(
   properties
 ): properties is IssueCredentialEvent {
-  return properties.type === AcaWebhookEventTypes.ISSUE_CREDENTIAL
+  return properties.type === AcaWebhookEventTypes.ISSUE_CREDENTIAL_EVENT
 }
