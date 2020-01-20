@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable class-methods-use-this */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import {
   Plugin,
   EventHandler,
@@ -37,7 +35,7 @@ import {
   PresentationExchangeRecordVerified,
   isPresentationExchangeRecordVerified,
   PresentationExchangeRecordPresentationReceived,
-  PresentationExchangeRecordBase
+  isPresentProofEventMessage
 } from '@ula-aca/aca-webhook-event-models'
 
 abstract class PresentProofEventHandler implements Plugin {
@@ -47,36 +45,37 @@ abstract class PresentProofEventHandler implements Plugin {
     this.eventHandler = eventHandler
   }
 
-  get name() {
+  get name(): string {
     return '@ula-aca/present-proof/PresentProofEventHandler'
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-  async handleEvent(message: Message, _callback: any): Promise<string> {
-    if (message.properties.type !== 'aca-present-proof-event') {
+  async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void> | void
+  ): Promise<string> {
+    if (!isPresentProofEventMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
 
     try {
-      const payload = message.properties
-        .payload as PresentationExchangeRecordBase
+      const { body } = message.properties
 
-      if (isPresentationExchangeRecordProposalSent(payload)) {
-        await this.onProposalSent(payload)
-      } else if (isPresentationExchangeRecordProposalReceived(payload)) {
-        await this.onProposalReceived(payload)
-      } else if (isPresentationExchangeRecordRequestSent(payload)) {
-        await this.onRequestSent(payload)
-      } else if (isPresentationExchangeRecordRequestReceived(payload)) {
-        await this.onRequestReceived(payload)
-      } else if (isPresentationExchangeRecordPresentationSent(payload)) {
-        await this.onPresentationSent(payload)
-      } else if (isPresentationExchangeRecordPresentationReceived(payload)) {
-        await this.onPresentationReceived(payload)
-      } else if (isPresentationExchangeRecordVerified(payload)) {
-        await this.onVerified(payload)
+      if (isPresentationExchangeRecordProposalSent(body)) {
+        await this.onProposalSent(body)
+      } else if (isPresentationExchangeRecordProposalReceived(body)) {
+        await this.onProposalReceived(body)
+      } else if (isPresentationExchangeRecordRequestSent(body)) {
+        await this.onRequestSent(body)
+      } else if (isPresentationExchangeRecordRequestReceived(body)) {
+        await this.onRequestReceived(body)
+      } else if (isPresentationExchangeRecordPresentationSent(body)) {
+        await this.onPresentationSent(body)
+      } else if (isPresentationExchangeRecordPresentationReceived(body)) {
+        await this.onPresentationReceived(body)
+      } else if (isPresentationExchangeRecordVerified(body)) {
+        await this.onVerified(body)
       }
       response = new UlaResponse({ statusCode: 200, body: {} })
     } catch (err) {
@@ -88,7 +87,7 @@ abstract class PresentProofEventHandler implements Plugin {
       })
     }
 
-    _callback(response)
+    callback(response)
 
     return response.statusCode < 200 || response.statusCode >= 300
       ? 'error'

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable class-methods-use-this */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import {
   Plugin,
   EventHandler,
@@ -38,10 +36,10 @@ import {
   CredentialExchangeRecordIssued,
   isCredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialReceived,
-  CredentialExchangeRecordBase,
   isCredentialExchangeRecordOfferReceived,
   CredentialExchangeRecordCredentialAcknowledged,
-  isCredentialExchangeRecordCredentialAcknowledged
+  isCredentialExchangeRecordCredentialAcknowledged,
+  isIssueCredentialEventMessage
 } from '@ula-aca/aca-webhook-event-models'
 
 abstract class IssueCredentialEventHandler implements Plugin {
@@ -51,41 +49,43 @@ abstract class IssueCredentialEventHandler implements Plugin {
     this.eventHandler = eventHandler
   }
 
-  get name() {
+  get name(): string {
     return '@ula-aca/issue-credential/IssueCredentialEventHandler'
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-  async handleEvent(message: Message, _callback: any): Promise<string> {
-    if (message.properties.type !== 'aca-issue-credential-event') {
+  async handleEvent(
+    message: Message,
+    callback: (res: UlaResponse) => Promise<void> | void
+  ): Promise<string> {
+    if (!isIssueCredentialEventMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
 
     try {
-      const payload = message.properties.payload as CredentialExchangeRecordBase
+      const { body } = message.properties
 
-      if (isCredentialExchangeRecordProposalSent(payload)) {
-        await this.onProposalSent(payload)
-      } else if (isCredentialExchangeRecordProposalReceived(payload)) {
-        await this.onProposalReceived(payload)
-      } else if (isCredentialExchangeRecordOfferSent(payload)) {
-        await this.onOfferSent(payload)
-      } else if (isCredentialExchangeRecordOfferReceived(payload)) {
-        await this.onOfferReceived(payload)
-      } else if (isCredentialExchangeRecordRequestSent(payload)) {
-        await this.onRequestSent(payload)
-      } else if (isCredentialExchangeRecordRequestReceived(payload)) {
-        await this.onRequestReceived(payload)
-      } else if (isCredentialExchangeRecordIssued(payload)) {
-        await this.onIssued(payload)
-      } else if (isCredentialExchangeRecordCredentialAcknowledged(payload)) {
-        await this.onCredentialAcknowledged(payload)
-      } else if (isCredentialExchangeRecordCredentialReceived(payload)) {
-        await this.onCredentialReceived(payload)
+      if (isCredentialExchangeRecordProposalSent(body)) {
+        await this.onProposalSent(body)
+      } else if (isCredentialExchangeRecordProposalReceived(body)) {
+        await this.onProposalReceived(body)
+      } else if (isCredentialExchangeRecordOfferSent(body)) {
+        await this.onOfferSent(body)
+      } else if (isCredentialExchangeRecordOfferReceived(body)) {
+        await this.onOfferReceived(body)
+      } else if (isCredentialExchangeRecordRequestSent(body)) {
+        await this.onRequestSent(body)
+      } else if (isCredentialExchangeRecordRequestReceived(body)) {
+        await this.onRequestReceived(body)
+      } else if (isCredentialExchangeRecordIssued(body)) {
+        await this.onIssued(body)
+      } else if (isCredentialExchangeRecordCredentialAcknowledged(body)) {
+        await this.onCredentialAcknowledged(body)
+      } else if (isCredentialExchangeRecordCredentialReceived(body)) {
+        await this.onCredentialReceived(body)
       } else {
-        throw new Error('object not recognized')
+        throw new Error(`Unknown state: ${body.state}`)
       }
       response = new UlaResponse({ statusCode: 200, body: {} })
     } catch (err) {
@@ -97,7 +97,7 @@ abstract class IssueCredentialEventHandler implements Plugin {
       })
     }
 
-    _callback(response)
+    callback(response)
 
     return response.statusCode < 200 || response.statusCode >= 300
       ? 'error'

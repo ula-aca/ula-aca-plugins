@@ -97,6 +97,7 @@ abstract class ConnectionEventHandler implements Plugin {
         }
       })
     }
+
     callback(response)
 
     return response.statusCode < 200 || response.statusCode >= 300

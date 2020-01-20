@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Plugin, EventHandler, Message } from 'universal-ledger-agent'
+import { Plugin, EventHandler } from 'universal-ledger-agent'
+import { AcaWebhookEventTypes } from '@ula-aca/aca-webhook-event-models'
 import WebSocket from 'isomorphic-ws'
 
 import { AriesEvent, AriesEventTopic } from './AriesEvent'
@@ -34,7 +35,7 @@ export default class WebhookRelayEventRouter implements Plugin {
   }
 
   get name(): string {
-    return 'WebhookRelayEventRouter'
+    return '@ula-aca/webhook-relay-event-router/WebhookRelayEventRouter'
   }
 
   private async handleWebsocketMessage(
@@ -47,47 +48,32 @@ export default class WebhookRelayEventRouter implements Plugin {
 
     switch (event.topic) {
       case AriesEventTopic.CONNECTIONS:
-        ulaMsgType = '@ula-aca/connection-event'
+        ulaMsgType = AcaWebhookEventTypes.CONNECTION_EVENT
         break
       case AriesEventTopic.BASIC_MESSAGE:
-        ulaMsgType = '@ula-aca/basic-message-event'
+        ulaMsgType = AcaWebhookEventTypes.BASIC_MESSAGE_EVENT
         break
       case AriesEventTopic.ISSUE_CREDENTIAL:
-        ulaMsgType = 'aca-issue-credential-event'
+        ulaMsgType = AcaWebhookEventTypes.ISSUE_CREDENTIAL_EVENT
         break
       case AriesEventTopic.PRESENT_PROOF:
-        ulaMsgType = 'aca-present-proof-event'
+        ulaMsgType = AcaWebhookEventTypes.PRESENT_PROOF_EVENT
         break
       default:
         break
     }
 
-    if (
-      event.topic === AriesEventTopic.CONNECTIONS ||
-      event.topic === AriesEventTopic.BASIC_MESSAGE
-    ) {
-      await this.eventHandler.processMsg(
-        {
-          type: ulaMsgType,
-          body: event.payload
-        },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        () => {}
-      )
-    } else {
-      await this.eventHandler.processMsg(
-        {
-          type: ulaMsgType,
-          payload: event.payload
-        },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        () => {}
-      )
-    }
+    await this.eventHandler.processMsg(
+      {
+        type: ulaMsgType,
+        payload: event.payload
+      },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {}
+    )
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  handleEvent(_message: Message, _callback: any): Promise<string> {
+  handleEvent(): Promise<string> {
     return Promise.resolve('ignored')
   }
 }
