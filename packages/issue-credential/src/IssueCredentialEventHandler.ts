@@ -36,12 +36,12 @@ import {
   isCredentialExchangeRecordRequestReceived,
   isCredentialExchangeRecordIssued,
   CredentialExchangeRecordIssued,
-  CredentialExchangeRecordStored,
-  isCredentialExchangeRecordStored,
   isCredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordBase,
-  isCredentialExchangeRecordOfferReceived
+  isCredentialExchangeRecordOfferReceived,
+  CredentialExchangeRecordCredentialAcknowledged,
+  isCredentialExchangeRecordCredentialAcknowledged
 } from '@ula-aca/aca-webhook-event-models'
 
 abstract class IssueCredentialEventHandler implements Plugin {
@@ -80,8 +80,8 @@ abstract class IssueCredentialEventHandler implements Plugin {
         await this.onRequestReceived(payload)
       } else if (isCredentialExchangeRecordIssued(payload)) {
         await this.onIssued(payload)
-      } else if (isCredentialExchangeRecordStored(payload)) {
-        await this.onStored(payload)
+      } else if (isCredentialExchangeRecordCredentialAcknowledged(payload)) {
+        await this.onCredentialAcknowledged(payload)
       } else if (isCredentialExchangeRecordCredentialReceived(payload)) {
         await this.onCredentialReceived(payload)
       } else {
@@ -132,8 +132,8 @@ abstract class IssueCredentialEventHandler implements Plugin {
     message: CredentialExchangeRecordIssued
   ): Promise<void>
 
-  abstract async onStored(
-    message: CredentialExchangeRecordStored
+  abstract async onCredentialAcknowledged(
+    message: CredentialExchangeRecordCredentialAcknowledged
   ): Promise<void>
 
   abstract async onCredentialReceived(

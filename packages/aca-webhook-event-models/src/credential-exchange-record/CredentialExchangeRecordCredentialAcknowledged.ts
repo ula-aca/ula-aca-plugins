@@ -19,13 +19,13 @@ import {
   CredentialExchangeRecordState
 } from './base'
 
-export interface CredentialExchangeRecordStored
+export interface CredentialExchangeRecordCredentialAcknowledged
   extends CredentialExchangeRecordBase {
-  state: CredentialExchangeRecordState.STORED
+  state: CredentialExchangeRecordState.CREDENTIAL_ACKNOWLEDGED
 }
 
-export function isCredentialExchangeRecordStored(
+export function isCredentialExchangeRecordCredentialAcknowledged(
   event: CredentialExchangeRecordBase
-): event is CredentialExchangeRecordStored {
-  return event.state === 'stored'
+): event is CredentialExchangeRecordCredentialAcknowledged {
+  return event.state === CredentialExchangeRecordState.CREDENTIAL_ACKNOWLEDGED
 }

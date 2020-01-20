@@ -23,5 +23,5 @@ export enum CredentialExchangeRecordState {
   REQUEST_RECEIVED = 'request_received',
   ISSUED = 'issued',
   CREDENTIAL_RECEIVED = 'credential_received',
-  STORED = 'stored'
+  CREDENTIAL_ACKNOWLEDGED = 'credential_acked'
 }

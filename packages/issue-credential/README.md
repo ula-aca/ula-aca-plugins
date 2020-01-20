@@ -487,7 +487,7 @@ import {
   CredentialExchangeRecordRequestSent,
   CredentialExchangeRecordRequestReceived,
   CredentialExchangeRecordIssued,
-  CredentialExchangeRecordStored,
+  CredentialExchangeRecordCredentialAcknowledged,
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordProposalReceived
 } from '@ula-aca/aca-webhook-event-models'
@@ -521,8 +521,10 @@ class IssueEventHandler extends IssueCredentialEventHandler {
   onIssued(message: CredentialExchangeRecordIssued): Promise<void> {
     // credential exchange record state changed to 'issued'
   }
-  onStored(message: CredentialExchangeRecordStored): Promise<void> {
-    // credential exchange record state changed to 'stored'
+  onCredentialAcknowledged(
+    message: CredentialExchangeRecordCredentialAcknowledged
+  ): Promise<void> {
+    // credential exchange record state changed to 'credential_acked'
   }
   onCredentialReceived(
     message: CredentialExchangeRecordCredentialReceived

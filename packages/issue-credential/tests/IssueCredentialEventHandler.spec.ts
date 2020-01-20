@@ -34,7 +34,7 @@ class IssueHandler extends IssueCredentialEventHandler {
 
   async onIssued(): Promise<void> {}
 
-  async onStored(): Promise<void> {}
+  async onCredentialAcknowledged(): Promise<void> {}
 
   async onCredentialReceived(): Promise<void> {}
 }
@@ -490,7 +490,7 @@ describe('[package] @ula-aca/present-proof', () => {
           res.statusCode.should.equal(200)
         })
       })
-      it('stored status should result in onStored() callback call', async () => {
+      it('credential_acked status should result in onCredentialAcknowledged() callback call', async () => {
         const statusCode = 200
 
         const data = {
@@ -501,7 +501,7 @@ describe('[package] @ula-aca/present-proof', () => {
           auto_offer: false,
           role: 'issuer',
           credential_offer: {},
-          state: 'stored',
+          state: 'credential_acked',
           credential_request: {},
           initiator: 'self',
           credential: {},
@@ -519,7 +519,7 @@ describe('[package] @ula-aca/present-proof', () => {
 
         issueHandlerStubbed = stubInterfaceFunction({
           Class: IssueHandler,
-          functionName: 'onStored',
+          functionName: 'onCredentialAcknowledged',
           status: statusCode
         })
 
