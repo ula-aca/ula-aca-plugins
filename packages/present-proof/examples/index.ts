@@ -26,7 +26,10 @@ import {
   VerifyPresentationBody,
   VerifyPresentationResult,
   VerifyPresentationMessage,
-  RemoveExchangeRecordMessage
+  RemoveExchangeRecordMessage,
+  GetRequestCredentialsBody,
+  GetRequestCredentialsMessage,
+  GetRequestCredentialsResult
 } from '../src'
 
 async function getExchangeRecords(
@@ -67,27 +70,25 @@ async function getExchangeRecordById(
   })
 }
 
-// TODO need the return types for this one
-//
-// async function getRequestCredentials(
-//   eventHandler: EventHandler,
-//   options: GetRequestCredentialsBody
-// ): Promise<GetRequestCredentialsResult> {
-//   return new Promise((resolve, reject) => {
-//     const message: GetRequestCredentialsMessage = {
-//       type: PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS,
-//       body: options
-//     }
+async function getRequestCredentials(
+  eventHandler: EventHandler,
+  options: GetRequestCredentialsBody
+): Promise<GetRequestCredentialsResult> {
+  return new Promise((resolve, reject) => {
+    const message: GetRequestCredentialsMessage = {
+      type: PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS,
+      body: options
+    }
 
-//     eventHandler.processMsg(message, (response: UlaResponse) => {
-//       if (response.statusCode < 200 || response.statusCode >= 300)
-//         reject(response.body)
+    eventHandler.processMsg(message, (response: UlaResponse) => {
+      if (response.statusCode < 200 || response.statusCode >= 300)
+        reject(response.body)
 
-//       const result: GetRequestCredentialsResult = response.body
-//       resolve(result)
-//     })
-//   })
-// }
+      const result: GetRequestCredentialsResult = response.body
+      resolve(result)
+    })
+  })
+}
 
 // TODO need the return types for this one
 //
@@ -253,6 +254,7 @@ async function removeExchangeRecord(
 export {
   getExchangeRecords,
   getExchangeRecordById,
+  getRequestCredentials,
   sendProposal,
   createPresentationRequest,
   sendRequest,

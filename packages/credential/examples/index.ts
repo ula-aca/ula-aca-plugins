@@ -7,13 +7,11 @@ import {
   CredentialMessageTypes,
   GetCredentialByIdBody,
   GetCredentialByIdResult,
-  GetCredentialByIdMessage
-} from '../src'
-import {
+  GetCredentialByIdMessage,
   RemoveCredentialBody,
   RemoveCredentialResult,
   RemoveCredentialMessage
-} from '../src/messages/RemoveCredential'
+} from '../src'
 
 async function getCredentials(
   eventHandler: EventHandler,
