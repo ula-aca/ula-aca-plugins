@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { IndyProofRequest } from '@ula-aca/aries-cloudagent-interface'
 import { PresentationExchangeRecordState } from '.'
+import { PresentationExchangeRecordPresentation } from './PresentationExchangeRecordPresentation'
 
 export interface PresentationExchangeRecordBase {
   connection_id: string
@@ -21,9 +23,9 @@ export interface PresentationExchangeRecordBase {
   thread_id: string
   presentation_exchange_id: string
   initiator: 'self' | 'external'
-  presentation_proposal_dict: string
-  presentation_request: string
-  presentation: string
+  presentation_proposal_dict?: unknown
+  presentation_request?: IndyProofRequest
+  presentation?: PresentationExchangeRecordPresentation
   verified: 'true' | 'false'
   auto_present: boolean
   error_msg?: string

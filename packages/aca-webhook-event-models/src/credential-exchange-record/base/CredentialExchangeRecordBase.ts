@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CredentialPreview } from '@ula-aca/aries-cloudagent-interface'
 import { CredentialExchangeRecordState } from '.'
 
 export interface CredentialExchangeRecordBase {
@@ -24,7 +25,9 @@ export interface CredentialExchangeRecordBase {
   state: CredentialExchangeRecordState
   credential_definition_id: string
   schema_id: string
-  credential_proposal_dict: string
+  credential_proposal_dict?: {
+    credential_proposal: CredentialPreview
+  }
   credential_offer: string
   credential_request: string
   credential_request_metadata: string
