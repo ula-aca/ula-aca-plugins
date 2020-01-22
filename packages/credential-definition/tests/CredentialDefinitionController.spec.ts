@@ -263,7 +263,7 @@ describe('[package] @ula-aca/credential-definition', () => {
             )
           })
 
-          it('should work when no payload is passed', async () => {
+          it('should work when no body is passed', async () => {
             const data = {
               credential_definition_ids: [
                 'Bqqp9wananY4uW2pRHACiT:3:CL:10:my-cred-def'
