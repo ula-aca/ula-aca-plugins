@@ -33,4 +33,5 @@ export { CredentialMessageType, isCredentialMessage }
 
 export * from './GetCredentials'
 export * from './GetCredentialById'
+export * from './RemoveCredential'
 export * from './CredentialMessageTypes'
