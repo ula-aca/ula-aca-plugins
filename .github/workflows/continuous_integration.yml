@@ -150,10 +150,9 @@ jobs:
           git apply ../network-setup/fix_von_network_manage_log.patch
           ./manage build
           ./manage start
+
       - name: Docker login
-        run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com --username ${{ github.actor }} --password-stdin
 
       - name: Run aca-py and aca-whr
         run: docker-compose -f network-setup/docker-compose.yml up -d --force-recreate
