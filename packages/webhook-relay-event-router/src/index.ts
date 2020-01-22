@@ -20,12 +20,12 @@ import WebSocket from 'isomorphic-ws'
 
 import { AriesEvent, AriesEventTopic } from './AriesEvent'
 
-export default class WebhookRelayEventRouter implements Plugin {
+class WebhookRelayEventRouter implements Plugin {
   private eventHandler?: EventHandler
 
   private websocket: WebSocket
 
-  constructor(webhookRelayUrl: string, options: WebSocket.ClientOptions) {
+  constructor(webhookRelayUrl: string, options?: WebSocket.ClientOptions) {
     this.websocket = new WebSocket(webhookRelayUrl, options)
     this.websocket.onmessage = this.handleWebsocketMessage.bind(this)
   }
@@ -43,8 +43,6 @@ export default class WebhookRelayEventRouter implements Plugin {
   ): Promise<void> {
     const event: AriesEvent = JSON.parse(msg.data.toString())
     let ulaMsgType: string
-
-    // TODO: Switch to webhook-models types and messages
 
     switch (event.topic) {
       case AriesEventTopic.CONNECTIONS:
@@ -66,7 +64,7 @@ export default class WebhookRelayEventRouter implements Plugin {
     await this.eventHandler.processMsg(
       {
         type: ulaMsgType,
-        payload: event.payload
+        body: event.body
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {}
@@ -77,3 +75,5 @@ export default class WebhookRelayEventRouter implements Plugin {
     return Promise.resolve('ignored')
   }
 }
+
+export { WebhookRelayEventRouter }

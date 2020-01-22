@@ -23,5 +23,5 @@ export enum AriesEventTopic {
 
 export interface AriesEvent {
   topic: AriesEventTopic
-  payload: unknown
+  body: unknown
 }
