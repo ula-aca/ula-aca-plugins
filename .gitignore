@@ -139,3 +139,7 @@ public/
 packages/*/lib
 reports
 .stryker-tmp
+
+.env.faber
+.env.alice
+.env.acme

@@ -19,7 +19,9 @@
     "build": "lerna run build",
     "types": "lerna run compile -- --noEmit",
     "update-headers": "copyright-header --fix --copyrightHolder 'ula-aca' --templateId 'apache' --forceModificationYear 'present' --include 'packages/.*/(src|tests)|tests'",
-    "example": "ts-node --require tsconfig-paths/register examples/run.ts"
+    "example:faber": "DOTENV_CONFIG_PATH='.env.faber' ts-node -r tsconfig-paths/register -r dotenv/config examples/faber/run.ts ",
+    "example:alice": "DOTENV_CONFIG_PATH='.env.alice' ts-node -r tsconfig-paths/register -r dotenv/config examples/alice/run.ts",
+    "example:acme": "DOTENV_CONFIG_PATH='.env.acme' ts-node -r tsconfig-paths/register -r dotenv/config examples/acme/run.ts"
   },
   "keywords": [
     "aries",
@@ -67,6 +69,7 @@
     "commitizen": "^4.0.3",
     "copyright-header": "^0.4.6",
     "cz-conventional-changelog": "^3.0.2",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.9.0",
