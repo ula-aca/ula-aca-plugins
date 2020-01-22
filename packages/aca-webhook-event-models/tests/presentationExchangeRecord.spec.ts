@@ -31,10 +31,48 @@ const baseEvent: Omit<PresentationExchangeRecordBase, 'state'> = {
   initiator: 'external',
   thread_id: 'thread_id',
   auto_present: true,
-  presentation: 'presentation',
+  presentation: {
+    identifiers: [],
+    requested_proof: {
+      predicates: {},
+      revealed_attrs: {},
+      self_attested_attrs: {},
+      unrevealed_attrs: {}
+    },
+    proof: {
+      aggregated_proof: {
+        c_hash: '',
+        c_list: [[]]
+      },
+      proofs: [
+        {
+          non_revoc_proof: null,
+          primary_proof: {
+            eq_proof: {
+              a_prime: '',
+              e: '',
+              m: {
+                master_secret: ''
+              },
+              m2: '',
+              revealed_attrs: {},
+              v: ''
+            },
+            ge_proofs: []
+          }
+        }
+      ]
+    }
+  },
   presentation_exchange_id: 'presentation_exchange_id',
   presentation_proposal_dict: 'presentation_proposal_dict',
-  presentation_request: 'presentation_request',
+  presentation_request: {
+    requested_attributes: {},
+    requested_predicates: {},
+    name: '',
+    nonce: '',
+    version: ''
+  },
   verified: 'true'
 }
 

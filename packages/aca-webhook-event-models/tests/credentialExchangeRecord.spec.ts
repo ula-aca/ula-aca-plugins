@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { CredentialPreviewTypeEnum } from '@ula-aca/aries-cloudagent-interface'
 import {
   isCredentialExchangeRecordCredentialReceived,
   isCredentialExchangeRecordIssued,
@@ -23,7 +24,7 @@ import {
   isCredentialExchangeRecordProposalSent,
   isCredentialExchangeRecordRequestReceived,
   isCredentialExchangeRecordRequestSent,
-  isCredentialExchangeRecordStored,
+  isCredentialExchangeRecordCredentialAcknowledged,
   CredentialExchangeRecordBase,
   CredentialExchangeRecordState
 } from '../src/credential-exchange-record'
@@ -37,7 +38,13 @@ const baseEvent: Omit<CredentialExchangeRecordBase, 'state'> = {
   credential_exchange_id: 'credential_exchange_id',
   credential_id: 'credential_id',
   credential_offer: 'credential_offer',
-  credential_proposal_dict: 'credential_proposal_dict',
+  credential_proposal_dict: {
+    credential_proposal: {
+      attributes: [],
+      '@type':
+        CredentialPreviewTypeEnum.DidsovBzCbsNYhMrjHiqZDTUASHgspecIssueCredential10CredentialPreview
+    }
+  },
   credential_request: 'credential_request',
   credential_request_metadata: 'credential_request_metadata',
   initiator: 'external',
@@ -144,13 +151,13 @@ describe('[package] @ula-aca/aca-webhook-event-models', () => {
       }).should.equal(false)
     })
 
-    it("[function] isCredentialExchangeRecordStored() should return whether event state is 'stored'", () => {
-      isCredentialExchangeRecordStored({
+    it("[function] isCredentialExchangeRecordCredentialAcknowledged() should return whether event state is 'credential_acked'", () => {
+      isCredentialExchangeRecordCredentialAcknowledged({
         ...baseEvent,
-        state: CredentialExchangeRecordState.STORED
+        state: CredentialExchangeRecordState.CREDENTIAL_ACKNOWLEDGED
       }).should.equal(true)
 
-      isCredentialExchangeRecordStored({
+      isCredentialExchangeRecordCredentialAcknowledged({
         ...baseEvent,
         state: CredentialExchangeRecordState.CREDENTIAL_RECEIVED
       }).should.equal(false)
