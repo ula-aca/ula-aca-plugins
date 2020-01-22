@@ -17,6 +17,16 @@
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import { SchemaController } from '@ula-aca/schema'
 import { CredentialDefinitionController } from '@ula-aca/credential-definition'
+import { ConnectionController } from '@ula-aca/connection'
+import { LedgerController } from '@ula-aca/ledger'
+import { WalletController } from 'packages/wallet'
+import { PresentProofController } from '@ula-aca/present-proof'
+import { IssueCredentialController } from '@ula-aca/issue-credential'
+import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
+import { CredentialController } from '@ula-aca/credential'
+import TestPresentProofEventHandler from './eventHandlers/TestPresentProofEventHandler'
+import TestIssueCredentialEventHandler from './eventHandlers/TestIssueCredentialEventHandler'
+import TestConnectionEventHandler from './eventHandlers/TestConnectionEventHandler'
 
 function eventPromise(
   eventHandler: EventHandler,
@@ -28,11 +38,28 @@ function eventPromise(
   })
 }
 
-function getEventHandler({ acaUrl }: { acaUrl: string }): EventHandler {
+function getEventHandler({
+  acaUrl,
+  acaWhrUrl
+}: {
+  acaUrl: string
+  acaWhrUrl: string
+}): EventHandler {
   const plugins = [
     new SchemaController(acaUrl),
-    new CredentialDefinitionController(acaUrl)
+    new CredentialDefinitionController(acaUrl),
+    new ConnectionController(acaUrl),
+    new LedgerController(acaUrl),
+    new WalletController(acaUrl),
+    new PresentProofController(acaUrl),
+    new IssueCredentialController(acaUrl),
+    new CredentialController(acaUrl),
+    new WebhookRelayEventRouter(acaWhrUrl),
+    new TestPresentProofEventHandler(),
+    new TestIssueCredentialEventHandler(),
+    new TestConnectionEventHandler()
   ]
+
   const eventHandler = new EventHandler(plugins)
 
   return eventHandler

@@ -28,14 +28,15 @@ import {
   getTestCredentialDefinitions,
   getCreatedCredentialDefinitions,
   getCredentialDefinitionById
-} from './utils/credential-definition'
+} from './utils/credentialDefinition'
 import { getExistingSchemaIds } from './utils/schema'
 import { getEventHandler } from './utils'
 
 describe('[package] @ula-aca/credential-definition', () => {
   describe('[plugin] CredentialDefinitionController', () => {
     const eventHandler: EventHandler = getEventHandler({
-      acaUrl: process.env.ACA_URL || 'http://localhost:7002'
+      acaUrl: process.env.FIRST_ACA_URL || 'http://localhost:7002',
+      acaWhrUrl: process.env.FIRST_ACA_WHR_URL || 'ws://localhost:7080/ws'
     })
     let testCredentialDefinitions: {
       data: CreateCredentialDefinitionBody
