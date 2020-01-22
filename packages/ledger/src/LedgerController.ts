@@ -101,15 +101,15 @@ export default class LedgerController implements Plugin {
   }
 
   private async acceptTransactionAuthorAgreement(
-    payload: AcceptTransactionAuthorAgreementBody
+    body: AcceptTransactionAuthorAgreementBody
   ): Promise<UlaResponse> {
-    const response = await this.ledgerApi.ledgerTaaAcceptPost(payload)
+    const response = await this.ledgerApi.ledgerTaaAcceptPost(body)
 
-    const body = (response.data as unknown) as AcceptTransactionAuthorAgreementResult
+    const result = (response.data as unknown) as AcceptTransactionAuthorAgreementResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body
+      body: result
     })
   }
 
