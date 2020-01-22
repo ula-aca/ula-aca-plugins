@@ -8,24 +8,41 @@ services:
       http://von_webserver_1:8000/register
       -X POST
       -d '{"alias":"Faber Agent","seed":"faber_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
+
+  alice-register-seed:
+    image: byrnedo/alpine-curl
+    networks:
+      - von
+    command: >-
+      http://von_webserver_1:8000/register
+      -X POST
+      -d '{"alias":"Alice Agent","seed":"alice_seed_000000000000000000001","role":"TRUST_ANCHOR"}'
+
+  acme-register-seed:
+    image: byrnedo/alpine-curl
+    networks:
+      - von
+    command: >-
+      http://von_webserver_1:8000/register
+      -X POST
+      -d '{"alias":"Acme Agent","seed":"acme_seed_0000000000000000000001","role":"TRUST_ANCHOR"}'
+
   faber-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
-    ports:
-      - 7002:7002
-      - 7000:7000
-      - 7001:7001
     depends_on:
-      - faber-webhook-receiver
+      - faber-webhook-relay
       - faber-register-seed
     networks:
       - von
       - aca-py
+    ports:
+      - 7002:7002
     command: >-
       start
         --label "Faber Agent"
         --endpoint http://faber-aca-py:7000
         --genesis-url http://von_webserver_1:8000/genesis
-        --webhook-url http://faber-webhook-receiver:8080
+        --webhook-url http://faber-webhook-relay:8080
         --admin 0.0.0.0 7002 
         --admin-insecure-mode 
         --inbound-transport http 0.0.0.0 7000
@@ -39,21 +56,20 @@ services:
 
   alice-aca-py:
     image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
-    ports:
-      - 8002:8002
-      - 8000:8000
-      - 8001:8001
     depends_on:
-      - alice-webhook-receiver
+      - alice-webhook-relay
+      - alice-register-seed
     networks:
       - von
       - aca-py
+    ports:
+      - 8002:8002
     command: >-
       start 
         --endpoint http://alice-aca-py:8000 
         --admin 0.0.0.0 8002    
         --admin-insecure-mode
-        --webhook-url http://alice-webhook-receiver:8080
+        --webhook-url http://alice-webhook-relay:8080
         --label "Alice Agent"
         --inbound-transport http 0.0.0.0 8000 
         --inbound-transport ws 0.0.0.0 8001 
@@ -63,19 +79,58 @@ services:
         --wallet-type indy
         --wallet-name "Alice Wallet"
         --wallet-key AliceWallet000000
+        --seed alice_seed_000000000000000000001
 
-  faber-webhook-receiver:
-    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-receiver/aca-whr:development
+  acme-aca-py:
+    image: bcgovimages/aries-cloudagent:py36-1.11-1_0.4.0
+    depends_on:
+      - acme-webhook-relay
+      - acme-register-seed
     networks:
+      - von
       - aca-py
     ports:
-      - 7080:8080
-  alice-webhook-receiver:
-    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-receiver/aca-whr:development
-    networks:
-      - aca-py
+      - 6002:6002
+    command: >-
+      start 
+        --endpoint http://acme-aca-py:6000 
+        --admin 0.0.0.0 6002    
+        --admin-insecure-mode
+        --webhook-url http://acme-webhook-relay:8080
+        --label "Acme Agent"
+        --inbound-transport http 0.0.0.0 6000 
+        --inbound-transport ws 0.0.0.0 6001 
+        --outbound-transport http 
+        --outbound-transport ws 
+        --genesis-url http://von_webserver_1:8000/genesis
+        --wallet-type indy
+        --wallet-name "Acme Wallet"
+        --wallet-key AcmeWallet0000000
+        --seed acme_seed_0000000000000000000001
+
+  faber-webhook-relay:
+    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
     ports:
       - 8080:8080
+    networks:
+      - aca-py
+    command: --log DEBUG --insecure-mode
+
+  alice-webhook-relay:
+    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    ports:
+      - 7080:8080
+    networks:
+      - aca-py
+    command: --log DEBUG --insecure-mode
+
+  acme-webhook-relay:
+    image: docker.pkg.github.com/ula-aca/aries-cloudagent-webhook-relay/aca-whr:latest
+    ports:
+      - 6080:8080
+    networks:
+      - aca-py
+    command: --log DEBUG --insecure-mode
 
 networks:
   von:
