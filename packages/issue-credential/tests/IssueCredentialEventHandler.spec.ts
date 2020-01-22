@@ -114,7 +114,7 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
+          type: '@ula-aca/issue-credential-event',
           body: {}
         })
 
@@ -135,7 +135,7 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
+          type: '@ula-aca/issue-credential-event',
           body: {}
         })
 
@@ -180,8 +180,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -223,8 +223,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -266,8 +266,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -309,8 +309,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -352,8 +352,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -395,8 +395,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -438,8 +438,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -481,8 +481,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
@@ -524,8 +524,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-issue-credential-event',
-          payload: data
+          type: '@ula-aca/issue-credential-event',
+          body: data
         })
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
