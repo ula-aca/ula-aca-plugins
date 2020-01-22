@@ -28,4 +28,25 @@ interface GetRequestCredentialsMessage {
   body: GetRequestCredentialsBody
 }
 
-export { GetRequestCredentialsMessage, GetRequestCredentialsBody }
+interface RequestCredential {
+  cred_info: {
+    referent: string
+    attrs: {
+      [key: string]: string
+    }
+    schema_id: string
+    cred_def_id: string
+    rev_reg_id: string | null
+    cred_rev_id: string | null
+  }
+  interval: string | null
+  presentation_referents: string[]
+}
+
+type GetRequestCredentialsResult = RequestCredential[]
+
+export {
+  GetRequestCredentialsMessage,
+  GetRequestCredentialsBody,
+  GetRequestCredentialsResult
+}

@@ -39,7 +39,8 @@ import {
   RemoveExchangeRecordBody,
   isPresentProofMessage,
   PresentProofMessageTypes,
-  GetPresentationRequestCredentialsByReferentIdBody
+  GetPresentationRequestCredentialsByReferentIdBody,
+  GetRequestCredentialsResult
 } from './messages'
 
 export class PresentProofController implements Plugin {
@@ -89,9 +90,12 @@ export class PresentProofController implements Plugin {
     const response = await this.presentProofApi.presentProofRecordsPresExIdCredentialsGet(
       presentation_exchange_id
     )
+
+    const body = (response.data as unknown) as GetRequestCredentialsResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 
@@ -199,6 +203,7 @@ export class PresentProofController implements Plugin {
         requested_predicates
       }
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: response.data

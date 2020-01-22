@@ -76,7 +76,7 @@ describe('[package] @ula-aca/present-proof', () => {
         }
       })
 
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
+      it("should return 'error' when a function throws", async () => {
         const data = {
           presentation: {},
           error_msg: 'Invalid structure',
@@ -93,56 +93,61 @@ describe('[package] @ula-aca/present-proof', () => {
           updated_at: '2019-12-12 12:05:38Z',
           state: 'proposal_sent'
         }
-        const statusCode = 300
+
         const expectedResult = 'error'
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onProposalSent',
-          data,
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onProposalSent')
+          .rejects()
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          body: {}
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         const eventRes = await proofHandler.handleEvent(message, () => {})
 
         eventRes.should.equal(expectedResult)
       })
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const data = '400: Bad Request'
-        const statusCode = 400
 
-        // const expectedResult = new UlaResponse({
-        //   body: {
-        //     error: data
-        //   },
-        //   statusCode
-        // })
+      it('should call the callback with the error and statusCode 500 when a function throws', async () => {
+        const data = {
+          presentation: {},
+          error_msg: 'Invalid structure',
+          verified: 'true',
+          auto_present: false,
+          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          initiator: 'self',
+          presentation_proposal_dict: {},
+          role: 'prover',
+          presentation_request: {},
+          created_at: '2019-12-12 12:05:38Z',
+          presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          updated_at: '2019-12-12 12:05:38Z',
+          state: 'proposal_sent'
+        }
+        const error = new Error('Something went wrong')
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onProposalSent',
-          data,
-          status: statusCode,
-          rejects: true
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onProposalSent')
+          .rejects(error)
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          body: {}
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
           res.statusCode.should.equal(500)
+          res.body.should.deep.equal({
+            error
+          })
         })
       })
     })
 
-    describe('aca-present-proof-event events', () => {
+    describe('@ula-aca/present-proof-event events', () => {
       it('proposal_sent status should result in onProposalSent() callback call', async () => {
         const statusCode = 200
 
@@ -170,8 +175,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
@@ -206,8 +211,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
@@ -242,8 +247,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
@@ -278,8 +283,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
@@ -314,8 +319,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
@@ -350,8 +355,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
@@ -386,8 +391,8 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: 'aca-present-proof-event',
-          payload: data
+          type: '@ula-aca/present-proof-event',
+          body: data
         })
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
