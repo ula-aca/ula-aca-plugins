@@ -472,14 +472,14 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 
 ### ConnectionEventHandler
 
-In order to react to incoming credential exchange events, we need to setup out event handler. This package exposes an _abstract_ class `IssueCredentialEventHandler` that you can extend to implement this behavior. The Aries Cloudagent-Py emits an event whenever there is a change to the state of an agent's credential exchange record. Therefore there is a callback method for every credential exchange record state possible. These are: `proposal_sent`, `proposal_received`, `offer_sent`, `offer_received`, `request_sent`, `request_received`, `issued`, `credential_received` and `stored`.
+In order to react to incoming credential exchange events, we need to setup out event handler. This package exposes an _abstract_ class `IssueCredentialEventHandler` that you can extend to implement this behavior. The Aries Cloudagent-Py emits an event whenever there is a change to the state of an agent's credential exchange record. Therefore there is a callback method for every credential exchange record state possible. These are: `proposal_sent`, `proposal_received`, `offer_sent`, `offer_received`, `request_sent`, `request_received`, `issued`, `credential_received` and `credential_acked`.
 
 There is also a callback method for incoming basic message events.
 
 ```typescript
 import { IssueCredentialEventHandler } from '@ula-aca/issue-credential'
 import { EventHandler } from 'universal-ledger-agent'
-import WebhookRelayEventRouter from '@ula-aca/webhook-relay-event-router'
+import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 import {
   CredentialExchangeRecordProposalSent,
   CredentialExchangeRecordOfferSent,

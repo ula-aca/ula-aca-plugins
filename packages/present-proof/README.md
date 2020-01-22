@@ -597,7 +597,7 @@ There is also a callback method for incoming basic message events.
 ```typescript
 import { PresentProofEventHandler } from '@ula-aca/present-proof'
 import { EventHandler } from 'universal-ledger-agent'
-import WebhookRelayEventRouter from '@ula-aca/webhook-relay-event-router'
+import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 import {
   PresentationExchangeRecordProposalSent,
   PresentationExchangeRecordProposalReceived,
