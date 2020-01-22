@@ -28,6 +28,35 @@ const indent = (value, noOfSpaces = 4, ...params): string =>
   indentString(value, noOfSpaces, ...params)
 const { bold } = chalk
 
+function logJson({
+  input,
+  type,
+  comment
+}: {
+  type: string
+  input: object
+  comment?: string
+}): void {
+  log(`${inverse('START:')} ${bold(type)}`)
+
+  emptyLine()
+
+  if (comment) {
+    log(indent(bold('Comment: ')))
+    log(indent(comment))
+    emptyLine()
+  }
+
+  log(indent(bold('Input: ')))
+  log(indent(prettyJSON(input)))
+
+  emptyLine()
+
+  emptyLine()
+  log(`${inverse('END:')} ${bold(type)}`)
+  emptyLine()
+}
+
 function logEvent({
   type,
   input,
@@ -84,6 +113,7 @@ function logWebhookEvent({
   input: object
   comment?: string
 }): void {
+  if (['0', 'false'].includes(process.env.LOG_WEBHOOK_EVENTS)) return
   log(`${inverse('START WEBHOOK EVENT:')} ${bold(type)}`)
 
   emptyLine()
@@ -106,4 +136,4 @@ function logWebhookEvent({
   emptyLine()
 }
 
-export { logEvent, logWebhookEvent }
+export { logEvent, logWebhookEvent, logJson }
