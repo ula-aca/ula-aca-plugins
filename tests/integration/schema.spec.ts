@@ -35,7 +35,8 @@ import { getEventHandler } from './utils'
 describe('[package] @ula-aca/schema', () => {
   describe('[plugin] SchemaController', () => {
     const eventHandler: EventHandler = getEventHandler({
-      acaUrl: process.env.ACA_URL || 'http://localhost:7002'
+      acaUrl: process.env.FIRST_ACA_URL || 'http://localhost:7002',
+      acaWhrUrl: process.env.FIRST_ACA_WHR_URL || 'ws://localhost:7080/ws'
     })
     const testSchemas: {
       data: CreateSchemaBody
