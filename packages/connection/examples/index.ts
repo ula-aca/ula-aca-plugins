@@ -233,7 +233,6 @@ async function sendBasicMessage(
   })
 }
 
-export * from './events'
 export {
   getConnections,
   getConnectionById,

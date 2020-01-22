@@ -1,6 +1,6 @@
 import { EventHandler } from 'universal-ledger-agent'
 import { logEvent } from '@ula-aca/test-utils'
-import WebhookRelayEventRouter from '@ula-aca/webhook-relay-event-router'
+import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 import {
   ConnectionController,
   CreateInvitationBody,
@@ -9,7 +9,6 @@ import {
 } from '../src'
 
 import { createInvitation, receiveInvitation } from '.'
-import { ExampleConnectionEventHandler } from './events'
 
 async function run(): Promise<void> {
   const connectionControllerFaber = new ConnectionController(
@@ -26,10 +25,8 @@ async function run(): Promise<void> {
     }
   )
 
-  const connectionEventHandlerFaber = new ExampleConnectionEventHandler('Faber')
   const eventHandlerFaber = new EventHandler([
     connectionControllerFaber,
-    connectionEventHandlerFaber,
     webhookRelayFaber
   ])
 
@@ -45,10 +42,8 @@ async function run(): Promise<void> {
       }
     }
   )
-  const connectionEventHandlerAlice = new ExampleConnectionEventHandler('Alice')
   const eventHandlerAlice = new EventHandler([
     connectionControllerAlice,
-    connectionEventHandlerAlice,
     webhookRelayAlice
   ])
 
