@@ -1,4 +1,4 @@
-import { ConnectionController } from '@ula-aca/connection/'
+import { ConnectionController } from '@ula-aca/connection'
 import { SchemaController } from '@ula-aca/schema'
 import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 import { EventHandler } from 'universal-ledger-agent'
