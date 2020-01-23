@@ -1,38 +1,43 @@
 const { relative } = require('path')
-const {spawnSync} = require('child_process')
+const { spawnSync } = require('child_process')
 
-const lernaPackages = spawnSync('lerna', ["ls", "--all", "--parseable"]).stdout.toString().trim().split("\n")
-const noExtraneousOverrides = lernaPackages
-  .reduce((overrides, entry) => {
-    const relPath = relative(process.cwd(), entry)
-    return [...overrides, {
-    // Main rule. Only allow packages declared under `dependencies` in package.json of package
-    files: [`${relPath}/**/*`],
-    rules: {
-			'import/no-extraneous-dependencies': [
-				'error',
-				{
-					devDependencies: false,
-					optionalDependencies: false,
-					packageDir: [entry],
-				},
-			],
-		},
-  },
-  {
-    // Allow packages declared under `dependencies` and `devDependencies` in package.json of package and root
-    files: [`${relPath}/examples/**`, `${relPath}/tests/**/*`],
-    rules: {
-			'import/no-extraneous-dependencies': [
-				'error',
-				{
-					devDependencies: true,
-					optionalDependencies: false,
-					packageDir: [__dirname, entry],
-				},
-			],
-		},
-  }] 
+const lernaPackages = spawnSync('./node_modules/.bin/lerna', ['ls', '--all', '--parseable'])
+  .stdout.toString()
+  .trim()
+  .split('\n')
+const noExtraneousOverrides = lernaPackages.reduce((overrides, entry) => {
+  const relPath = relative(process.cwd(), entry)
+  return [
+    ...overrides,
+    {
+      // Main rule. Only allow packages declared under `dependencies` in package.json of package
+      files: [`${relPath}/**/*`],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: false,
+            optionalDependencies: false,
+            packageDir: [entry]
+          }
+        ]
+      }
+    },
+    {
+      // Allow packages declared under `dependencies` and `devDependencies` in package.json of package and root
+      files: [`${relPath}/examples/**`, `${relPath}/tests/**/*`],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: true,
+            optionalDependencies: false,
+            packageDir: [__dirname, entry]
+          }
+        ]
+      }
+    }
+  ]
 }, [])
 
 module.exports = {
@@ -61,9 +66,12 @@ module.exports = {
     ],
     '@typescript-eslint/camelcase': 'off',
     'default-case': 'off',
-    'no-restricted-imports': ["error", {
-      patterns: ["../lib/*", "*/../lib/*", "packages/*/lib/*", "./lib/*"]
-    }]
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: ['../lib/*', '*/../lib/*', 'packages/*/lib/*', './lib/*']
+      }
+    ]
   },
   settings: {
     'import/resolver': {
@@ -77,7 +85,7 @@ module.exports = {
     {
       files: '**/examples/**',
       rules: {
-        'no-console': 'off',
+        'no-console': 'off'
       }
     },
     {
@@ -99,9 +107,9 @@ module.exports = {
           {
             devDependencies: true,
             optionalDependencies: false,
-            peerDependencies: false,
-          },
-        ],
+            peerDependencies: false
+          }
+        ]
       }
     },
     ...noExtraneousOverrides
