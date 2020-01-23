@@ -1,31 +1,40 @@
-const { resolve } = require('path');
-const { readdirSync, lstatSync } = require('fs');
+const { relative } = require('path')
+const {spawnSync} = require('child_process')
 
-const PACKAGE_DIR = 'packages/'; // this could be replaced utilizing the globs in package.json's "workpackges" or from the lerna.json config
-
-// get files in packages
-const noExtraneousOverrides = readdirSync(resolve(__dirname, PACKAGE_DIR))
-	// filter for non-hidden dirs to get a list of packages
-	.filter(
-		entry =>
-			entry.substr(0, 1) !== '.' && lstatSync(resolve(__dirname, PACKAGE_DIR, entry)).isDirectory(),
-	)
-	// map to override rules pointing to local and root package.json for rule
-	.map(entry => ({
-		files: [`${PACKAGE_DIR}${entry}/**/*`],
-		rules: {
+const lernaPackages = spawnSync('lerna', ["ls", "--all", "--parseable"]).stdout.toString().trim().split("\n")
+const noExtraneousOverrides = lernaPackages
+  .reduce((overrides, entry) => {
+    const relPath = relative(process.cwd(), entry)
+    return [...overrides, {
+    // Main rule. Only allow packages declared under `dependencies` in package.json of package
+    files: [`${relPath}/**/*`],
+    rules: {
+			'import/no-extraneous-dependencies': [
+				'error',
+				{
+					devDependencies: false,
+					optionalDependencies: false,
+					packageDir: [entry],
+				},
+			],
+		},
+  },
+  {
+    // Allow packages declared under `dependencies` and `devDependencies` in package.json of package and root
+    files: [`${relPath}/examples/**`, `${relPath}/tests/**/*`],
+    rules: {
 			'import/no-extraneous-dependencies': [
 				'error',
 				{
 					devDependencies: true,
 					optionalDependencies: false,
-					peerDependencies: false,
-					packageDir: [__dirname, resolve(__dirname, PACKAGE_DIR, entry)],
+					packageDir: [__dirname, entry],
 				},
 			],
 		},
-  }));
-  
+  }] 
+}, [])
+
 module.exports = {
   extends: [
     'airbnb-base',
