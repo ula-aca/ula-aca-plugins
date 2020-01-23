@@ -23,7 +23,7 @@ import {
   PresentationExchangeRecordPresentationSent,
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 /* eslint-disable @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars */
 

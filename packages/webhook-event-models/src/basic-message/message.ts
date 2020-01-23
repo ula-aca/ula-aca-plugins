@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { PairwiseConnectionRecordBase } from './base/PairwiseConnectionRecordBase'
-import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
+import { BasicMessage } from './BasicMessage'
+import { WebhookEventTypes } from '../WebhookEventTypes'
 
-export interface ConnectionEventMessage {
-  type: AcaWebhookEventTypes.CONNECTION_EVENT
-  body: PairwiseConnectionRecordBase
+export interface BasicMessageEventMessage {
+  type: WebhookEventTypes.BASIC_MESSAGE_EVENT
+  body: BasicMessage
 }
 
-export function isConnectionEventMessage(
+export function isBasicMessageEventMessage(
   properties
-): properties is ConnectionEventMessage {
-  return properties.type === AcaWebhookEventTypes.CONNECTION_EVENT
+): properties is BasicMessageEventMessage {
+  return properties.type === WebhookEventTypes.BASIC_MESSAGE_EVENT
 }

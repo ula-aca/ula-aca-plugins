@@ -38,7 +38,7 @@ import {
   PairwiseConnectionRecordError,
   isConnectionEventMessage,
   isBasicMessageEventMessage
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 abstract class ConnectionEventHandler implements Plugin {
   protected eventHandler: EventHandler

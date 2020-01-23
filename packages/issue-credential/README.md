@@ -490,7 +490,7 @@ import {
   CredentialExchangeRecordCredentialAcknowledged,
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordProposalReceived
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 class IssueEventHandler extends IssueCredentialEventHandler {
   onProposalSent(message: CredentialExchangeRecordProposalSent): Promise<void> {

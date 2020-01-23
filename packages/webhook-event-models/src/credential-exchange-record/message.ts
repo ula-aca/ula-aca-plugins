@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { BasicMessage } from './BasicMessage'
-import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
+import { WebhookEventTypes } from '../WebhookEventTypes'
+import { CredentialExchangeRecordBase } from './base/CredentialExchangeRecordBase'
 
-export interface BasicMessageEventMessage {
-  type: AcaWebhookEventTypes.BASIC_MESSAGE_EVENT
-  body: BasicMessage
+export interface IssueCredentialEvent {
+  type: WebhookEventTypes.ISSUE_CREDENTIAL_EVENT
+  body: CredentialExchangeRecordBase
 }
 
-export function isBasicMessageEventMessage(
+export function isIssueCredentialEventMessage(
   properties
-): properties is BasicMessageEventMessage {
-  return properties.type === AcaWebhookEventTypes.BASIC_MESSAGE_EVENT
+): properties is IssueCredentialEvent {
+  return properties.type === WebhookEventTypes.ISSUE_CREDENTIAL_EVENT
 }

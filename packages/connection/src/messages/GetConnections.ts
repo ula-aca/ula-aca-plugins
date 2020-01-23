@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { PairwiseConnectionRecordState } from '@ula-aca/aca-webhook-event-models'
+import { PairwiseConnectionRecordState } from '@ula-aca/webhook-event-models'
 
 import { ConnectionList } from '@ula-aca/aries-cloudagent-interface'
 import { ConnectionMessageTypes } from './ConnectionMessageTypes'

@@ -390,7 +390,7 @@ import {
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError,
   PairwiseConnectionRecordInit
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 class ConnectionHandler extends ConnectionEventHandler {
   onInit(message: PairwiseConnectionRecordInit): Promise<void> {

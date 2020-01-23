@@ -8,7 +8,7 @@ import {
   PairwiseConnectionRecordActive,
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
 import {
   ConnectionEventHandler,

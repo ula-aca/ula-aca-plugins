@@ -9,7 +9,7 @@ import {
   PresentationExchangeRecordPresentationSent,
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { logWebhookEvent } from '@ula-aca/test-utils'
 
 class FaberPresentProofEventHandler extends PresentProofEventHandler {

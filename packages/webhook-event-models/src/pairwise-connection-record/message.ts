@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
-import { CredentialExchangeRecordBase } from './base/CredentialExchangeRecordBase'
+import { PairwiseConnectionRecordBase } from './base/PairwiseConnectionRecordBase'
+import { WebhookEventTypes } from '../WebhookEventTypes'
 
-export interface IssueCredentialEvent {
-  type: AcaWebhookEventTypes.ISSUE_CREDENTIAL_EVENT
-  body: CredentialExchangeRecordBase
+export interface ConnectionEventMessage {
+  type: WebhookEventTypes.CONNECTION_EVENT
+  body: PairwiseConnectionRecordBase
 }
 
-export function isIssueCredentialEventMessage(
+export function isConnectionEventMessage(
   properties
-): properties is IssueCredentialEvent {
-  return properties.type === AcaWebhookEventTypes.ISSUE_CREDENTIAL_EVENT
+): properties is ConnectionEventMessage {
+  return properties.type === WebhookEventTypes.CONNECTION_EVENT
 }

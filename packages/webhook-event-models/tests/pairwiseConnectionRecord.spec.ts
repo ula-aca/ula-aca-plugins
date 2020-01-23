@@ -35,7 +35,7 @@ const baseEvent: Omit<PairwiseConnectionRecordBase, 'state'> = {
   routing_state: 'active'
 }
 
-describe('[package] @ula-aca/aca-webhook-event-models', () => {
+describe('[package] @ula-aca/webhook-event-models', () => {
   describe('pairwise-connection-record', () => {
     it("[function] isPairwiseConnectionRecordActive() should return whether event state is 'active'", () => {
       isPairwiseConnectionRecordActive({

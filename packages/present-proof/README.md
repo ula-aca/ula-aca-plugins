@@ -606,7 +606,7 @@ import {
   PresentationExchangeRecordPresentationSent,
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 class ProofEventHandler extends PresentProofEventHandler {
   onProposalSent(

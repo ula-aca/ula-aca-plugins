@@ -10,7 +10,7 @@ import {
   CredentialExchangeRecordIssued,
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialAcknowledged
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { logWebhookEvent } from '@ula-aca/test-utils'
 
 class AcmeIssueCredentialEventHandler extends IssueCredentialEventHandler {

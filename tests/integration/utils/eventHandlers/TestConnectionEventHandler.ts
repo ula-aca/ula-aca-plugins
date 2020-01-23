@@ -23,7 +23,7 @@ import {
   PairwiseConnectionRecordActive,
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { ConnectionEventHandler } from '@ula-aca/connection'
 
 /* eslint-disable @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars */

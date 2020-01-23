@@ -36,7 +36,7 @@ import {
   isPresentationExchangeRecordVerified,
   PresentationExchangeRecordPresentationReceived,
   isPresentProofEventMessage
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 abstract class PresentProofEventHandler implements Plugin {
   protected eventHandler: EventHandler

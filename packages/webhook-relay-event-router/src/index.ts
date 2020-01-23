@@ -15,7 +15,7 @@
  */
 
 import { Plugin, EventHandler } from 'universal-ledger-agent'
-import { AcaWebhookEventTypes } from '@ula-aca/aca-webhook-event-models'
+import { WebhookEventTypes } from '@ula-aca/webhook-event-models'
 import WebSocket from 'isomorphic-ws'
 
 import { AriesEvent, AriesEventTopic } from './AriesEvent'
@@ -46,16 +46,16 @@ class WebhookRelayEventRouter implements Plugin {
 
     switch (event.topic) {
       case AriesEventTopic.CONNECTIONS:
-        ulaMsgType = AcaWebhookEventTypes.CONNECTION_EVENT
+        ulaMsgType = WebhookEventTypes.CONNECTION_EVENT
         break
       case AriesEventTopic.BASIC_MESSAGE:
-        ulaMsgType = AcaWebhookEventTypes.BASIC_MESSAGE_EVENT
+        ulaMsgType = WebhookEventTypes.BASIC_MESSAGE_EVENT
         break
       case AriesEventTopic.ISSUE_CREDENTIAL:
-        ulaMsgType = AcaWebhookEventTypes.ISSUE_CREDENTIAL_EVENT
+        ulaMsgType = WebhookEventTypes.ISSUE_CREDENTIAL_EVENT
         break
       case AriesEventTopic.PRESENT_PROOF:
-        ulaMsgType = AcaWebhookEventTypes.PRESENT_PROOF_EVENT
+        ulaMsgType = WebhookEventTypes.PRESENT_PROOF_EVENT
         break
       default:
         break

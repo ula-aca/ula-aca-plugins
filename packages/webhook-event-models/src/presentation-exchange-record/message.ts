@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { AcaWebhookEventTypes } from '../AcaWebhookEventTypes'
+import { WebhookEventTypes } from '../WebhookEventTypes'
 import { PresentationExchangeRecordBase } from './base/PresentationExchangeRecordBase'
 
 export interface PresentProofEventMessage {
-  type: AcaWebhookEventTypes.PRESENT_PROOF_EVENT
+  type: WebhookEventTypes.PRESENT_PROOF_EVENT
   body: PresentationExchangeRecordBase
 }
 
 export function isPresentProofEventMessage(
   properties
 ): properties is PresentProofEventMessage {
-  return properties.type === AcaWebhookEventTypes.PRESENT_PROOF_EVENT
+  return properties.type === WebhookEventTypes.PRESENT_PROOF_EVENT
 }

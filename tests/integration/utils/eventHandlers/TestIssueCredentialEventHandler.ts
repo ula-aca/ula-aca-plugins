@@ -24,7 +24,7 @@ import {
   CredentialExchangeRecordIssued,
   CredentialExchangeRecordCredentialAcknowledged,
   CredentialExchangeRecordCredentialReceived
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { IssueCredentialEventHandler } from '@ula-aca/issue-credential'
 
 /* eslint-disable @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars */

@@ -15,7 +15,7 @@ import {
   CredentialExchangeRecordIssued,
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialAcknowledged
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
 import { store, sendRequest } from '@ula-aca/issue-credential/examples'
 import {

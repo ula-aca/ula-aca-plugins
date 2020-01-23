@@ -53,7 +53,7 @@ const baseEvent: Omit<CredentialExchangeRecordBase, 'state'> = {
   thread_id: 'thread_id'
 }
 
-describe('[package] @ula-aca/aca-webhook-event-models', () => {
+describe('[package] @ula-aca/webhook-event-models', () => {
   describe('credential-exchange-record', () => {
     it("[function] isCredentialExchangeRecordCredentialReceived() should return whether event state is 'credential_received'", () => {
       isCredentialExchangeRecordCredentialReceived({

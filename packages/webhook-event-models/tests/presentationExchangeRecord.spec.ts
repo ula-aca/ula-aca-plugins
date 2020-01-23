@@ -76,7 +76,7 @@ const baseEvent: Omit<PresentationExchangeRecordBase, 'state'> = {
   verified: 'true'
 }
 
-describe('[package] @ula-aca/aca-webhook-event-models', () => {
+describe('[package] @ula-aca/webhook-event-models', () => {
   describe('presentation-exchange-record', () => {
     it("[function] isPresentationExchangeRecordPresentationReceived() should return whether event state is 'presentation_received'", () => {
       isPresentationExchangeRecordPresentationReceived({

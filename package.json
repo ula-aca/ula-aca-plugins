@@ -92,7 +92,7 @@
     "universal-ledger-agent": "^0.1.2"
   },
   "dependencies": {
-    "@ula-aca/aca-webhook-event-models": "file:packages/aca-webhook-event-models",
+    "@ula-aca/webhook-event-models": "file:packages/webhook-event-models",
     "@ula-aca/connection": "file:packages/connection",
     "@ula-aca/credential": "file:packages/credential",
     "@ula-aca/credential-definition": "file:packages/credential-definition",

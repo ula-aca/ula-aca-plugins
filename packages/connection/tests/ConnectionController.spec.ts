@@ -27,7 +27,7 @@ import {
   stubInterfaceRejectsFunction
 } from '@ula-aca/test-utils'
 
-import { PairwiseConnectionRecordState } from '@ula-aca/aca-webhook-event-models'
+import { PairwiseConnectionRecordState } from '@ula-aca/webhook-event-models'
 import {
   ConnectionController,
   ConnectionMessageTypes,

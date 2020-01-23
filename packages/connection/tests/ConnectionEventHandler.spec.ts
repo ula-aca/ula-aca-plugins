@@ -20,7 +20,7 @@ import sinon from 'sinon'
 import {
   ConnectionEventMessage,
   BasicMessageEventMessage
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 import { ConnectionEventHandler } from '../src'
 
 class ConnectionHandler extends ConnectionEventHandler {

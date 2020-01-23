@@ -40,7 +40,7 @@ import {
   CredentialExchangeRecordCredentialAcknowledged,
   isCredentialExchangeRecordCredentialAcknowledged,
   isIssueCredentialEventMessage
-} from '@ula-aca/aca-webhook-event-models'
+} from '@ula-aca/webhook-event-models'
 
 abstract class IssueCredentialEventHandler implements Plugin {
   protected eventHandler: EventHandler

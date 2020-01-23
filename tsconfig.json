@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@ula-aca/aca-webhook-event-models": [
-        "packages/aca-webhook-event-models/src/index.ts"
+      "@ula-aca/webhook-event-models": [
+        "packages/webhook-event-models/src/index.ts"
       ],
       "@ula-aca/connection": ["packages/connection/src/index.ts"],
       "@ula-aca/credential-definition": [

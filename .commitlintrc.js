@@ -10,7 +10,7 @@ module.exports = {
         .then(packages => [
           2,
           'always',
-          [...packages, 'deps-dev', 'deps']
+          [...packages, 'deps-dev', 'deps', 'aca-webhook-event-models']
         ])
   }
 }

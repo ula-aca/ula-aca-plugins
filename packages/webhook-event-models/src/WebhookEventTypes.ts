@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present ula-aca
+ * Copyright 2020-present ula-aca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-export * from './AcaWebhookEventTypes'
-export * from './pairwise-connection-record'
-export * from './basic-message'
-export * from './presentation-exchange-record'
-export * from './credential-exchange-record'
+export enum WebhookEventTypes {
+  CONNECTION_EVENT = '@ula-aca/connection-event',
+  BASIC_MESSAGE_EVENT = '@ula-aca/basic-message-event',
+  ISSUE_CREDENTIAL_EVENT = '@ula-aca/issue-credential-event',
+  PRESENT_PROOF_EVENT = '@ula-aca/present-proof-event'
+}

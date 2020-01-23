@@ -1,5 +1,5 @@
 {
-  "name": "@ula-aca/aca-webhook-event-models",
+  "name": "@ula-aca/webhook-event-models",
   "version": "0.0.0",
   "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents.",
   "scripts": {
@@ -18,18 +18,18 @@
     "identity",
     "blockchain",
     "indy",
-    "aca-webhook-event-models"
+    "webhook-event-models"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ula-aca/ula-aca-plugins",
-    "directory": "packages/aca-webhook-event-models"
+    "directory": "packages/webhook-event-models"
   },
   "contributors": [
     "Timo Glastra <timo@glastra.me>",
     "Karim Stekelenburg <karim.stekelenburg@me.com>"
   ],
-  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/aca-webhook-event-models",
+  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/webhook-event-models",
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
