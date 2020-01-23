@@ -40,8 +40,9 @@
     "lib"
   ],
   "dependencies": {
+    "@ula-aca/webhook-event-models": "file:../webhook-event-models",
     "isomorphic-ws": "^4.0.1",
-    "universal-ledger-agent": "^0.1.1",
+    "universal-ledger-agent": "^0.1.2",
     "ws": "^7.2.1"
   }
 }
