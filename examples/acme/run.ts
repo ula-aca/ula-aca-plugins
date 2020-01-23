@@ -17,9 +17,10 @@ async function run(): Promise<void> {
   const acmePresentProofEventHandler = new AcmePresentProofEventHandler()
 
   const eventHandlerAcme = getEventHandler({
-    acaUrl: process.env.ACA_URL,
-    acaWhrUrl: process.env.ACA_WHR_URL,
-    acaWhrApiKey: process.env.ACA_WHR_API_KEY,
+    acaUrl: process.env.ACME_ACA_URL,
+    acaApiKey: process.env.ACME_ACA_API_KEY,
+    acaWhrUrl: process.env.ACME_ACA_WHR_URL,
+    acaWhrApiKey: process.env.ACME_ACA_WHR_API_KEY,
     webhookEventHandlerPlugins: [
       acmeConnectionEventHandler,
       acmeIssueCredentialEventHandler,

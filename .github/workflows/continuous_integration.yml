@@ -180,7 +180,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_REGISTRY_READ_PACKAGES_TOKEN }}
 
       - name: Run Integration Tests
-        run: npm run test:integration
+        run: DOTENV_CONFIG_PATH=.env.test npm run test:integration
 
       - name: Export docker logs
         if: always()

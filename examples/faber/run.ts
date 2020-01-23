@@ -16,9 +16,10 @@ async function run(): Promise<void> {
   const faberPresentProofEventHandler = new FaberPresentProofEventHandler()
 
   const eventHandlerFaber = getEventHandler({
-    acaUrl: process.env.ACA_URL,
-    acaWhrUrl: process.env.ACA_WHR_URL,
-    acaWhrApiKey: process.env.ACA_WHR_API_KEY,
+    acaUrl: process.env.FABER_ACA_URL,
+    acaApiKey: process.env.FABER_ACA_API_KEY,
+    acaWhrUrl: process.env.FABER_ACA_WHR_URL,
+    acaWhrApiKey: process.env.FABER_ACA_WHR_API_KEY,
     webhookEventHandlerPlugins: [
       faberConnectionEventHandler,
       faberIssueCredentialEventHandler,

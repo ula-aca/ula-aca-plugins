@@ -40,10 +40,14 @@ function eventPromise(
 
 function getEventHandler({
   acaUrl,
-  acaWhrUrl
+  acaApiKey,
+  acaWhrUrl,
+  acaWhrApiKey
 }: {
   acaUrl: string
+  acaApiKey?: string
   acaWhrUrl: string
+  acaWhrApiKey?: string
 }): EventHandler {
   const plugins = [
     new SchemaController(acaUrl),
@@ -54,7 +58,11 @@ function getEventHandler({
     new PresentProofController(acaUrl),
     new IssueCredentialController(acaUrl),
     new CredentialController(acaUrl),
-    new WebhookRelayEventRouter(acaWhrUrl),
+    new WebhookRelayEventRouter(acaWhrUrl, {
+      headers: {
+        Authorization: acaWhrApiKey
+      }
+    }),
     new TestPresentProofEventHandler(),
     new TestIssueCredentialEventHandler(),
     new TestConnectionEventHandler()

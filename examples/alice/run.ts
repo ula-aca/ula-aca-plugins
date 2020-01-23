@@ -17,9 +17,10 @@ async function run(): Promise<void> {
   const alicePresentProofEventHandler = new AlicePresentProofEventHandler()
 
   const eventHandlerAlice = getEventHandler({
-    acaUrl: process.env.ACA_URL,
-    acaWhrUrl: process.env.ACA_WHR_URL,
-    acaWhrApiKey: process.env.ACA_WHR_API_KEY,
+    acaUrl: process.env.ALICE_ACA_URL,
+    acaApiKey: process.env.ALICE_ACA_API_KEY,
+    acaWhrUrl: process.env.ALICE_ACA_WHR_URL,
+    acaWhrApiKey: process.env.ALICE_ACA_WHR_API_KEY,
     webhookEventHandlerPlugins: [
       aliceConnectionEventHandler,
       aliceIssueCredentialEventHandler,

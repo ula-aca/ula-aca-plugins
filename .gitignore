@@ -97,7 +97,6 @@ typings/
 
 # dotenv environment variables file
 .env
-.env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -139,7 +138,3 @@ public/
 packages/*/lib
 reports
 .stryker-tmp
-
-.env.faber
-.env.alice
-.env.acme

@@ -11,7 +11,7 @@ import {
 import { createSchema, getCreatedSchemas, getSchemaById } from '.'
 
 async function run(): Promise<void> {
-  const schemaController = new SchemaController(process.env.ACA_URL)
+  const schemaController = new SchemaController(process.env.FABER_ACA_URL)
   const eventHandler = new EventHandler([schemaController])
 
   // --- CREATE_SCHEMA ---

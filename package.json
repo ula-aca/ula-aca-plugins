@@ -19,9 +19,7 @@
     "build": "lerna run build",
     "types": "lerna run compile -- --noEmit",
     "update-headers": "copyright-header --fix --copyrightHolder 'ula-aca' --templateId 'apache' --forceModificationYear 'present' --include 'packages/.*/(src|tests)|tests'",
-    "example:faber": "DOTENV_CONFIG_PATH='.env.faber' ts-node -r tsconfig-paths/register -r dotenv/config examples/faber/run.ts ",
-    "example:alice": "DOTENV_CONFIG_PATH='.env.alice' ts-node -r tsconfig-paths/register -r dotenv/config examples/alice/run.ts",
-    "example:acme": "DOTENV_CONFIG_PATH='.env.acme' ts-node -r tsconfig-paths/register -r dotenv/config examples/acme/run.ts"
+    "example": "ts-node -r tsconfig-paths/register -r dotenv/config examples/run.ts"
   },
   "keywords": [
     "aries",

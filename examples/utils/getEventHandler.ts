@@ -9,13 +9,15 @@ import { CredentialController } from '@ula-aca/credential/src'
 
 function getEventHandler({
   acaUrl,
+  acaApiKey,
   acaWhrUrl,
   acaWhrApiKey,
   webhookEventHandlerPlugins = []
 }: {
   acaUrl: string
+  acaApiKey?: string
   acaWhrUrl: string
-  acaWhrApiKey: string
+  acaWhrApiKey?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   webhookEventHandlerPlugins?: any[]
 }): EventHandler {

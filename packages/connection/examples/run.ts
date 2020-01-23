@@ -11,39 +11,38 @@ import {
 import { createInvitation, receiveInvitation } from '.'
 
 async function run(): Promise<void> {
-  const connectionControllerFaber = new ConnectionController(
-    process.env.ACA_URL || process.env.FIRST_ACA_URL
+  const connControllerFaber = new ConnectionController(
+    process.env.FABER_ACA_URL
   )
 
   const webhookRelayFaber = new WebhookRelayEventRouter(
-    process.env.ACA_WHR_URL || process.env.FIRST_ACA_WHR_URL,
+    process.env.FABER_ACA_WHR_URL,
     {
       headers: {
-        Authorization:
-          process.env.ACA_WHR_API_KEY || process.env.FIRST_ACA_WHR_API_KEY
+        Authorization: process.env.FABER_ACA_WHR_API_KEY
       }
     }
   )
 
   const eventHandlerFaber = new EventHandler([
-    connectionControllerFaber,
+    connControllerFaber,
     webhookRelayFaber
   ])
 
-  const connectionControllerAlice = new ConnectionController(
-    process.env.SECOND_ACA_URL
+  const connControllerAlice = new ConnectionController(
+    process.env.ALICE_ACA_URL
   )
   const webhookRelayAlice = new WebhookRelayEventRouter(
-    process.env.SECOND_ACA_WHR_URL,
+    process.env.ALICE_ACA_WHR_URL,
 
     {
       headers: {
-        Authorization: process.env.SECOND_ACA_WHR_API_KEY
+        Authorization: process.env.ALICE_ACA_WHR_API_KEY
       }
     }
   )
   const eventHandlerAlice = new EventHandler([
-    connectionControllerAlice,
+    connControllerAlice,
     webhookRelayAlice
   ])
 
@@ -79,6 +78,9 @@ async function run(): Promise<void> {
     input: receiveInvitationBody,
     output: receivedInvitation
   })
+
+  // WebSocket will keep running
+  process.exit()
 }
 
 run().catch(e => {

@@ -17,9 +17,10 @@ import {
 } from '.'
 
 async function run(): Promise<void> {
-  const ledgerController = new LedgerController(process.env.ACA_URL)
+  const ledgerController = new LedgerController(process.env.FABER_ACA_URL)
   const eventHandler = new EventHandler([ledgerController])
 
+  // TODO: generate did from wallet
   const did = 'QhhWDukEVmDfLjPX6tU7j'
   const verkey = 'DvFvdXxY2wPAXTqFFEyKYmXEAzvbXHSGuaG7CfZjkMR'
 

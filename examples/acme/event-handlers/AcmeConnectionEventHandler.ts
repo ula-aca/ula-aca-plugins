@@ -88,6 +88,9 @@ class AcmeConnectionEventHandler extends ConnectionEventHandler {
           first_name: {
             name: 'first_name',
             restrictions: [
+              // TODO: fix types in interface package
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+              // @ts-ignore
               {
                 cred_def_id
               }
@@ -96,6 +99,8 @@ class AcmeConnectionEventHandler extends ConnectionEventHandler {
           last_name: {
             name: 'last_name',
             restrictions: [
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+              // @ts-ignore
               {
                 cred_def_id
               }
@@ -104,6 +109,8 @@ class AcmeConnectionEventHandler extends ConnectionEventHandler {
           degree: {
             name: 'degree',
             restrictions: [
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+              // @ts-ignore
               {
                 cred_def_id
               }

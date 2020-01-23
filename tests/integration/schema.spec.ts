@@ -35,8 +35,10 @@ import { getEventHandler } from './utils'
 describe('[package] @ula-aca/schema', () => {
   describe('[plugin] SchemaController', () => {
     const eventHandler: EventHandler = getEventHandler({
-      acaUrl: process.env.FIRST_ACA_URL || 'http://localhost:7002',
-      acaWhrUrl: process.env.FIRST_ACA_WHR_URL || 'ws://localhost:7080/ws'
+      acaUrl: process.env.FABER_ACA_URL,
+      acaApiKey: process.env.FABER_ACA_API_KEY,
+      acaWhrUrl: process.env.FABER_ACA_WHR_URL,
+      acaWhrApiKey: process.env.FABER_ACA_WHR_API_KEY
     })
     const testSchemas: {
       data: CreateSchemaBody

@@ -15,13 +15,13 @@ import {
 
 async function run(): Promise<void> {
   const credentialDefinitionController = new CredentialDefinitionController(
-    process.env.ACA_URL
+    process.env.FABER_ACA_URL
   )
   const eventHandler = new EventHandler([credentialDefinitionController])
 
   // --- CREATE_CREDENTIAL_DEFINITION ---
   const createCredentialDefinitionBody: CreateCredentialDefinitionBody = {
-    schema_id: 'Bqqp9wananY4uW2pRHACiT:2:Test:1.0',
+    schema_id: 'Bqqp9wananY4uW2pRHACiT:2:ExampleSchema:1.0',
     tag: 'my-cred-def'
   }
   const createdCredentialDefinition = await createCredentialDefinition(
