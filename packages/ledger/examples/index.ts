@@ -35,12 +35,12 @@ import {
 
 async function registerNym(
   eventHandler: EventHandler,
-  options: RegisterNymBody
+  body: RegisterNymBody
 ): Promise<RegisterNymResult> {
   return new Promise((resolve, reject) => {
     const message: RegisterNymMessage = {
       type: LedgerMessageTypes.REGISER_NYM,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {

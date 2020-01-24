@@ -21,12 +21,12 @@ import {
 
 async function getDids(
   eventHandler: EventHandler,
-  options: GetDidsBody
+  body: GetDidsBody
 ): Promise<GetDidsResult> {
   return new Promise((resolve, reject) => {
     const message: GetDidsMessage = {
       type: WalletMessageTypes.GET_DIDS,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -77,12 +77,12 @@ async function fetchPublicDid(
 
 async function assignPublicDid(
   eventHandler: EventHandler,
-  options: AssignPublicDidBody
+  body: AssignPublicDidBody
 ): Promise<AssignPublicDidResult> {
   return new Promise((resolve, reject) => {
     const message: AssignPublicDidMessage = {
       type: WalletMessageTypes.ASSIGN_PUBLIC_DID,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -95,14 +95,14 @@ async function assignPublicDid(
   })
 }
 
-async function getTagPoliccy(
+async function getTagPolicy(
   eventHandler: EventHandler,
-  options: GetTagPolicyBody
+  body: GetTagPolicyBody
 ): Promise<GetTagPolicyResult> {
   return new Promise((resolve, reject) => {
     const message: GetTagPolicyMessage = {
       type: WalletMessageTypes.GET_TAG_POLICY,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -117,12 +117,12 @@ async function getTagPoliccy(
 
 async function setTagPolicy(
   eventHandler: EventHandler,
-  options: SetTagPolicyBody
+  body: SetTagPolicyBody
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const message: SetTagPolicyMessage = {
       type: WalletMessageTypes.SET_TAG_POLICY,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -138,6 +138,6 @@ export {
   createLocalDid,
   fetchPublicDid,
   assignPublicDid,
-  getTagPoliccy,
+  getTagPolicy,
   setTagPolicy
 }
