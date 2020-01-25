@@ -26,4 +26,6 @@ interface SetTagPolicyMessage {
   body: SetTagPolicyBody
 }
 
-export { SetTagPolicyMessage, SetTagPolicyBody }
+type SetTagPolicyResult = {}
+
+export { SetTagPolicyMessage, SetTagPolicyBody, SetTagPolicyResult }

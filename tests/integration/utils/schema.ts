@@ -66,7 +66,7 @@ const getCreatedSchemas = (
   return eventPromise(eventHandler, message)
 }
 
-const getTestSchemas = (noOfSchemas: number): CreateSchemaBody[] =>
+const getTestSchemaBodies = (noOfSchemas: number): CreateSchemaBody[] =>
   Array.from(Array(noOfSchemas), () => ({
     schema_version: `${faker.random.number()}.0`,
     schema_name: faker.random.uuid(),
@@ -89,7 +89,9 @@ const getExistingSchemaIds = async (
 
   if (existingSchemaIds.length < noOfIds) {
     // eslint-disable-next-line no-restricted-syntax
-    for (const schema of getTestSchemas(noOfIds - existingSchemaIds.length)) {
+    for (const schema of getTestSchemaBodies(
+      noOfIds - existingSchemaIds.length
+    )) {
       // eslint-disable-next-line no-await-in-loop
       const createdSchema = (await createSchema(eventHandler, schema))
         .body as CreateSchemaResult
@@ -107,5 +109,5 @@ export {
   getSchemaById,
   getCreatedSchemas,
   getExistingSchemaIds,
-  getTestSchemas
+  getTestSchemaBodies
 }

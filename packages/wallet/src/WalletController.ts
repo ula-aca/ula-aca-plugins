@@ -29,7 +29,8 @@ import {
   GetTagPolicyBody,
   SetTagPolicyBody,
   isWalletMessage,
-  WalletMessageTypes
+  WalletMessageTypes,
+  SetTagPolicyResult
 } from './messages'
 
 class WalletController implements Plugin {
@@ -54,7 +55,7 @@ class WalletController implements Plugin {
     did,
     verkey,
     public: _public
-  }: GetDidsBody): Promise<UlaResponse> {
+  }: GetDidsBody = {}): Promise<UlaResponse> {
     const response = await this.walletApi.walletDidGet(did, verkey, _public)
 
     return new UlaResponse({
@@ -114,9 +115,11 @@ class WalletController implements Plugin {
       { taggables }
     )
 
+    const result = (response.data as unknown) as SetTagPolicyResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body: result
     })
   }
 

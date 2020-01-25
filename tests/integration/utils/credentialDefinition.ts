@@ -22,11 +22,14 @@ import {
   GetCredentialDefinitionByIdBody,
   GetCredentialDefinitionByIdMessage,
   GetCreatedCredentialDefinitionsBody,
-  GetCreatedCredentialDefinitionsMessage
+  GetCreatedCredentialDefinitionsMessage,
+  GetCreatedCredentialDefinitionsResult,
+  CreateCredentialDefinitionResult
 } from '@ula-aca/credential-definition'
 import faker from 'faker'
 
 import { eventPromise } from '.'
+import { getExistingSchemaIds } from './schema'
 
 const createCredentialDefinition = (
   eventHandler: EventHandler,
@@ -64,7 +67,7 @@ const getCreatedCredentialDefinitions = (
   return eventPromise(eventHandler, message)
 }
 
-const getTestCredentialDefinitions = (
+const getTestCredentialDefinitionBodies = (
   schemaIds: string[]
 ): CreateCredentialDefinitionBody[] =>
   schemaIds.map(schemaId => ({
@@ -72,9 +75,51 @@ const getTestCredentialDefinitions = (
     tag: faker.random.uuid()
   }))
 
+const getExistingCredentialDefinitionIds = async (
+  eventHandler: EventHandler,
+  noOfIds: number
+): Promise<string[]> => {
+  const existingSchemaIds = await getExistingSchemaIds(eventHandler, noOfIds)
+
+  let existingCredentialDefinitionIds = Array.from(
+    new Set(
+      ((await getCreatedCredentialDefinitions(eventHandler))
+        .body as GetCreatedCredentialDefinitionsResult).credential_definition_ids
+    )
+  )
+
+  if (existingCredentialDefinitionIds.length < noOfIds) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const credentialDefinition of getTestCredentialDefinitionBodies(
+      existingSchemaIds.slice(
+        0,
+        existingCredentialDefinitionIds.length - noOfIds
+      )
+    )) {
+      // eslint-disable-next-line no-await-in-loop
+      const createdCredentialDefinitionResult = await createCredentialDefinition(
+        eventHandler,
+        credentialDefinition
+      )
+      const createdCredentialDefinition = createdCredentialDefinitionResult.body as CreateCredentialDefinitionResult
+      existingCredentialDefinitionIds.push(
+        createdCredentialDefinition.credential_definition_id
+      )
+    }
+  } else {
+    existingCredentialDefinitionIds = existingCredentialDefinitionIds.slice(
+      0,
+      noOfIds
+    )
+  }
+
+  return existingCredentialDefinitionIds
+}
+
 export {
   createCredentialDefinition,
   getCredentialDefinitionById,
   getCreatedCredentialDefinitions,
-  getTestCredentialDefinitions
+  getTestCredentialDefinitionBodies,
+  getExistingCredentialDefinitionIds
 }

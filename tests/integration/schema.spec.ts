@@ -26,7 +26,7 @@ import {
 import {
   createSchema,
   getSchemaById,
-  getTestSchemas,
+  getTestSchemaBodies,
   getCreatedSchemas
 } from './utils/schema'
 
@@ -43,7 +43,7 @@ describe('[package] @ula-aca/schema', () => {
     const testSchemas: {
       data: CreateSchemaBody
       schemaId?: string
-    }[] = getTestSchemas(3).map(val => ({ data: val }))
+    }[] = getTestSchemaBodies(3).map(val => ({ data: val }))
 
     it('@ula-aca/schema/create-schema', async () => {
       for (const testSchema of testSchemas) {

@@ -18,7 +18,7 @@ import { eventPromise } from '.'
 
 const getDids = (
   eventHandler: EventHandler,
-  body: GetDidsBody
+  body?: GetDidsBody
 ): Promise<UlaResponse> => {
   const message: GetDidsMessage = {
     type: WalletMessageTypes.GET_DIDS,

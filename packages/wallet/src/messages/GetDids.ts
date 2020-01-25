@@ -25,7 +25,7 @@ interface GetDidsBody {
 
 interface GetDidsMessage {
   type: WalletMessageTypes.GET_DIDS
-  body: GetDidsBody
+  body?: GetDidsBody
 }
 
 type GetDidsResult = DIDList

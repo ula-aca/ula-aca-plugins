@@ -25,7 +25,7 @@ import {
 
 import {
   createCredentialDefinition,
-  getTestCredentialDefinitions,
+  getTestCredentialDefinitionBodies,
   getCreatedCredentialDefinitions,
   getCredentialDefinitionById
 } from './utils/credentialDefinition'
@@ -49,11 +49,11 @@ describe('[package] @ula-aca/credential-definition', () => {
       // create or get schema ids
       const schemaIds = await getExistingSchemaIds(eventHandler, 3)
 
-      testCredentialDefinitions = getTestCredentialDefinitions(schemaIds).map(
-        credentialDefinition => ({
-          data: credentialDefinition
-        })
-      )
+      testCredentialDefinitions = getTestCredentialDefinitionBodies(
+        schemaIds
+      ).map(credentialDefinition => ({
+        data: credentialDefinition
+      }))
     })
 
     it('@ula-aca/credential-definition/create-credential-definition', async () => {
