@@ -3,7 +3,8 @@ const packageExamples = [
   'connection',
   'ledger',
   'schema',
-  'credential-definition'
+  'credential-definition',
+  'credential'
 ]
 
 const command = process.argv[2]

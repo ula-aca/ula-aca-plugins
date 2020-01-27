@@ -15,12 +15,12 @@ import {
 
 async function getCredentials(
   eventHandler: EventHandler,
-  options: GetCredentialsBody
+  body?: GetCredentialsBody
 ): Promise<GetCredentialsResult> {
   return new Promise((resolve, reject) => {
     const message: GetCredentialsMessage = {
       type: CredentialMessageTypes.GET_CREDENTIALS,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -35,12 +35,12 @@ async function getCredentials(
 
 async function getCredentialById(
   eventHandler: EventHandler,
-  options: GetCredentialByIdBody
+  body: GetCredentialByIdBody
 ): Promise<GetCredentialByIdResult> {
   return new Promise((resolve, reject) => {
     const message: GetCredentialByIdMessage = {
       type: CredentialMessageTypes.GET_CREDENTIAL_BY_ID,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
@@ -55,12 +55,12 @@ async function getCredentialById(
 
 async function removeCredential(
   eventHandler: EventHandler,
-  options: RemoveCredentialBody
+  body: RemoveCredentialBody
 ): Promise<RemoveCredentialResult> {
   return new Promise((resolve, reject) => {
     const message: RemoveCredentialMessage = {
       type: CredentialMessageTypes.REMOVE_CREDENTIAL,
-      body: options
+      body
     }
 
     eventHandler.processMsg(message, (response: UlaResponse) => {
