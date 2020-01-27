@@ -199,7 +199,11 @@ describe('[package] @ula-aca/ledger', () => {
         const alias = 'MyNym'
         const role = 'TRUST_ANCHOR'
 
-        const data = {}
+        const data = {
+          'returns-nothing': 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -225,7 +229,12 @@ describe('[package] @ula-aca/ledger', () => {
         } as RegisterNymMessage)
 
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          ledgerApiStubbed.should.have.been.calledWith(did, verkey, alias, role)
+          ledgerApiStubbed.should.have.been.calledOnceWithExactly(
+            did,
+            verkey,
+            alias,
+            role
+          )
           res.should.deep.equal(expectedResult)
         })
       })
@@ -233,7 +242,9 @@ describe('[package] @ula-aca/ledger', () => {
       it('@ula-aca/ledger/get-verkey-by-did', async () => {
         const did = '2gv3WyywspB2mYAwe2Sdp4'
 
-        const data = {}
+        const data = {
+          verkey: 'FL8LysUdgqABauZipoRVJwjycGggdNS54w7UQyjMjSmM'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -256,7 +267,7 @@ describe('[package] @ula-aca/ledger', () => {
         } as GetVerkeyByDidMessage)
 
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          ledgerApiStubbed.should.have.been.calledWith(did)
+          ledgerApiStubbed.should.have.been.calledOnceWithExactly(did)
           res.should.deep.equal(expectedResult)
         })
       })
@@ -264,7 +275,9 @@ describe('[package] @ula-aca/ledger', () => {
       it('@ula-aca/ledger/get-endpoint-by-did', async () => {
         const did = '2gv3WyywspB2mYAwe2Sdp4'
 
-        const data = {}
+        const data = {
+          endpoint: 'http://alice-aca-py:8000'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -287,7 +300,7 @@ describe('[package] @ula-aca/ledger', () => {
         } as GetEndpointByDidMessage)
 
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          ledgerApiStubbed.should.have.been.calledWith(did)
+          ledgerApiStubbed.should.have.been.calledOnceWithExactly(did)
           res.should.deep.equal(expectedResult)
         })
       })
@@ -320,41 +333,77 @@ describe('[package] @ula-aca/ledger', () => {
         } as GetTransactionAuthorAgreementMessage)
 
         await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          ledgerApiStubbed.should.have.been.called
+          ledgerApiStubbed.should.have.been.calledOnce
           res.should.deep.equal(expectedResult)
         })
       })
 
-      it('@ula-aca/ledger/accept-transaction-author-agreement', async () => {
-        const body = {
-          mechanism: 'mechanism',
-          version: '1.0',
-          text: 'text'
-        }
+      describe('@ula-aca/ledger/accept-transaction-author-agreement', () => {
+        it('should pass the parameters to LedgerApi function ledgerTaaAcceptPost', async () => {
+          const body = {
+            mechanism: 'mechanism',
+            version: '1.0',
+            text: 'text'
+          }
 
-        const data = {}
-        const statusCode = 200
+          const data = {
+            "don't-know-if-it-returns-something": 'but-this-tests-that',
+            'it-will-return': 'what-is-returned',
+            'if-it-would': 'return-something'
+          }
+          const statusCode = 200
 
-        const expectedResult = new UlaResponse({
-          body: data,
-          statusCode
+          const expectedResult = new UlaResponse({
+            body: data,
+            statusCode
+          })
+
+          ledgerApiStubbed = stubInterfaceFunction({
+            Class: LedgerApi,
+            functionName: 'ledgerTaaAcceptPost',
+            data,
+            status: statusCode
+          })
+
+          const message = new Message({
+            type: '@ula-aca/ledger/accept-transaction-author-agreement',
+            body
+          } as AcceptTransactionAuthorAgreementMessage)
+
+          await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
+            ledgerApiStubbed.should.have.been.calledOnceWithExactly(body)
+            res.should.deep.equal(expectedResult)
+          })
         })
 
-        ledgerApiStubbed = stubInterfaceFunction({
-          Class: LedgerApi,
-          functionName: 'ledgerTaaAcceptPost',
-          data,
-          status: statusCode
-        })
+        it('should work when no body is passed', async () => {
+          const data = {
+            "don't-know-if-it-returns-something": 'but-this-tests-that',
+            'it-will-return': 'what-is-returned',
+            'if-it-would': 'return-something'
+          }
+          const statusCode = 200
 
-        const message = new Message({
-          type: '@ula-aca/ledger/accept-transaction-author-agreement',
-          body
-        } as AcceptTransactionAuthorAgreementMessage)
+          const expectedResult = new UlaResponse({
+            body: data,
+            statusCode
+          })
 
-        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          ledgerApiStubbed.should.have.been.calledWith(body)
-          res.should.deep.equal(expectedResult)
+          ledgerApiStubbed = stubInterfaceFunction({
+            Class: LedgerApi,
+            functionName: 'ledgerTaaAcceptPost',
+            data,
+            status: statusCode
+          })
+
+          const message = new Message({
+            type: '@ula-aca/ledger/accept-transaction-author-agreement'
+          } as AcceptTransactionAuthorAgreementMessage)
+
+          await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
+            ledgerApiStubbed.should.have.been.calledOnce
+            res.should.deep.equal(expectedResult)
+          })
         })
       })
     })
