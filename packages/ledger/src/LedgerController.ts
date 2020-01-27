@@ -101,7 +101,7 @@ export default class LedgerController implements Plugin {
   }
 
   private async acceptTransactionAuthorAgreement(
-    body: AcceptTransactionAuthorAgreementBody
+    body?: AcceptTransactionAuthorAgreementBody
   ): Promise<UlaResponse> {
     const response = await this.ledgerApi.ledgerTaaAcceptPost(body)
 

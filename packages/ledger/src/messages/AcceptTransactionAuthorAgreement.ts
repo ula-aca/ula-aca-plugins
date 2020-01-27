@@ -21,7 +21,7 @@ type AcceptTransactionAuthorAgreementBody = TAAAccept
 
 interface AcceptTransactionAuthorAgreementMessage {
   type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT
-  body: AcceptTransactionAuthorAgreementBody
+  body?: AcceptTransactionAuthorAgreementBody
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
