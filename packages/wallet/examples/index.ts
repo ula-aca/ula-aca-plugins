@@ -21,7 +21,7 @@ import {
 
 async function getDids(
   eventHandler: EventHandler,
-  body: GetDidsBody
+  body?: GetDidsBody
 ): Promise<GetDidsResult> {
   return new Promise((resolve, reject) => {
     const message: GetDidsMessage = {

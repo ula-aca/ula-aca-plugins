@@ -4,7 +4,8 @@ const packageExamples = [
   'ledger',
   'schema',
   'credential-definition',
-  'credential'
+  'credential',
+  'wallet'
 ]
 
 const command = process.argv[2]
