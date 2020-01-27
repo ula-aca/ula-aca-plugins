@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Credential Definition Plugin
 
-This package handles everything that has to do with credential definitions in Hyperledger Aries. It has classes to perform credential definition related actions.
+This package handles everything that has to do with credential definitions in Hyperledger Aries. It allows to create and retrieve credential definitions from the ledger connected to the Aries Cloudagent.
 
 ## Usage
 

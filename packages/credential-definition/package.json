@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/credential-definition",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent - Aries Cloudagent Credential Definition plugin",
+  "description": "Universal Ledger Agent plugin for creating and retrieving credential definitions from the ledger connected to Aries Cloudagent",
   "scripts": {
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc -p tsconfig.build.json",
