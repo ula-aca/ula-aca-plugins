@@ -26,9 +26,9 @@ import {
 import {
   CredentialController,
   GetCredentialsMessage,
-  GetCredentialByIdMessage
+  GetCredentialByIdMessage,
+  RemoveCredentialMessage
 } from '../src'
-import { RemoveCredentialMessage } from '../src/messages/RemoveCredential'
 
 describe('[package] @ula-aca/credential', () => {
   describe('[plugin] CredentialController', () => {
@@ -45,6 +45,7 @@ describe('[package] @ula-aca/credential', () => {
     afterEach(() => {
       credentialApiStubbed && credentialApiStubbed.restore()
     })
+
     it("plugin name should be '@ula-aca/credential/CredentialController'", () => {
       credentialPlugin.name.should.equal(
         '@ula-aca/credential/CredentialController'
@@ -72,56 +73,17 @@ describe('[package] @ula-aca/credential', () => {
       })
 
       it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const data = {
-          results: [
-            {
-              schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-              witness: {
-                omega:
-                  '21 129EA8716C921058BB91826FD 21 8F19B91313862FE916C0 ...'
-              },
-              signature_correctness_proof: {},
-              rev_reg: {
-                accum:
-                  '21 136D54EA439FC26F03DB4b812 21 123DE9F624B86823A00D ...'
-              },
-              cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-              signature: {},
-              values: {
-                additionalProp1: {
-                  encoded:
-                    '412821674062189604125602903860586582569826459817431467861859655321',
-                  raw: 'Alex'
-                },
-                additionalProp2: {
-                  encoded:
-                    '412821674062189604125602903860586582569826459817431467861859655321',
-                  raw: 'Alex'
-                },
-                additionalProp3: {
-                  encoded:
-                    '412821674062189604125602903860586582569826459817431467861859655321',
-                  raw: 'Alex'
-                }
-              },
-              rev_reg_id:
-                'WgWxqztrNooG92RXvxSTWv:4:WgWxqztrNooG92RXvxSTWv:3:CL:20:tag:CL_ACCUM:0'
-            }
-          ]
-        }
         const statusCode = 300
         const expectedResult = 'error'
 
         credentialApiStubbed = stubInterfaceFunction({
           Class: CredentialsApi,
           functionName: 'credentialsGet',
-          data,
           status: statusCode
         })
 
         const message = new Message({
-          type: '@ula-aca/credential/get-credentials',
-          body: {}
+          type: '@ula-aca/credential/get-credentials'
         } as GetCredentialsMessage)
 
         const eventRes = await credentialPlugin.handleEvent(message, () => {})
@@ -130,6 +92,9 @@ describe('[package] @ula-aca/credential', () => {
       })
 
       it('should call the callback with the error and statusCode when an API call fails', async () => {
+        const body = {
+          count: '1'
+        }
         const data = '400: Bad Request'
         const statusCode = 400
 
@@ -150,7 +115,7 @@ describe('[package] @ula-aca/credential', () => {
 
         const message = new Message({
           type: '@ula-aca/credential/get-credentials',
-          body: {}
+          body
         } as GetCredentialsMessage)
 
         await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -159,6 +124,10 @@ describe('[package] @ula-aca/credential', () => {
       })
 
       it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
+        const body = {
+          count: '1'
+        }
+
         const data = {
           message: 'Error'
         }
@@ -179,7 +148,7 @@ describe('[package] @ula-aca/credential', () => {
 
         const message = new Message({
           type: '@ula-aca/credential/get-credentials',
-          body: {}
+          body
         } as GetCredentialsMessage)
 
         await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -188,6 +157,10 @@ describe('[package] @ula-aca/credential', () => {
       })
 
       it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
+        const body = {
+          count: '1'
+        }
+
         const data = new Error('Something went wrong')
         const statusCode = 500
 
@@ -206,7 +179,7 @@ describe('[package] @ula-aca/credential', () => {
 
         const message = new Message({
           type: '@ula-aca/credential/get-credentials',
-          body: {}
+          body
         } as GetCredentialsMessage)
 
         await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -216,70 +189,148 @@ describe('[package] @ula-aca/credential', () => {
     })
 
     describe('events', () => {
-      it('@ula-aca/credential/get-credentials', async () => {
-        const data = {
-          results: [
-            {
-              schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-              witness: {
-                omega:
-                  '21 129EA8716C921058BB91826FD 21 8F19B91313862FE916C0 ...'
-              },
-              signature_correctness_proof: {},
-              rev_reg: {
-                accum:
-                  '21 136D54EA439FC26F03DB4b812 21 123DE9F624B86823A00D ...'
-              },
-              cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-              signature: {},
-              values: {
-                additionalProp1: {
-                  encoded:
-                    '412821674062189604125602903860586582569826459817431467861859655321',
-                  raw: 'Alex'
+      describe('@ula-aca/credential/get-credentials', () => {
+        it('should pass the parameters to CredentialsApi function credentialsGet', async () => {
+          const start = '1'
+          const count = '2'
+          const wql = '{}'
+
+          const data = {
+            results: [
+              {
+                schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
+                witness: {
+                  omega:
+                    '21 129EA8716C921058BB91826FD 21 8F19B91313862FE916C0 ...'
                 },
-                additionalProp2: {
-                  encoded:
-                    '412821674062189604125602903860586582569826459817431467861859655321',
-                  raw: 'Alex'
+                signature_correctness_proof: {},
+                rev_reg: {
+                  accum:
+                    '21 136D54EA439FC26F03DB4b812 21 123DE9F624B86823A00D ...'
                 },
-                additionalProp3: {
-                  encoded:
-                    '412821674062189604125602903860586582569826459817431467861859655321',
-                  raw: 'Alex'
-                }
-              },
-              rev_reg_id:
-                'WgWxqztrNooG92RXvxSTWv:4:WgWxqztrNooG92RXvxSTWv:3:CL:20:tag:CL_ACCUM:0'
+                cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
+                signature: {},
+                values: {
+                  additionalProp1: {
+                    encoded:
+                      '412821674062189604125602903860586582569826459817431467861859655321',
+                    raw: 'Alex'
+                  },
+                  additionalProp2: {
+                    encoded:
+                      '412821674062189604125602903860586582569826459817431467861859655321',
+                    raw: 'Alex'
+                  },
+                  additionalProp3: {
+                    encoded:
+                      '412821674062189604125602903860586582569826459817431467861859655321',
+                    raw: 'Alex'
+                  }
+                },
+                rev_reg_id:
+                  'WgWxqztrNooG92RXvxSTWv:4:WgWxqztrNooG92RXvxSTWv:3:CL:20:tag:CL_ACCUM:0'
+              }
+            ]
+          }
+          const statusCode = 200
+
+          const expectedResult = new UlaResponse({
+            body: data,
+            statusCode
+          })
+
+          credentialApiStubbed = stubInterfaceFunction({
+            Class: CredentialsApi,
+            functionName: 'credentialsGet',
+            status: statusCode,
+            data
+          })
+
+          const message = new Message({
+            type: '@ula-aca/credential/get-credentials',
+            body: {
+              start,
+              count,
+              wql
             }
-          ]
-        }
-        const statusCode = 200
+          } as GetCredentialsMessage)
 
-        const expectedResult = new UlaResponse({
-          body: data,
-          statusCode
+          await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
+            credentialApiStubbed.should.have.been.calledWithExactly(
+              start,
+              count,
+              wql
+            )
+            res.should.deep.equal(expectedResult)
+          })
         })
 
-        credentialApiStubbed = stubInterfaceFunction({
-          Class: CredentialsApi,
-          functionName: 'credentialsGet',
-          status: statusCode,
+        it('should work when no body is passed', async () => {
+          const data = {
+            results: [
+              {
+                schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
+                witness: {
+                  omega:
+                    '21 129EA8716C921058BB91826FD 21 8F19B91313862FE916C0 ...'
+                },
+                signature_correctness_proof: {},
+                rev_reg: {
+                  accum:
+                    '21 136D54EA439FC26F03DB4b812 21 123DE9F624B86823A00D ...'
+                },
+                cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
+                signature: {},
+                values: {
+                  additionalProp1: {
+                    encoded:
+                      '412821674062189604125602903860586582569826459817431467861859655321',
+                    raw: 'Alex'
+                  },
+                  additionalProp2: {
+                    encoded:
+                      '412821674062189604125602903860586582569826459817431467861859655321',
+                    raw: 'Alex'
+                  },
+                  additionalProp3: {
+                    encoded:
+                      '412821674062189604125602903860586582569826459817431467861859655321',
+                    raw: 'Alex'
+                  }
+                },
+                rev_reg_id:
+                  'WgWxqztrNooG92RXvxSTWv:4:WgWxqztrNooG92RXvxSTWv:3:CL:20:tag:CL_ACCUM:0'
+              }
+            ]
+          }
+          const statusCode = 200
 
-          data
-        })
+          const expectedResult = new UlaResponse({
+            body: data,
+            statusCode
+          })
 
-        const message = new Message({
-          type: '@ula-aca/credential/get-credentials',
-          body: {}
-        } as GetCredentialsMessage)
+          credentialApiStubbed = stubInterfaceFunction({
+            Class: CredentialsApi,
+            functionName: 'credentialsGet',
+            status: statusCode,
+            data
+          })
 
-        await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
-          credentialApiStubbed.should.have.been.calledOnce
-          res.should.deep.equal(expectedResult)
+          const message = new Message({
+            type: '@ula-aca/credential/get-credentials'
+          } as GetCredentialsMessage)
+
+          await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
+            credentialApiStubbed.should.have.been.calledOnce
+            res.should.deep.equal(expectedResult)
+          })
         })
       })
+
       it('@ula-aca/credential/get-credential-by-id', async () => {
+        const credentialId = '3253a790-e776-49e2-a30b-7f63401a4540'
+
         const data = {
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
           witness: {
@@ -328,18 +379,26 @@ describe('[package] @ula-aca/credential', () => {
         const message = new Message({
           type: '@ula-aca/credential/get-credential-by-id',
           body: {
-            credential_id: 'credential-id'
+            credential_id: credentialId
           }
         } as GetCredentialByIdMessage)
 
         await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
-          credentialApiStubbed.should.have.been.calledOnce
+          credentialApiStubbed.should.have.been.calledOnceWithExactly(
+            credentialId
+          )
           res.should.deep.equal(expectedResult)
         })
       })
 
-      it('@ula-aca/credential/get-credential-by-id', async () => {
-        const data = {}
+      it('@ula-aca/credential/remove-credential', async () => {
+        const credentialId = '3253a790-e776-49e2-a30b-7f63401a4540'
+
+        const data = {
+          'returns-nothing': 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -357,12 +416,14 @@ describe('[package] @ula-aca/credential', () => {
         const message = new Message({
           type: '@ula-aca/credential/remove-credential',
           body: {
-            credential_id: 'credential-id'
+            credential_id: credentialId
           }
         } as RemoveCredentialMessage)
 
         await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
-          credentialApiStubbed.should.have.been.calledOnce
+          credentialApiStubbed.should.have.been.calledOnceWithExactly(
+            credentialId
+          )
           res.should.deep.equal(expectedResult)
         })
       })
