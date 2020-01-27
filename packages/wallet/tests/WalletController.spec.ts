@@ -188,40 +188,90 @@ describe('[package] @ula-aca/wallet', () => {
     })
 
     describe('events', () => {
-      it('@ula-aca/wallet/get-dids', async () => {
-        const data = {
-          results: [
-            {
-              public: false,
-              did: 'WgWxqztrNooG92RXvxSTWv',
-              verkey: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV'
+      describe('@ula-aca/wallet/get-dids', () => {
+        it('should pass the parameters to WalletApi function walletDidGet', async () => {
+          const did = 'WgWxqztrNooG92RXvxSTWv'
+          const verkey = 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV'
+          // eslint-disable-next-line no-underscore-dangle
+          const _public = 'false'
+
+          const data = {
+            results: [
+              {
+                public: _public,
+                did,
+                verkey
+              }
+            ]
+          }
+          const statusCode = 200
+
+          const expectedResult = new UlaResponse({
+            body: data,
+            statusCode
+          })
+
+          walletApiStubbed = stubInterfaceFunction({
+            Class: WalletApi,
+            functionName: 'walletDidGet',
+            status: statusCode,
+            data
+          })
+
+          const message = new Message({
+            type: '@ula-aca/wallet/get-dids',
+            body: {
+              public: _public,
+              did,
+              verkey
             }
-          ]
-        }
-        const statusCode = 200
+          } as GetDidsMessage)
 
-        const expectedResult = new UlaResponse({
-          body: data,
-          statusCode
+          await walletPlugin.handleEvent(message, (res: UlaResponse) => {
+            walletApiStubbed.should.have.been.calledOnceWithExactly(
+              did,
+              verkey,
+              _public
+            )
+            res.should.deep.equal(expectedResult)
+          })
         })
 
-        walletApiStubbed = stubInterfaceFunction({
-          Class: WalletApi,
-          functionName: 'walletDidGet',
-          status: statusCode,
-          data
-        })
+        it('should work when no body is passed', async () => {
+          const data = {
+            results: [
+              {
+                public: false,
+                did: 'WgWxqztrNooG92RXvxSTWv',
+                verkey: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV'
+              }
+            ]
+          }
+          const statusCode = 200
 
-        const message = new Message({
-          type: '@ula-aca/wallet/get-dids',
-          body: {}
-        } as GetDidsMessage)
+          const expectedResult = new UlaResponse({
+            body: data,
+            statusCode
+          })
 
-        await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          walletApiStubbed.should.have.been.calledOnce
-          res.should.deep.equal(expectedResult)
+          walletApiStubbed = stubInterfaceFunction({
+            Class: WalletApi,
+            functionName: 'walletDidGet',
+            status: statusCode,
+            data
+          })
+
+          const message = new Message({
+            type: '@ula-aca/wallet/get-dids'
+          } as GetDidsMessage)
+
+          await walletPlugin.handleEvent(message, (res: UlaResponse) => {
+            walletApiStubbed.should.have.been.calledOnce
+            res.should.deep.equal(expectedResult)
+          })
         })
       })
+
       it('@ula-aca/wallet/create-local-did', async () => {
         const data = {
           results: [
@@ -247,8 +297,7 @@ describe('[package] @ula-aca/wallet', () => {
         })
 
         const message = new Message({
-          type: '@ula-aca/wallet/create-local-did',
-          body: {}
+          type: '@ula-aca/wallet/create-local-did'
         } as CreateLocalDidMessage)
 
         await walletPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -256,6 +305,7 @@ describe('[package] @ula-aca/wallet', () => {
           res.should.deep.equal(expectedResult)
         })
       })
+
       it('@ula-aca/wallet/fetch-public-did', async () => {
         const data = {
           result: {
@@ -280,8 +330,7 @@ describe('[package] @ula-aca/wallet', () => {
         })
 
         const message = new Message({
-          type: '@ula-aca/wallet/fetch-public-did',
-          body: {}
+          type: '@ula-aca/wallet/fetch-public-did'
         } as FetchPublicDidMessage)
 
         await walletPlugin.handleEvent(message, (res: UlaResponse) => {
@@ -289,7 +338,10 @@ describe('[package] @ula-aca/wallet', () => {
           res.should.deep.equal(expectedResult)
         })
       })
+
       it('@ula-aca/wallet/assign-public-did', async () => {
+        const did = 'did:sov:mnjkl98uipsndg2hdjdjuf7'
+
         const data = {
           result: {
             public: false,
@@ -315,16 +367,18 @@ describe('[package] @ula-aca/wallet', () => {
         const message = new Message({
           type: '@ula-aca/wallet/assign-public-did',
           body: {
-            did: 'did:sov:mnjkl98uipsndg2hdjdjuf7'
+            did
           }
         } as AssignPublicDidMessage)
 
         await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          walletApiStubbed.should.have.been.calledOnce
+          walletApiStubbed.should.have.been.calledOnceWithExactly(did)
           res.should.deep.equal(expectedResult)
         })
       })
+
       it('@ula-aca/wallet/get-tagging-policy', async () => {
+        const credentialDefinitionId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
         const data = {
           taggables: ['score']
         }
@@ -346,16 +400,23 @@ describe('[package] @ula-aca/wallet', () => {
         const message = new Message({
           type: '@ula-aca/wallet/get-tagging-policy',
           body: {
-            credential_definition_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+            credential_definition_id: credentialDefinitionId
           }
         } as GetTagPolicyMessage)
 
         await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          walletApiStubbed.should.have.been.calledOnce
+          walletApiStubbed.should.have.been.calledOnceWithExactly(
+            credentialDefinitionId
+          )
           res.should.deep.equal(expectedResult)
         })
       })
+
       it('@ula-aca/wallet/set-tagging-policy', async () => {
+        const credentialDefinitionId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const postBody = {
+          taggables: ['score']
+        }
         const data = {}
         const statusCode = 200
 
@@ -374,12 +435,16 @@ describe('[package] @ula-aca/wallet', () => {
         const message = new Message({
           type: '@ula-aca/wallet/set-tagging-policy',
           body: {
-            taggables: ['score']
+            ...postBody,
+            credential_definition_id: credentialDefinitionId
           }
         } as SetTagPolicyMessage)
 
         await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          walletApiStubbed.should.have.been.calledOnce
+          walletApiStubbed.should.have.been.calledOnceWithExactly(
+            credentialDefinitionId,
+            postBody
+          )
           res.should.deep.equal(expectedResult)
         })
       })
