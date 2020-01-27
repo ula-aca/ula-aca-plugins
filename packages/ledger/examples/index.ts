@@ -125,7 +125,7 @@ async function getTransactionAuthorAgreement(
 
 async function acceptTransactionAuthorAgreement(
   eventHandler: EventHandler,
-  body: AcceptTransactionAuthorAgreementBody
+  body?: AcceptTransactionAuthorAgreementBody
 ): Promise<AcceptTransactionAuthorAgreementResult> {
   return new Promise((resolve, reject) => {
     const message: AcceptTransactionAuthorAgreementMessage = {
