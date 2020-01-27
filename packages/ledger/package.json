@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/ledger",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent - Aries Cloudagent Ledger Plugin",
+  "description": "Universal Ledger Agent plugin for performing ledger actions on the Aries Cloudagent",
   "scripts": {
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc -p tsconfig.build.json",

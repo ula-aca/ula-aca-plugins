@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Ledger Plugin
 
-This package handles everything that has to do with the ledger in Hyperledger Aries. It has classes to perform ledger related actions.
+This package handles everything that has to do with the ledger in Hyperledger Aries. It allows to perform operations to the ledger connected to the Aries Cloudagent.
 
 ## Usage
 
