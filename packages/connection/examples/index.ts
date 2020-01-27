@@ -35,7 +35,7 @@ import {
 
 async function getConnections(
   eventHandler: EventHandler,
-  body: GetConnectionsBody
+  body?: GetConnectionsBody
 ): Promise<GetConnectionsResult> {
   return new Promise((resolve, reject) => {
     const message: GetConnectionsMessage = {
@@ -75,7 +75,7 @@ async function getConnectionById(
 
 async function createInvitation(
   eventHandler: EventHandler,
-  body: CreateInvitationBody
+  body?: CreateInvitationBody
 ): Promise<CreateInvitationResult> {
   return new Promise((resolve, reject) => {
     const message: CreateInvitationMessage = {
