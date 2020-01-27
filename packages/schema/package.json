@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/schema",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent - Aries Cloudagent Schema plugin",
+  "description": "Universal Ledger Agent plugin for creating and retrieving schemas from the ledger connected to Aries Cloudagent",
   "scripts": {
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc -p tsconfig.build.json",

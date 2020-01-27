@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Schema Plugin
 
-This package handles everything that has to do with schemas in Hyperledger Aries. It has classes to perform schema related actions.
+This package handles everything that has to do with schemas in Hyperledger Aries. It allows to create and retrieve schemas from the ledger connected to the Aries Cloudagent.
 
 ## Usage
 
