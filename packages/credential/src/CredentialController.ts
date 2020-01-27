@@ -30,9 +30,10 @@ import {
   GetCredentialsBody,
   isCredentialMessage,
   GetCredentialByIdBody,
-  CredentialMessageTypes
+  CredentialMessageTypes,
+  RemoveCredentialBody,
+  GetCredentialByIdResult
 } from './messages'
-import { RemoveCredentialBody } from './messages/RemoveCredential'
 
 class CredentialController implements Plugin {
   private credentialApi: CredentialsApi
@@ -83,9 +84,11 @@ class CredentialController implements Plugin {
       credential_id
     )
 
+    const result = (response.data as unknown) as GetCredentialByIdResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body: result
     })
   }
 
@@ -112,7 +115,6 @@ class CredentialController implements Plugin {
           break
       }
     } catch (err) {
-      console.log(err)
       if (err.response) {
         const axiosErr = err as AxiosError
         response = new UlaResponse({
