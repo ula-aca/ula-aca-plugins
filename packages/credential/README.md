@@ -17,6 +17,8 @@ const eventHandler = new EventHandler([credentialController])
 
 #### @ula-aca/credential/get-credentials
 
+Fetch credentials from wallet
+
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
@@ -47,6 +49,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/credential/get-credential-by-id
+
+Fetch a credential from wallet by id
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
@@ -80,6 +84,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
 ```
 
 #### @ula-aca/credential/remove-credential
+
+Remove a credential from the wallet by id
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
