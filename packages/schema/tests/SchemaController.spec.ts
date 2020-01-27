@@ -215,7 +215,7 @@ describe('[package] @ula-aca/schema', () => {
             } as GetCreatedSchemasMessage)
 
             await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-              schemaApiStubbed.should.have.been.calledWith(
+              schemaApiStubbed.should.have.been.calledOnceWithExactly(
                 schemaId,
                 schemaIssuerDid,
                 schemaName,
@@ -248,7 +248,7 @@ describe('[package] @ula-aca/schema', () => {
             } as GetCreatedSchemasMessage)
 
             await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-              schemaApiStubbed.should.have.been.calledWith()
+              schemaApiStubbed.should.have.been.calledOnce
               res.should.deep.equal(expectedResult)
             })
           })
@@ -287,7 +287,7 @@ describe('[package] @ula-aca/schema', () => {
           } as GetSchemaByIdMessage)
 
           await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-            schemaApiStubbed.should.have.been.calledWith(schemaId)
+            schemaApiStubbed.should.have.been.calledOnceWithExactly(schemaId)
             res.should.deep.equal(expectedResult)
           })
         })
@@ -322,7 +322,7 @@ describe('[package] @ula-aca/schema', () => {
           } as CreateSchemaMessage)
 
           await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-            schemaApiStubbed.should.have.been.calledWith(body)
+            schemaApiStubbed.should.have.been.calledOnceWithExactly(body)
             res.should.deep.equal(expectedResult)
           })
         })
