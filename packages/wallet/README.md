@@ -1,40 +1,43 @@
-# Universal Ledger Agent - Aries Cloudagent Ledger Plugin
+# Universal Ledger Agent - Aries Cloudagent Wallet Plugin
 
-This package handles everything that has to do with the ledger in Hyperledger Aries. It has classes to perform ledger related actions.
+This package handles everything that has to do with the wallet in Hyperledger Aries.
 
 ## Usage
 
-### LedgerController
+### WalletController
 
 ```typescript
 import { EventHandler } from 'universal-ledger-agent'
-import { LedgerController } from '@ula-aca/ledger'
+import { WalletController } from '@ula-aca/wallet'
 
-const ledgerController = new LedgerController('https://aca-py-url.com')
+const walletController = new WalletController('https://aca-py-url.com')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([walletController])
 ```
 
-#### @ula-aca/ledger/register-nym
+#### @ula-aca/wallet/get-dids
+
+List wallet DIDs
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  LedgerController,
-  RegisterNymMessage,
-  RegisterNymResult,
-  LedgerMessageTypes
-} from '@ula-aca/ledger'
+  WalletController,
+  GetDidsMessage,
+  GetDidsResult,
+  WalletMessageTypes
+} from '@ula-aca/wallet'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const walletController = new WalletController('https://aca-py-api.test')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([walletController])
 
-const message: RegisterNymMessage = {
-  type: LedgerMessageTypes.REGISER_NYM,
+const message: GetDidsMessage = {
+  type: WalletMessageTypes.GET_DIDS,
   body: {
-    did: 'xZRz2JK8HngynkLe6m33J',
-    verkey: 'XHLPXpGT9y5PaLo8n7pt379dXx6SLZYHqQN393yfA2e'
+    public: 'false',
+    did: 'WgWxqztrNooG92RXvxSTWv',
+    verkey: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV'
   }
 }
 
@@ -42,133 +45,133 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/register-nym POST api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/post_ledger_register_nym
-    const result: RegisterNymResult = response.body
+    // response.body is response from /wallet/did api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/wallet/get_wallet_did
+    const result: GetDidsResult = response.body
   }
 })
 ```
 
-#### @ula-aca/ledger/get-verkey-by-did
+#### @ula-aca/wallet/create-local-did
+
+Create a local DID
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  LedgerController,
-  GetVerkeyByDidMessage,
-  GetVerkeyByDidResult,
-  LedgerMessageTypes
-} from '@ula-aca/ledger'
+  WalletController,
+  CreateLocalDidMessage,
+  CreateLocalDidResult,
+  WalletMessageTypes
+} from '@ula-aca/wallet'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const walletController = new WalletController('https://aca-py-api.test')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([walletController])
 
-const message: RegisterNymMessage = {
-  type: LedgerMessageTypes.GET_VERKEY_BY_DID,
-  body: {
-    did: 'xZRz2JK8HngynkLe6m33J'
-  }
+const message: CreateLocalDidMessage = {
+  type: WalletMessageTypes.CREATE_LOCAL_DID
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/did-verkey api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/get_ledger_did_verkey
-    const result: GetVerkeyByDidResult = response.body
+    // response.body is response from /wallet/did/create POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/wallet/post_wallet_did_create
+    const result: CreateLocalDidResult = response.body
   }
 })
 ```
 
-#### @ula-aca/ledger/get-endpoint-by-did
+#### @ula-aca/wallet/fetch-public-did
+
+Fetch the current public DID
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  LedgerController,
-  GetEndpointByDidMessage,
-  GetEndpointByDidResult,
-  LedgerMessageTypes
-} from '@ula-aca/ledger'
+  WalletController,
+  FetchPublicDidMessage,
+  FetchPublicDidResult,
+  WalletMessageTypes
+} from '@ula-aca/wallet'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const walletController = new WalletController('https://aca-py-api.test')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([walletController])
 
-const message: GetEndpointByDidMessage = {
-  type: LedgerMessageTypes.GET_ENDPOINT_BY_DID,
-  body: {
-    did: 'xZRz2JK8HngynkLe6m33J'
-  }
+const message: FetchPublicDidMessage = {
+  type: WalletMessageTypes.FETCH_PUBLIC_DID
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/did-endpoint api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/get_ledger_did_endpoint
-    const result: GetEndpointByDidResult = response.body
+    // response.body is response from /wallet/did/public api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/wallet/get_wallet_did_public
+    const result: FetchPublicDidResult = response.body
   }
 })
 ```
 
-#### @ula-aca/ledger/get-transaction-author-agreement
+#### @ula-aca/wallet/assign-public-did
+
+Assign the current public DID
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  LedgerController,
-  GetTransactionAuthorAgreementMessage,
-  GetTransactionAuthorAgreementResult,
-  LedgerMessageTypes
-} from '@ula-aca/ledger'
+  WalletController,
+  AssignPublicDidMessage,
+  AssignPublicDidResult,
+  WalletMessageTypes
+} from '@ula-aca/wallet'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const walletController = new WalletController('https://aca-py-api.test')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([walletController])
 
-const message: GetTransactionAuthorAgreementMessage = {
-  type: LedgerMessageTypes.GET_TRANSACTION_AUTHOR_AGREEMENT
+const message: AssignPublicDidMessage = {
+  type: WalletMessageTypes.ASSIGN_PUBLIC_DID,
+  body: {
+    did: 'WgWxqztrNooG92RXvxSTWv'
+  }
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/taa api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/get_ledger_taa
-    const result: GetTransactionAuthorAgreementResult = response.body
+    // response.body is response from /wallet/did/public api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/wallet/get_wallet_did_public
+    const result: AssignPublicDidResult = response.body
   }
 })
 ```
 
-#### @ula-aca/ledger/accept-transaction-author-agreement
+#### @ula-aca/wallet/get-tagging-policy
+
+Get the tagging policy for a credential definition
 
 ```typescript
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
 import {
-  LedgerController,
-  AcceptTransactionAuthorAgreementMessage,
-  AcceptTransactionAuthorAgreementResult,
-  LedgerMessageTypes
-} from '@ula-aca/ledger'
+  WalletController,
+  GetTagPolicyMessage,
+  GetTagPolicyResult,
+  WalletMessageTypes
+} from '@ula-aca/wallet'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const walletController = new WalletController('https://aca-py-api.test')
 
-const eventHandler = new EventHandler([ledgerController])
+const eventHandler = new EventHandler([walletController])
 
-// TODO: Add correct example for accepting TAA.
-// Ledger needs to have a TAA, you can publish this with
-// the ledger api from the indy sdk
-const message: AcceptTransactionAuthorAgreementMessage = {
-  type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT,
+const message: GetTagPolicyMessage = {
+  type: WalletMessageTypes.GET_TAG_POLICY,
   body: {
-    mechanism: '',
-    text: '',
-    version: ''
+    credential_definition_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
   }
 }
 
@@ -176,9 +179,45 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
-    // response.body is response from /ledger/taa/accept POST api endpoint in aca-py
-    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/ledger/post_ledger_taa_accept
-    const result: AcceptTransactionAuthorAgreementResult = response.body
+    // response.body is response from /wallet/tag-policy/{id} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/wallet/get_wallet_tag_policy__id_
+    const result: GetTagPolicyResult = response.body
+  }
+})
+```
+
+#### @ula-aca/wallet/set-tagging-policy
+
+Set the tagging policy for a credential definition
+
+```typescript
+import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+import {
+  WalletController,
+  SetTagPolicyMessage,
+  SetTagPolicyResult,
+  WalletMessageTypes
+} from '@ula-aca/wallet'
+
+const walletController = new WalletController('https://aca-py-api.test')
+
+const eventHandler = new EventHandler([walletController])
+
+const message: SetTagPolicyMessage = {
+  type: WalletMessageTypes.SET_TAG_POLICY,
+  body: {
+    credential_definition_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    taggables: ['score']
+  }
+}
+
+eventHandler.processMsg(message, (response: UlaResponse) => {
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    // error
+  } else {
+    // response.body is response from /wallet/tag-policy/{id} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/wallet/get_wallet_tag_policy__id_
+    const result: SetTagPolicyResult = response.body
   }
 })
 ```

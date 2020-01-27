@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/wallet",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent - Aries Cloudagent Wallet Plugin",
+  "description": "Universal Ledger Agent plugin for managing the wallet in Aries Cloudagent",
   "scripts": {
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc -p tsconfig.build.json",
