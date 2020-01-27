@@ -250,7 +250,7 @@ describe('[package] @ula-aca/credential-definition', () => {
             await credentialDefinitionPlugin.handleEvent(
               message,
               (res: UlaResponse) => {
-                credentialDefinitionApiStubbed.should.have.been.calledWith(
+                credentialDefinitionApiStubbed.should.have.been.calledOnceWithExactly(
                   schemaId,
                   schemaIssuerDid,
                   schemaName,
@@ -291,7 +291,7 @@ describe('[package] @ula-aca/credential-definition', () => {
             await credentialDefinitionPlugin.handleEvent(
               message,
               (res: UlaResponse) => {
-                credentialDefinitionApiStubbed.should.have.been.calledWith()
+                credentialDefinitionApiStubbed.should.have.been.calledOnce
                 res.should.deep.equal(expectedResult)
               }
             )
@@ -352,7 +352,7 @@ describe('[package] @ula-aca/credential-definition', () => {
           await credentialDefinitionPlugin.handleEvent(
             message,
             (res: UlaResponse) => {
-              credentialDefinitionApiStubbed.should.have.been.calledWith(
+              credentialDefinitionApiStubbed.should.have.been.calledOnceWithExactly(
                 credentialDefinitionId
               )
               res.should.deep.equal(expectedResult)
@@ -392,7 +392,9 @@ describe('[package] @ula-aca/credential-definition', () => {
           await credentialDefinitionPlugin.handleEvent(
             message,
             (res: UlaResponse) => {
-              credentialDefinitionApiStubbed.should.have.been.calledWith(body)
+              credentialDefinitionApiStubbed.should.have.been.calledOnceWithExactly(
+                body
+              )
               res.should.deep.equal(expectedResult)
             }
           )
