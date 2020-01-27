@@ -56,7 +56,7 @@ class CredentialController implements Plugin {
     start,
     count,
     wql
-  }: GetCredentialsBody): Promise<UlaResponse> {
+  }: GetCredentialsBody = {}): Promise<UlaResponse> {
     const response = await this.credentialApi.credentialsGet(start, count, wql)
 
     return new UlaResponse({
@@ -112,6 +112,7 @@ class CredentialController implements Plugin {
           break
       }
     } catch (err) {
+      console.log(err)
       if (err.response) {
         const axiosErr = err as AxiosError
         response = new UlaResponse({

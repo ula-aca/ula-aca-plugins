@@ -25,7 +25,7 @@ interface GetCredentialsBody {
 
 interface GetCredentialsMessage {
   type: CredentialMessageTypes.GET_CREDENTIALS
-  body: GetCredentialsBody
+  body?: GetCredentialsBody
 }
 
 type GetCredentialsResult = CredentialList
