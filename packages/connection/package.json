@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/connection",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents.",
+  "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents",
   "scripts": {
     "test": "echo 'Error: run tests from root' && exit 1",
     "compile": "tsc -p tsconfig.build.json",
