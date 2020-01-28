@@ -68,7 +68,7 @@ export class PresentProofController implements Plugin {
     const response = await this.presentProofApi.presentProofRecordsGet()
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data.results
+      body: response.data.results || []
     })
   }
 
@@ -294,12 +294,30 @@ export class PresentProofController implements Plugin {
     } catch (err) {
       const axiosErr = err as AxiosError
 
-      response = new UlaResponse({
-        statusCode: axiosErr.response.status,
-        body: {
-          error: axiosErr.response.data
-        }
-      })
+      if (axiosErr.response) {
+        response = new UlaResponse({
+          statusCode: axiosErr.response.status,
+          body: {
+            error: axiosErr.response.data
+          }
+        })
+      } else if (axiosErr.toJSON) {
+        // couldn't get repsonse
+        response = new UlaResponse({
+          statusCode: 500,
+          body: {
+            error: axiosErr.toJSON()
+          }
+        })
+      } else {
+        // not an axios error
+        response = new UlaResponse({
+          statusCode: 500,
+          body: {
+            error: err
+          }
+        })
+      }
     }
     callback(response)
     return response.statusCode < 200 || response.statusCode >= 300

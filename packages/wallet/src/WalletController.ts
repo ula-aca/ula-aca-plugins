@@ -155,16 +155,16 @@ class WalletController implements Plugin {
           break
       }
     } catch (err) {
-      if (err.response) {
-        const axiosErr = err as AxiosError
+      const axiosErr = err as AxiosError
+
+      if (axiosErr.response) {
         response = new UlaResponse({
           statusCode: axiosErr.response.status,
           body: {
             error: axiosErr.response.data
           }
         })
-      } else if (err.toJSON) {
-        const axiosErr = err as AxiosError
+      } else if (axiosErr.toJSON) {
         // couldn't get repsonse
         response = new UlaResponse({
           statusCode: 500,

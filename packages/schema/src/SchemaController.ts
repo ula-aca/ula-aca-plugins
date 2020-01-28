@@ -33,8 +33,6 @@ import {
 } from './messages'
 
 export default class SchemaController implements Plugin {
-  private eventHandler?: EventHandler
-
   private schemaApi: SchemaApi
 
   constructor(acaUrl: string) {
@@ -45,9 +43,8 @@ export default class SchemaController implements Plugin {
     this.schemaApi = new SchemaApi(apiConfig)
   }
 
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+  initialize(eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/schema/SchemaController'
@@ -116,16 +113,16 @@ export default class SchemaController implements Plugin {
           break
       }
     } catch (err) {
-      if (err.response) {
-        const axiosErr = err as AxiosError
+      const axiosErr = err as AxiosError
+
+      if (axiosErr.response) {
         response = new UlaResponse({
           statusCode: axiosErr.response.status,
           body: {
             error: axiosErr.response.data
           }
         })
-      } else if (err.toJSON) {
-        const axiosErr = err as AxiosError
+      } else if (axiosErr.toJSON) {
         // couldn't get repsonse
         response = new UlaResponse({
           statusCode: 500,

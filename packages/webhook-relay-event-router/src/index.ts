@@ -21,17 +21,24 @@ import WebSocket from 'isomorphic-ws'
 import { AriesEvent, AriesEventTopic } from './AriesEvent'
 
 class WebhookRelayEventRouter implements Plugin {
+  private webhookRelayUrl: string
+
+  private options?: WebSocket.ClientOptions
+
   private eventHandler?: EventHandler
 
-  private websocket: WebSocket
+  private websocket?: WebSocket
 
   constructor(webhookRelayUrl: string, options?: WebSocket.ClientOptions) {
-    this.websocket = new WebSocket(webhookRelayUrl, options)
-    this.websocket.onmessage = this.handleWebsocketMessage.bind(this)
+    this.webhookRelayUrl = webhookRelayUrl
+    this.options = options
   }
 
   initialize(eventHandler: EventHandler): void {
     this.eventHandler = eventHandler
+
+    this.websocket = new WebSocket(this.webhookRelayUrl, this.options)
+    this.websocket.onmessage = this.handleWebsocketMessage.bind(this)
   }
 
   get name(): string {
@@ -57,18 +64,19 @@ class WebhookRelayEventRouter implements Plugin {
       case AriesEventTopic.PRESENT_PROOF:
         ulaMsgType = WebhookEventTypes.PRESENT_PROOF_EVENT
         break
-      default:
-        break
     }
 
-    await this.eventHandler.processMsg(
-      {
-        type: ulaMsgType,
-        body: event.body
-      },
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {}
-    )
+    // TODO: If the eventHandler isn't initialized yet the event is not processed
+    if (this.eventHandler && ulaMsgType) {
+      await this.eventHandler.processMsg(
+        {
+          type: ulaMsgType,
+          body: event.body
+        },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        () => {}
+      )
+    }
   }
 
   handleEvent(): Promise<string> {

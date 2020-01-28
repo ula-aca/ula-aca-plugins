@@ -39,11 +39,8 @@ import {
 } from '@ula-aca/webhook-event-models'
 
 abstract class PresentProofEventHandler implements Plugin {
-  protected eventHandler: EventHandler
-
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+  initialize(eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/present-proof/PresentProofEventHandler'
