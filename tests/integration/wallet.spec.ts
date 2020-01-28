@@ -21,7 +21,8 @@ import {
   GetDidsResult,
   FetchPublicDidResult,
   SetTagPolicyResult,
-  GetTagPolicyResult
+  GetTagPolicyResult,
+  AssignPublicDidResult
 } from '@ula-aca/wallet'
 
 import faker from 'faker'
@@ -31,7 +32,8 @@ import {
   getTestDids,
   fetchPublicDid,
   setTagPolicy,
-  getTagPolicy
+  getTagPolicy,
+  assignPublicDid
 } from './utils/wallet'
 
 import { getEventHandler } from './utils'
@@ -144,28 +146,23 @@ describe('[package] @ula-aca/wallet', () => {
       }
     })
 
-    // TODO: assigning a different public did makes other actions not work anymore
-    // it('@ula-aca/wallet/assign-public-did', async () => {
-    //   const currentPublicDid = (await fetchPublicDid(eventHandler)).body.did
+    it('@ula-aca/wallet/assign-public-did', async () => {
+      // IMPORTANT: We assign the current public did as the public did. Seems weird, but if we assign a random did
+      // it won't have any permissions so we can't change the did back. To fix this we must register the newly created did
+      // with the von-network before assigning as we already do in the network-setup docker compose file.
+      const currentPublicDid = ((await fetchPublicDid(eventHandler)).body as FetchPublicDidResult).result
 
-    //   const testDid = testDids[0]
+      const assignResponse = await assignPublicDid(eventHandler, {
+        did: currentPublicDid.did
+      })
+      assignResponse.statusCode.should.equal(200)
+      const assignResult: AssignPublicDidResult = assignResponse.body
 
-    //   const assignResponse = await assignPublicDid(eventHandler, {
-    //     did: testDid.did
-    //   })
-    //   assignResponse.statusCode.should.equal(200)
-    //   const assignResult: AssignPublicDidResult = assignResponse.body
-
-    //   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    //   // @ts-ignore
-    //   assignResult.result.public.should.be.true
-    //   assignResult.result.did.should.equal(testDid.did)
-    //   assignResult.result.verkey.should.equal(testDid.verkey)
-
-    //   // revert to old public did
-    //   await assignPublicDid(eventHandler, {
-    //     did: currentPublicDid
-    //   })
-    // })
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      assignResult.result.public.should.equal('true')
+      assignResult.result.did.should.equal(currentPublicDid.did)
+      assignResult.result.verkey.should.equal(currentPublicDid.verkey)
+    })
   })
 })

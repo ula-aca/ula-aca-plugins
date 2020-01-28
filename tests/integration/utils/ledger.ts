@@ -78,7 +78,7 @@ const getTransactionAuthorAgreement = (
 
 const acceptTransactionAuthorAgreement = (
   eventHandler: EventHandler,
-  body: AcceptTransactionAuthorAgreementBody
+  body?: AcceptTransactionAuthorAgreementBody
 ): Promise<UlaResponse> => {
   const message: AcceptTransactionAuthorAgreementMessage = {
     type: LedgerMessageTypes.ACCEPT_TRANSACTION_AUTHOR_AGREEMENT,

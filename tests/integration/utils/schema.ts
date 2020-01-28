@@ -34,10 +34,10 @@ const createSchema = (
   eventHandler: EventHandler,
   body: CreateSchemaBody
 ): Promise<UlaResponse> => {
-  const message = {
+  const message: CreateSchemaMessage = {
     type: SchemaMessageTypes.CREATE_SCHEMA,
     body
-  } as CreateSchemaMessage
+  }
 
   return eventPromise(eventHandler, message)
 }
@@ -46,10 +46,10 @@ const getSchemaById = (
   eventHandler: EventHandler,
   body: GetSchemaByIdBody
 ): Promise<UlaResponse> => {
-  const message = {
+  const message: GetSchemaByIdMessage = {
     type: SchemaMessageTypes.GET_SCHEMA_BY_ID,
     body
-  } as GetSchemaByIdMessage
+  }
 
   return eventPromise(eventHandler, message)
 }
@@ -58,10 +58,10 @@ const getCreatedSchemas = (
   eventHandler: EventHandler,
   body?: GetCreatedSchemasBody
 ): Promise<UlaResponse> => {
-  const message = {
+  const message: GetCreatedSchemasMessage = {
     type: SchemaMessageTypes.GET_CREATED_SCHEMAS,
     body
-  } as GetCreatedSchemasMessage
+  }
 
   return eventPromise(eventHandler, message)
 }

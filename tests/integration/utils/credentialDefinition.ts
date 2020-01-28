@@ -35,10 +35,10 @@ const createCredentialDefinition = (
   eventHandler: EventHandler,
   body: CreateCredentialDefinitionBody
 ): Promise<UlaResponse> => {
-  const message = {
+  const message: CreateCredentialDefinitionMessage = {
     type: CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION,
     body
-  } as CreateCredentialDefinitionMessage
+  }
 
   return eventPromise(eventHandler, message)
 }
@@ -47,10 +47,10 @@ const getCredentialDefinitionById = (
   eventHandler: EventHandler,
   body: GetCredentialDefinitionByIdBody
 ): Promise<UlaResponse> => {
-  const message = {
+  const message: GetCredentialDefinitionByIdMessage = {
     type: CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID,
     body
-  } as GetCredentialDefinitionByIdMessage
+  }
 
   return eventPromise(eventHandler, message)
 }
@@ -59,10 +59,10 @@ const getCreatedCredentialDefinitions = (
   eventHandler: EventHandler,
   body?: GetCreatedCredentialDefinitionsBody
 ): Promise<UlaResponse> => {
-  const message = {
+  const message: GetCreatedCredentialDefinitionsMessage = {
     type: CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS,
     body
-  } as GetCreatedCredentialDefinitionsMessage
+  }
 
   return eventPromise(eventHandler, message)
 }

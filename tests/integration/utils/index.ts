@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+import { EventHandler, UlaResponse, Plugin } from 'universal-ledger-agent'
 import { SchemaController } from '@ula-aca/schema'
 import { CredentialDefinitionController } from '@ula-aca/credential-definition'
-import { ConnectionController } from '@ula-aca/connection'
+import {
+  ConnectionController,
+  ConnectionEventHandler
+} from '@ula-aca/connection'
 import { LedgerController } from '@ula-aca/ledger'
 import { WalletController } from '@ula-aca/wallet'
-import { PresentProofController } from '@ula-aca/present-proof'
-import { IssueCredentialController } from '@ula-aca/issue-credential'
+import {
+  PresentProofController,
+  PresentProofEventHandler
+} from '@ula-aca/present-proof'
+import {
+  IssueCredentialController,
+  IssueCredentialEventHandler
+} from '@ula-aca/issue-credential'
 import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 import { CredentialController } from '@ula-aca/credential'
 import TestPresentProofEventHandler from './eventHandlers/TestPresentProofEventHandler'
@@ -38,16 +47,30 @@ function eventPromise(
   })
 }
 
+function getEventHandlerPlugins(): {
+  presentProofHandler: PresentProofEventHandler
+  issueCredentialHandler: IssueCredentialEventHandler
+  connectionHandler: ConnectionEventHandler
+} {
+  return {
+    presentProofHandler: new TestPresentProofEventHandler(),
+    issueCredentialHandler: new TestIssueCredentialEventHandler(),
+    connectionHandler: new TestConnectionEventHandler()
+  }
+}
+
 function getEventHandler({
   acaUrl,
-  acaApiKey,
   acaWhrUrl,
-  acaWhrApiKey
+  acaWhrApiKey,
+  eventHandlerPlugins = []
 }: {
   acaUrl: string
   acaApiKey?: string
   acaWhrUrl: string
   acaWhrApiKey?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  eventHandlerPlugins?: Plugin[]
 }): EventHandler {
   const plugins = [
     new SchemaController(acaUrl),
@@ -63,9 +86,7 @@ function getEventHandler({
         Authorization: acaWhrApiKey
       }
     }),
-    new TestPresentProofEventHandler(),
-    new TestIssueCredentialEventHandler(),
-    new TestConnectionEventHandler()
+    ...eventHandlerPlugins
   ]
 
   const eventHandler = new EventHandler(plugins)
@@ -73,4 +94,4 @@ function getEventHandler({
   return eventHandler
 }
 
-export { getEventHandler, eventPromise }
+export { getEventHandler, eventPromise, getEventHandlerPlugins }
