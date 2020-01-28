@@ -45,6 +45,40 @@ jobs:
       - name: Check formatting with prettier
         run: npm run prettier
 
+  types:
+    name: Types
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        # Github Package Registry doesn't work with Yarn.
+        # --update-checksums fixes this somehow
+        # see https://github.com/yarnpkg/yarn/issues/7552
+        # this seems to keep causing trouble, so we use
+        # npm for now.
+        run: npx lerna bootstrap
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_REGISTRY_READ_PACKAGES_TOKEN }}
+
+      - name: Build
+        # This also checks examples and tests folder for typescript errors
+        run: npm run types
+
   unit-test:
     name: Unit Tests
     runs-on: ubuntu-18.04
