@@ -306,7 +306,14 @@ describe('[package] @ula-aca/ledger', () => {
       })
 
       it('@ula-aca/ledger/get-transaction-author-agreement', async () => {
-        const data = {
+        const data: {
+          result: {
+            aml_record: null
+            taa_record: null
+            taa_required: false
+            taa_accepted: null
+          }
+        } = {
           result: {
             aml_record: null,
             taa_record: null,

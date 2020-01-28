@@ -22,8 +22,8 @@ export interface PresentProofEventMessage {
   body: PresentationExchangeRecordBase
 }
 
-export function isPresentProofEventMessage(
-  properties
-): properties is PresentProofEventMessage {
+export function isPresentProofEventMessage(properties: {
+  type: string
+}): properties is PresentProofEventMessage {
   return properties.type === WebhookEventTypes.PRESENT_PROOF_EVENT
 }

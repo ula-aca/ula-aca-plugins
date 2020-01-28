@@ -29,31 +29,31 @@ import {
 
 class TestPresentProofEventHandler extends PresentProofEventHandler {
   async onProposalSent(
-    message: PresentationExchangeRecordProposalSent
+    _message: PresentationExchangeRecordProposalSent
   ): Promise<void> {}
 
   async onProposalReceived(
-    message: PresentationExchangeRecordProposalReceived
+    _message: PresentationExchangeRecordProposalReceived
   ): Promise<void> {}
 
   async onRequestSent(
-    message: PresentationExchangeRecordRequestSent
+    _message: PresentationExchangeRecordRequestSent
   ): Promise<void> {}
 
   async onRequestReceived(
-    message: PresentationExchangeRecordRequestReceived
+    _message: PresentationExchangeRecordRequestReceived
   ): Promise<void> {}
 
   async onPresentationSent(
-    message: PresentationExchangeRecordPresentationSent
+    _message: PresentationExchangeRecordPresentationSent
   ): Promise<void> {}
 
   async onPresentationReceived(
-    message: PresentationExchangeRecordPresentationReceived
+    _message: PresentationExchangeRecordPresentationReceived
   ): Promise<void> {}
 
   async onVerified(
-    message: PresentationExchangeRecordVerified
+    _message: PresentationExchangeRecordVerified
   ): Promise<void> {}
 }
 

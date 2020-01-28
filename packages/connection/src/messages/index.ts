@@ -38,8 +38,12 @@ type ConnectionMessageType =
   | SendBasicMessageMessage
   | SendPingMessage
 
-function isConnectionMessage(properties): properties is ConnectionMessageType {
-  return Object.values(ConnectionMessageTypes).includes(properties.type)
+function isConnectionMessage(properties: {
+  type: string
+}): properties is ConnectionMessageType {
+  return Object.values(ConnectionMessageTypes).includes(
+    properties.type as ConnectionMessageTypes
+  )
 }
 
 export { ConnectionMessageType, isConnectionMessage }

@@ -25,8 +25,12 @@ type CredentialMessageType =
   | GetCredentialsMessage
   | RemoveCredentialMessage
 
-function isCredentialMessage(properties): properties is CredentialMessageType {
-  return Object.values(CredentialMessageTypes).includes(properties.type)
+function isCredentialMessage(properties: {
+  type: string
+}): properties is CredentialMessageType {
+  return Object.values(CredentialMessageTypes).includes(
+    properties.type as CredentialMessageTypes
+  )
 }
 
 export { CredentialMessageType, isCredentialMessage }

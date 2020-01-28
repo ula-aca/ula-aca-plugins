@@ -41,8 +41,11 @@ import {
 } from '@ula-aca/webhook-event-models'
 
 abstract class ConnectionEventHandler implements Plugin {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  initialize(eventHandler: EventHandler): void {}
+  protected eventHandler?: EventHandler
+
+  initialize(eventHandler: EventHandler): void {
+    this.eventHandler = eventHandler
+  }
 
   get name(): string {
     return '@ula-aca/connection/ConnectionEventHandler'

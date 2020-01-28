@@ -22,8 +22,8 @@ export interface IssueCredentialEvent {
   body: CredentialExchangeRecordBase
 }
 
-export function isIssueCredentialEventMessage(
-  properties
-): properties is IssueCredentialEvent {
+export function isIssueCredentialEventMessage(properties: {
+  type: string
+}): properties is IssueCredentialEvent {
   return properties.type === WebhookEventTypes.ISSUE_CREDENTIAL_EVENT
 }

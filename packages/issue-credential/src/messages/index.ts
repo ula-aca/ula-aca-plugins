@@ -42,10 +42,12 @@ type IssueCredentialMessageType =
   | SendRequestMessage
   | StoreMessage
 
-function isIssueCredentialMessage(
-  properties
-): properties is IssueCredentialMessageType {
-  return Object.values(IssueCredentialMessageTypes).includes(properties.type)
+function isIssueCredentialMessage(properties: {
+  type: string
+}): properties is IssueCredentialMessageType {
+  return Object.values(IssueCredentialMessageTypes).includes(
+    properties.type as IssueCredentialMessageTypes
+  )
 }
 
 export { IssueCredentialMessageType, isIssueCredentialMessage }

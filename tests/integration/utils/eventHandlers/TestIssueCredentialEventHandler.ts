@@ -31,37 +31,37 @@ import { IssueCredentialEventHandler } from '@ula-aca/issue-credential'
 
 class TestIssueCredentialEventHandler extends IssueCredentialEventHandler {
   async onProposalSent(
-    message: CredentialExchangeRecordProposalSent
+    _message: CredentialExchangeRecordProposalSent
   ): Promise<void> {}
 
   async onProposalReceived(
-    message: CredentialExchangeRecordProposalReceived
+    _message: CredentialExchangeRecordProposalReceived
   ): Promise<void> {}
 
   async onOfferSent(
-    message: CredentialExchangeRecordOfferSent
+    _message: CredentialExchangeRecordOfferSent
   ): Promise<void> {}
 
   async onOfferReceived(
-    message: CredentialExchangeRecordOfferReceived
+    _message: CredentialExchangeRecordOfferReceived
   ): Promise<void> {}
 
   async onRequestSent(
-    message: CredentialExchangeRecordRequestSent
+    _message: CredentialExchangeRecordRequestSent
   ): Promise<void> {}
 
   async onRequestReceived(
-    message: CredentialExchangeRecordRequestReceived
+    _message: CredentialExchangeRecordRequestReceived
   ): Promise<void> {}
 
-  async onIssued(message: CredentialExchangeRecordIssued): Promise<void> {}
+  async onIssued(_message: CredentialExchangeRecordIssued): Promise<void> {}
 
   async onCredentialAcknowledged(
-    message: CredentialExchangeRecordCredentialAcknowledged
+    _message: CredentialExchangeRecordCredentialAcknowledged
   ): Promise<void> {}
 
   async onCredentialReceived(
-    message: CredentialExchangeRecordCredentialReceived
+    _message: CredentialExchangeRecordCredentialReceived
   ): Promise<void> {}
 }
 

@@ -18,12 +18,12 @@ import {
 } from '@ula-aca/connection'
 import { acceptRequest, sendBasicMessage } from '@ula-aca/connection/examples'
 import { CreateSchemaBody, SchemaMessageTypes } from '@ula-aca/schema'
-import { createSchema } from 'packages/schema/examples'
+import { createSchema } from '@ula-aca/schema/examples'
 import {
   CreateCredentialDefinitionBody,
   CredentialDefinitionMessageTypes
 } from '@ula-aca/credential-definition'
-import { createCredentialDefinition } from 'packages/credential-definition/examples'
+import { createCredentialDefinition } from '@ula-aca/credential-definition/examples'
 import {
   IssueCredentialMessageTypes,
   SendOfferBody

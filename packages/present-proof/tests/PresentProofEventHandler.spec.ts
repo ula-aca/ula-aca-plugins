@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -18,29 +19,52 @@ import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
 
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
+import {
+  PresentationExchangeRecordProposalSent,
+  PresentationExchangeRecordProposalReceived,
+  PresentationExchangeRecordRequestSent,
+  PresentationExchangeRecordRequestReceived,
+  PresentationExchangeRecordPresentationSent,
+  PresentationExchangeRecordPresentationReceived,
+  PresentationExchangeRecordVerified
+} from '@ula-aca/webhook-event-models'
 import { PresentProofEventHandler } from '../src'
 
 class ProofHandler extends PresentProofEventHandler {
-  async onProposalSent(): Promise<void> {}
+  async onProposalSent(
+    _message: PresentationExchangeRecordProposalSent
+  ): Promise<void> {}
 
-  async onProposalReceived(): Promise<void> {}
+  async onProposalReceived(
+    _message: PresentationExchangeRecordProposalReceived
+  ): Promise<void> {}
 
-  async onRequestSent(): Promise<void> {}
+  async onRequestSent(
+    _message: PresentationExchangeRecordRequestSent
+  ): Promise<void> {}
 
-  async onRequestReceived(): Promise<void> {}
+  async onRequestReceived(
+    _message: PresentationExchangeRecordRequestReceived
+  ): Promise<void> {}
 
-  async onPresentationSent(): Promise<void> {}
+  async onPresentationSent(
+    _message: PresentationExchangeRecordPresentationSent
+  ): Promise<void> {}
 
-  async onPresentationReceived(): Promise<void> {}
+  async onPresentationReceived(
+    _message: PresentationExchangeRecordPresentationReceived
+  ): Promise<void> {}
 
-  async onVerified(): Promise<void> {}
+  async onVerified(
+    _message: PresentationExchangeRecordVerified
+  ): Promise<void> {}
 }
 
 describe('[package] @ula-aca/present-proof', () => {
   describe('[plugin] PresentProofController', () => {
     let eventHandler: EventHandler
     let proofHandler: ProofHandler
-    let proofHandlerStubbed: sinon.SinonStub
+    let proofHandlerStubbed: sinon.SinonStub<any, any>
 
     beforeEach(() => {
       eventHandler = new EventHandler([])

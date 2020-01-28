@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -19,33 +20,43 @@ import sinon from 'sinon'
 
 import {
   ConnectionEventMessage,
-  BasicMessageEventMessage
+  BasicMessageEventMessage,
+  BasicMessage,
+  PairwiseConnectionRecordInit,
+  PairwiseConnectionRecordInvitation,
+  PairwiseConnectionRecordRequest,
+  PairwiseConnectionRecordResponse,
+  PairwiseConnectionRecordActive,
+  PairwiseConnectionRecordInactive,
+  PairwiseConnectionRecordError
 } from '@ula-aca/webhook-event-models'
 import { ConnectionEventHandler } from '../src'
 
 class ConnectionHandler extends ConnectionEventHandler {
-  async onBasicMessage(): Promise<void> {}
+  async onBasicMessage(_message: BasicMessage): Promise<void> {}
 
-  async onInit(): Promise<void> {}
+  async onInit(_message: PairwiseConnectionRecordInit): Promise<void> {}
 
-  async onInvitation(): Promise<void> {}
+  async onInvitation(
+    _message: PairwiseConnectionRecordInvitation
+  ): Promise<void> {}
 
-  async onRequest(): Promise<void> {}
+  async onRequest(_message: PairwiseConnectionRecordRequest): Promise<void> {}
 
-  async onResponse(): Promise<void> {}
+  async onResponse(_message: PairwiseConnectionRecordResponse): Promise<void> {}
 
-  async onActive(): Promise<void> {}
+  async onActive(_message: PairwiseConnectionRecordActive): Promise<void> {}
 
-  async onInactive(): Promise<void> {}
+  async onInactive(_message: PairwiseConnectionRecordInactive): Promise<void> {}
 
-  async onError(): Promise<void> {}
+  async onError(_message: PairwiseConnectionRecordError): Promise<void> {}
 }
 
 describe('[package] @ula-aca/connection', () => {
   describe('[plugin] ConnectionEventHandler', () => {
     let eventHandler: EventHandler
     let connectionHandler: ConnectionHandler
-    let connectionHandlerStubbed: sinon.SinonStub
+    let connectionHandlerStubbed: sinon.SinonStub<[any], Promise<void>>
 
     beforeEach(() => {
       eventHandler = new EventHandler([])

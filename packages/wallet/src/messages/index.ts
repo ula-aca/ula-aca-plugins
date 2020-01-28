@@ -31,8 +31,12 @@ type WalletMessageType =
   | GetTagPolicyMessage
   | SetTagPolicyMessage
 
-function isWalletMessage(properties): properties is WalletMessageType {
-  return Object.values(WalletMessageTypes).includes(properties.type)
+function isWalletMessage(properties: {
+  type: string
+}): properties is WalletMessageType {
+  return Object.values(WalletMessageTypes).includes(
+    properties.type as WalletMessageTypes
+  )
 }
 
 export { WalletMessageType, isWalletMessage }

@@ -45,7 +45,7 @@ export default class LedgerController implements Plugin {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  initialize(eventHandler: EventHandler): void {}
+  initialize(_eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/ledger/LedgerController'

@@ -27,25 +27,24 @@ import {
 import { ConnectionEventHandler } from '@ula-aca/connection'
 
 /* eslint-disable @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars */
-
 class TestConnectionEventHandler extends ConnectionEventHandler {
-  async onBasicMessage(message: BasicMessage): Promise<void> {}
+  async onBasicMessage(_message: BasicMessage): Promise<void> {}
 
-  async onInit(message: PairwiseConnectionRecordInit): Promise<void> {}
+  async onInit(_message: PairwiseConnectionRecordInit): Promise<void> {}
 
   async onInvitation(
-    message: PairwiseConnectionRecordInvitation
+    _message: PairwiseConnectionRecordInvitation
   ): Promise<void> {}
 
-  async onRequest(message: PairwiseConnectionRecordRequest): Promise<void> {}
+  async onRequest(_message: PairwiseConnectionRecordRequest): Promise<void> {}
 
-  async onResponse(message: PairwiseConnectionRecordResponse): Promise<void> {}
+  async onResponse(_message: PairwiseConnectionRecordResponse): Promise<void> {}
 
-  async onActive(message: PairwiseConnectionRecordActive): Promise<void> {}
+  async onActive(_message: PairwiseConnectionRecordActive): Promise<void> {}
 
-  async onInactive(message: PairwiseConnectionRecordInactive): Promise<void> {}
+  async onInactive(_message: PairwiseConnectionRecordInactive): Promise<void> {}
 
-  async onError(message: PairwiseConnectionRecordError): Promise<void> {}
+  async onError(_message: PairwiseConnectionRecordError): Promise<void> {}
 }
 
 export default TestConnectionEventHandler

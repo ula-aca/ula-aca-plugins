@@ -41,10 +41,12 @@ type IssueCredentialMessageType =
   | SendRequestByIdMessage
   | VerifyPresentationMessage
 
-function isPresentProofMessage(
-  properties
-): properties is IssueCredentialMessageType {
-  return Object.values(PresentProofMessageTypes).includes(properties.type)
+function isPresentProofMessage(properties: {
+  type: string
+}): properties is IssueCredentialMessageType {
+  return Object.values(PresentProofMessageTypes).includes(
+    properties.type as PresentProofMessageTypes
+  )
 }
 
 export { IssueCredentialMessageType, isPresentProofMessage }

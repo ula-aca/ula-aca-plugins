@@ -22,8 +22,8 @@ export interface BasicMessageEventMessage {
   body: BasicMessage
 }
 
-export function isBasicMessageEventMessage(
-  properties
-): properties is BasicMessageEventMessage {
+export function isBasicMessageEventMessage(properties: {
+  type: string
+}): properties is BasicMessageEventMessage {
   return properties.type === WebhookEventTypes.BASIC_MESSAGE_EVENT
 }

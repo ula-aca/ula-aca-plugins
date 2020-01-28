@@ -15,6 +15,8 @@
  */
 
 import chalk from 'chalk'
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
 import emphasize from 'emphasize'
 import indentString from 'indent-string'
 
@@ -24,8 +26,11 @@ const prettyJSON = (json: object): string =>
 const { inverse } = chalk.bold
 const emptyLine = (noOfLines = 1): void =>
   log(Array.from(new Array(noOfLines), () => '\n').join(''))
-const indent = (value, noOfSpaces = 4, ...params): string =>
-  indentString(value, noOfSpaces, ...params)
+const indent = (
+  value: string,
+  noOfSpaces = 4,
+  options?: indentString.Options
+): string => indentString(value, noOfSpaces, options)
 const { bold } = chalk
 
 function logJson({
@@ -113,7 +118,8 @@ function logWebhookEvent({
   input: object
   comment?: string
 }): void {
-  if (['0', 'false'].includes(process.env.LOG_WEBHOOK_EVENTS)) return
+  const LOG_WEBHOOK_EVENTS = process.env.LOG_WEBHOOK_EVENTS || undefined
+  if (LOG_WEBHOOK_EVENTS && ['0', 'false'].includes(LOG_WEBHOOK_EVENTS)) return
   log(`${inverse('START WEBHOOK EVENT:')} ${bold(type)}`)
 
   emptyLine()

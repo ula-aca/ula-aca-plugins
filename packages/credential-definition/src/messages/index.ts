@@ -24,11 +24,11 @@ type CredentialDefinitionMessageType =
   | GetCreatedCredentialDefinitionsMessage
   | CreateCredentialDefinitionMessage
 
-function isCredentialDefinitionMessage(
-  properties
-): properties is CredentialDefinitionMessageType {
+function isCredentialDefinitionMessage(properties: {
+  type: string
+}): properties is CredentialDefinitionMessageType {
   return Object.values(CredentialDefinitionMessageTypes).includes(
-    properties.type
+    properties.type as CredentialDefinitionMessageTypes
   )
 }
 

@@ -1,7 +1,7 @@
 import { ConnectionController } from '@ula-aca/connection'
 import { SchemaController } from '@ula-aca/schema'
 import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
-import { EventHandler } from 'universal-ledger-agent'
+import { EventHandler, Plugin } from 'universal-ledger-agent'
 import { CredentialDefinitionController } from '@ula-aca/credential-definition'
 import { IssueCredentialController } from '@ula-aca/issue-credential'
 import { PresentProofController } from '@ula-aca/present-proof'
@@ -9,7 +9,6 @@ import { CredentialController } from '@ula-aca/credential/src'
 
 function getEventHandler({
   acaUrl,
-  acaApiKey,
   acaWhrUrl,
   acaWhrApiKey,
   webhookEventHandlerPlugins = []
@@ -18,8 +17,7 @@ function getEventHandler({
   acaApiKey?: string
   acaWhrUrl: string
   acaWhrApiKey?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  webhookEventHandlerPlugins?: any[]
+  webhookEventHandlerPlugins?: Plugin[]
 }): EventHandler {
   // Standard Plugins
   const connectionController = new ConnectionController(acaUrl)

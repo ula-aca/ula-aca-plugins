@@ -24,8 +24,12 @@ type SchemaMessageType =
   | GetCreatedSchemasMessage
   | CreateSchemaMessage
 
-function isSchemaMessage(properties): properties is SchemaMessageType {
-  return Object.values(SchemaMessageTypes).includes(properties.type)
+function isSchemaMessage(properties: {
+  type: string
+}): properties is SchemaMessageType {
+  return Object.values(SchemaMessageTypes).includes(
+    properties.type as SchemaMessageTypes
+  )
 }
 
 export { SchemaMessageType, isSchemaMessage }

@@ -22,8 +22,8 @@ export interface ConnectionEventMessage {
   body: PairwiseConnectionRecordBase
 }
 
-export function isConnectionEventMessage(
-  properties
-): properties is ConnectionEventMessage {
+export function isConnectionEventMessage(properties: {
+  type: string
+}): properties is ConnectionEventMessage {
   return properties.type === WebhookEventTypes.CONNECTION_EVENT
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
  * Copyright 2020-present ula-aca
  *
@@ -22,8 +23,14 @@ function stubInterfaceFunction({
   Class,
   functionName,
   status,
-  data = undefined,
+  data,
   rejects = false
+}: {
+  Class: any
+  functionName: string
+  status: number
+  data?: any
+  rejects?: boolean
 }): sinon.SinonStub {
   const stub = sinon.stub(Class.prototype, functionName)
 
@@ -46,6 +53,10 @@ function stubInterfaceRejectsFunction({
   Class,
   functionName,
   data = undefined
+}: {
+  Class: any
+  functionName: string
+  data?: any
 }): sinon.SinonStub {
   return sinon.stub(Class.prototype, functionName).rejects(data)
 }
@@ -54,6 +65,10 @@ function stubNoAxiosResponseInterfaceFunction({
   Class,
   functionName,
   data
+}: {
+  Class: any
+  functionName: string
+  data: any
 }): sinon.SinonStub {
   const stub = sinon.stub(Class.prototype, functionName)
 

@@ -28,8 +28,12 @@ type LedgerMessageType =
   | GetTransactionAuthorAgreementMessage
   | AcceptTransactionAuthorAgreementMessage
 
-function isLedgerMessage(properties): properties is LedgerMessageType {
-  return Object.values(LedgerMessageTypes).includes(properties.type)
+function isLedgerMessage(properties: {
+  type: string
+}): properties is LedgerMessageType {
+  return Object.values(LedgerMessageTypes).includes(
+    properties.type as LedgerMessageTypes
+  )
 }
 
 export { LedgerMessageType, isLedgerMessage }
