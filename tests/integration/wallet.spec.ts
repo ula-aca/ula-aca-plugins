@@ -150,7 +150,8 @@ describe('[package] @ula-aca/wallet', () => {
       // IMPORTANT: We assign the current public did as the public did. Seems weird, but if we assign a random did
       // it won't have any permissions so we can't change the did back. To fix this we must register the newly created did
       // with the von-network before assigning as we already do in the network-setup docker compose file.
-      const currentPublicDid = ((await fetchPublicDid(eventHandler)).body as FetchPublicDidResult).result
+      const currentPublicDid = ((await fetchPublicDid(eventHandler))
+        .body as FetchPublicDidResult).result
 
       const assignResponse = await assignPublicDid(eventHandler, {
         did: currentPublicDid.did
