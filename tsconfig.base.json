@@ -10,6 +10,7 @@
     "experimentalDecorators": true,
     "target": "es5",
     "sourceMap": true,
-    "lib": ["es6"]
+    "lib": ["es6"],
+    "strict": true
   }
 }
