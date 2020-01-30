@@ -17,13 +17,13 @@
 import { WebhookEventTypes } from '../WebhookEventTypes'
 import { CredentialExchangeRecordBase } from './base/CredentialExchangeRecordBase'
 
-export interface IssueCredentialEvent {
+export interface IssueCredentialEventMessage {
   type: WebhookEventTypes.ISSUE_CREDENTIAL_EVENT
   body: CredentialExchangeRecordBase
 }
 
 export function isIssueCredentialEventMessage(properties: {
   type: string
-}): properties is IssueCredentialEvent {
+}): properties is IssueCredentialEventMessage {
   return properties.type === WebhookEventTypes.ISSUE_CREDENTIAL_EVENT
 }
