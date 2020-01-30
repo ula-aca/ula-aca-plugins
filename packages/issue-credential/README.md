@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Issue Credential Plugin
 
-This package handles everything that has to do with issueing and exchanging credentials. It has classes to perform credential related actions aswell as to listen for credential exchange events.
+This package handles everything that has to do with issuing and exchanging Verifiable Credentials. It has classes to perform credential related actions as well as to listen for credential exchange events.
 
 ## Usage
 

@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/issue-credential",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent plugin for presenting proof.",
+  "description": "Universal Ledger Agent plugin for creating and receiving Aries Cloudagent Verifiable Credentials",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
     "clean": "npm run build -- --clean",

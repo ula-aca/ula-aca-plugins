@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/core",
   "version": "0.0.0",
-  "description": "The core of all plugins",
+  "description": "Core module of ula-aca that contains code used by all plugins. Base plugin, error handling, etc...",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
     "clean": "npm run build -- --clean",

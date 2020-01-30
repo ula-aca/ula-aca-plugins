@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Present Proof Plugin
 
-This package handles everything that has to do with presenting and exchanging proof. It has classes to perform proof related actions aswell as to listen for proof exchange events.
+This package handles everything that has to do with presenting and exchanging Verifiable Presentations. It has classes to perform proof related actions as well as to listen for proof exchange events.
 
 ## Usage
 

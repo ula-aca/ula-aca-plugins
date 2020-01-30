@@ -1,7 +1,7 @@
 {
   "name": "@ula-aca/webhook-event-models",
   "version": "0.0.0",
-  "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents.",
+  "description": "Helper package with base models for creating plugins that interact with Aries Cloudagent webhook events",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
     "clean": "npm run build -- --clean",
