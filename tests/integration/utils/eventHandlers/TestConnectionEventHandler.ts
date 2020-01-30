@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { ConnectionEventHandler } from '@ula-aca/connection'
 import {
   BasicMessage,
   PairwiseConnectionRecordInit,
@@ -24,7 +25,6 @@ import {
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError
 } from '@ula-aca/webhook-event-models'
-import { ConnectionEventHandler } from '@ula-aca/connection'
 
 /* eslint-disable @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars */
 class TestConnectionEventHandler extends ConnectionEventHandler {

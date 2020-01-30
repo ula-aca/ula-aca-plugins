@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { PairwiseConnectionRecordBase } from './base/PairwiseConnectionRecordBase'
 import { WebhookEventTypes } from '../WebhookEventTypes'
+import { PairwiseConnectionRecordBase } from './base/PairwiseConnectionRecordBase'
 
 export interface ConnectionEventMessage {
   type: WebhookEventTypes.CONNECTION_EVENT

@@ -15,6 +15,7 @@
  */
 
 import { SetTagPolicyRequest } from '@ula-aca/aries-cloudagent-interface'
+
 import { WalletMessageTypes } from './WalletMessageTypes'
 
 interface SetTagPolicyBody extends SetTagPolicyRequest {

@@ -20,6 +20,7 @@ import {
 } from '@ula-aca/connection'
 import { createInvitation } from '@ula-aca/connection/examples'
 import { logEvent } from '@ula-aca/test-utils'
+
 import { getEventHandler } from '../utils'
 import FaberConnectionEventHandler from './event-handlers/FaberConnectionEventHandler'
 import FaberIssueCredentialEventHandler from './event-handlers/FaberIssueCredentialEventHandler'

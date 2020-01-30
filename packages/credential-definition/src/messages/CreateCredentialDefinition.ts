@@ -18,6 +18,7 @@ import {
   CredentialDefinitionSendResults,
   CredentialDefinitionSendRequest
 } from '@ula-aca/aries-cloudagent-interface'
+
 import { CredentialDefinitionMessageTypes } from './CredentialDefinitionMessageTypes'
 
 type CreateCredentialDefinitionBody = CredentialDefinitionSendRequest

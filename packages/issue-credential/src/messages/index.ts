@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
-import { GetExchangeRecordsMessage } from './GetExchangeRecords'
 import { GetExchangeRecordByIdMessage } from './GetExchangeRecordById'
+import { GetExchangeRecordsMessage } from './GetExchangeRecords'
 import { GetMemeTypesMessage } from './GetMemeTypes'
 import { IssueMessage } from './Issue'
+import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 import { ProblemReportMessage } from './ProblemReport'
 import { RemoveExchangeRecordMessage } from './RemoveExchangeRecord'
 import { SendCredentialMessage } from './SendCredential'

@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+import faker from 'faker'
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+
 import {
   CreateCredentialDefinitionBody,
   CredentialDefinitionMessageTypes,
@@ -26,7 +28,6 @@ import {
   GetCreatedCredentialDefinitionsResult,
   CreateCredentialDefinitionResult
 } from '@ula-aca/credential-definition'
-import faker from 'faker'
 
 import { eventPromise } from '.'
 import { getExistingSchemaIds } from './schema'

@@ -15,7 +15,10 @@
  */
 
 import { EventHandler } from 'universal-ledger-agent'
+
 import { logEvent } from '@ula-aca/test-utils'
+
+import { createSchema, getCreatedSchemas, getSchemaById } from '.'
 import {
   SchemaController,
   SchemaMessageTypes,
@@ -24,10 +27,11 @@ import {
   GetSchemaByIdBody
 } from '../src'
 
-import { createSchema, getCreatedSchemas, getSchemaById } from '.'
-
 async function run(): Promise<void> {
-  const schemaController = new SchemaController(process.env.FABER_ACA_URL)
+  const schemaController = new SchemaController({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    basePath: process.env.FABER_ACA_URL!
+  })
   const eventHandler = new EventHandler([schemaController])
 
   // --- CREATE_SCHEMA ---

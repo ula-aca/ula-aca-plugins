@@ -15,6 +15,7 @@
  */
 
 import { LedgerEndpointGetResults } from '@ula-aca/aries-cloudagent-interface'
+
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
 interface GetEndpointByDidBody {

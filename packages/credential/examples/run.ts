@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import { logEvent } from '@ula-aca/test-utils'
 import { EventHandler } from 'universal-ledger-agent'
-import { getCredentials, getCredentialById, removeCredential } from '.'
 
+import { logEvent } from '@ula-aca/test-utils'
+
+import { getCredentials, getCredentialById, removeCredential } from '.'
 import {
   CredentialController,
   GetCredentialsBody,

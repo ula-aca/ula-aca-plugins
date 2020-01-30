@@ -15,6 +15,27 @@
  */
 
 /* eslint-disable @typescript-eslint/require-await */
+import { CredentialPreviewTypeEnum } from '@ula-aca/aries-cloudagent-interface'
+import {
+  ConnectionEventHandler,
+  ConnectionMessageTypes,
+  AcceptRequestBody,
+  SendBasicMessageBody
+} from '@ula-aca/connection'
+import { acceptRequest, sendBasicMessage } from '@ula-aca/connection/examples'
+import {
+  CreateCredentialDefinitionBody,
+  CredentialDefinitionMessageTypes
+} from '@ula-aca/credential-definition'
+import { createCredentialDefinition } from '@ula-aca/credential-definition/examples'
+import {
+  IssueCredentialMessageTypes,
+  SendOfferBody
+} from '@ula-aca/issue-credential'
+import { sendOffer } from '@ula-aca/issue-credential/examples'
+import { CreateSchemaBody, SchemaMessageTypes } from '@ula-aca/schema'
+import { createSchema } from '@ula-aca/schema/examples'
+import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
 import {
   BasicMessage,
   PairwiseConnectionRecordInit,
@@ -25,27 +46,6 @@ import {
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError
 } from '@ula-aca/webhook-event-models'
-import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
-import {
-  ConnectionEventHandler,
-  ConnectionMessageTypes,
-  AcceptRequestBody,
-  SendBasicMessageBody
-} from '@ula-aca/connection'
-import { acceptRequest, sendBasicMessage } from '@ula-aca/connection/examples'
-import { CreateSchemaBody, SchemaMessageTypes } from '@ula-aca/schema'
-import { createSchema } from '@ula-aca/schema/examples'
-import {
-  CreateCredentialDefinitionBody,
-  CredentialDefinitionMessageTypes
-} from '@ula-aca/credential-definition'
-import { createCredentialDefinition } from '@ula-aca/credential-definition/examples'
-import {
-  IssueCredentialMessageTypes,
-  SendOfferBody
-} from '@ula-aca/issue-credential'
-import { CredentialPreviewTypeEnum } from '@ula-aca/aries-cloudagent-interface'
-import { sendOffer } from '@ula-aca/issue-credential/examples'
 
 class FaberConnectionEventHandler extends ConnectionEventHandler {
   async onBasicMessage(message: BasicMessage): Promise<void> {

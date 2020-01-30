@@ -16,11 +16,18 @@
 
 /* eslint-disable @typescript-eslint/require-await */
 import {
+  CreateInvitationBody,
+  ConnectionMessageTypes
+} from '@ula-aca/connection'
+import { createInvitation } from '@ula-aca/connection/examples'
+import {
   IssueCredentialEventHandler,
   SendRequestBody,
   IssueCredentialMessageTypes,
   StoreBody
 } from '@ula-aca/issue-credential'
+import { store, sendRequest } from '@ula-aca/issue-credential/examples'
+import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
 import {
   CredentialExchangeRecordProposalSent,
   CredentialExchangeRecordProposalReceived,
@@ -32,13 +39,6 @@ import {
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialAcknowledged
 } from '@ula-aca/webhook-event-models'
-import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
-import { store, sendRequest } from '@ula-aca/issue-credential/examples'
-import {
-  CreateInvitationBody,
-  ConnectionMessageTypes
-} from '@ula-aca/connection'
-import { createInvitation } from '@ula-aca/connection/examples'
 
 class AliceIssueCredentialEventHandler extends IssueCredentialEventHandler {
   async onProposalSent(

@@ -15,6 +15,7 @@
  */
 
 import { LedgerVerkeyGetResults } from '@ula-aca/aries-cloudagent-interface'
+
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
 interface GetVerkeyByDidBody {

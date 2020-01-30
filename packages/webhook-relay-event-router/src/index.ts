@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import { Plugin, EventHandler } from 'universal-ledger-agent'
-import { WebhookEventTypes } from '@ula-aca/webhook-event-models'
 import WebSocket from 'isomorphic-ws'
+import { Plugin, EventHandler } from 'universal-ledger-agent'
+
+import { WebhookEventTypes } from '@ula-aca/webhook-event-models'
 
 import { AriesEvent, AriesEventTopic } from './AriesEvent'
 

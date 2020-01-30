@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IndyProofRequest } from '@ula-aca/aries-cloudagent-interface'
+
 import { PresentationExchangeRecordState } from '.'
 import { PresentationExchangeRecordPresentation } from './PresentationExchangeRecordPresentation'
 

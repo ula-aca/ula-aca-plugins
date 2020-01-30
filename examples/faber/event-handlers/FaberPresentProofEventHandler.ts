@@ -16,7 +16,7 @@
 
 /* eslint-disable @typescript-eslint/require-await */
 import { PresentProofEventHandler } from '@ula-aca/present-proof'
-
+import { logWebhookEvent } from '@ula-aca/test-utils'
 import {
   PresentationExchangeRecordProposalSent,
   PresentationExchangeRecordProposalReceived,
@@ -26,7 +26,6 @@ import {
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
 } from '@ula-aca/webhook-event-models'
-import { logWebhookEvent } from '@ula-aca/test-utils'
 
 class FaberPresentProofEventHandler extends PresentProofEventHandler {
   async onProposalSent(

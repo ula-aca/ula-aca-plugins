@@ -18,6 +18,7 @@ import {
   V10PresentationProposalRequest,
   V10PresentationExchange
 } from '@ula-aca/aries-cloudagent-interface'
+
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
 type SendProposalBody = V10PresentationProposalRequest

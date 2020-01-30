@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+import faker from 'faker'
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+
 import {
   CreateSchemaBody,
   SchemaMessageTypes,
@@ -26,7 +28,6 @@ import {
   GetCreatedSchemasResult,
   CreateSchemaResult
 } from '@ula-aca/schema'
-import faker from 'faker'
 
 import { eventPromise } from '.'
 

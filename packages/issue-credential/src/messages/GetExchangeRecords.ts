@@ -15,6 +15,7 @@
  */
 
 import { V10CredentialExchangeListResult } from '@ula-aca/aries-cloudagent-interface'
+
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface GetExchangeRecordsMessage {

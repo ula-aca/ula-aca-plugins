@@ -15,6 +15,7 @@
  */
 
 import { Credential } from '@ula-aca/aries-cloudagent-interface'
+
 import { CredentialMessageTypes } from './CredentialMessageTypes'
 
 interface GetCredentialByIdBody {

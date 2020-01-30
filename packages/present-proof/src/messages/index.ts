@@ -17,16 +17,15 @@
 import { CreatePresentationRequestMessage } from './CreatePresentationRequest'
 import { GetExchangeRecordByIdMessage } from './GetExchangeRecordById'
 import { GetExchangeRecordsMessage } from './GetExchangeRecords'
-import { GetRequestCredentialsMessage } from './GetRequestCredentials'
 import { GetPresentationRequestCredentialsByReferentIdMessage } from './GetPresentationRequestCredentialsByReferentId'
+import { GetRequestCredentialsMessage } from './GetRequestCredentials'
+import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 import { RemoveExchangeRecordMessage } from './RemoveExchangeRecord'
 import { SendPresentationMessage } from './SendPresentation'
 import { SendProposalMessage } from './SendProposal'
 import { SendRequestMessage } from './SendRequest'
 import { SendRequestByIdMessage } from './SendRequestById'
 import { VerifyPresentationMessage } from './VerifyPresentation'
-
-import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
 type IssueCredentialMessageType =
   | CreatePresentationRequestMessage

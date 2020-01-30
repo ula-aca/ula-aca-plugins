@@ -16,17 +16,6 @@
 
 /* eslint-disable @typescript-eslint/require-await */
 import {
-  BasicMessage,
-  PairwiseConnectionRecordInit,
-  PairwiseConnectionRecordInvitation,
-  PairwiseConnectionRecordRequest,
-  PairwiseConnectionRecordResponse,
-  PairwiseConnectionRecordActive,
-  PairwiseConnectionRecordInactive,
-  PairwiseConnectionRecordError
-} from '@ula-aca/webhook-event-models'
-import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
-import {
   ConnectionEventHandler,
   ConnectionMessageTypes,
   AcceptInvitationBody,
@@ -38,6 +27,17 @@ import {
   sendBasicMessage,
   acceptRequest
 } from '@ula-aca/connection/examples'
+import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
+import {
+  BasicMessage,
+  PairwiseConnectionRecordInit,
+  PairwiseConnectionRecordInvitation,
+  PairwiseConnectionRecordRequest,
+  PairwiseConnectionRecordResponse,
+  PairwiseConnectionRecordActive,
+  PairwiseConnectionRecordInactive,
+  PairwiseConnectionRecordError
+} from '@ula-aca/webhook-event-models'
 
 class AliceConnectionEventHandler extends ConnectionEventHandler {
   async onBasicMessage(message: BasicMessage): Promise<void> {

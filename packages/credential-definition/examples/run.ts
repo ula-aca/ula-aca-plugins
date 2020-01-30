@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { logEvent } from '@ula-aca/test-utils'
 import { EventHandler } from 'universal-ledger-agent'
+
+import { logEvent } from '@ula-aca/test-utils'
+
 import {
   createCredentialDefinition,
   getCreatedCredentialDefinitions,

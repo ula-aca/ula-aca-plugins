@@ -18,6 +18,7 @@ import {
   ConnectionRecord,
   ConnectionInvitation
 } from '@ula-aca/aries-cloudagent-interface'
+
 import { ConnectionMessageTypes } from './ConnectionMessageTypes'
 
 interface ReceiveInvitationBody extends ConnectionInvitation {

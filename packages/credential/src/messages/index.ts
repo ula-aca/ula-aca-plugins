@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
+import { CredentialMessageTypes } from './CredentialMessageTypes'
 import { GetCredentialByIdMessage } from './GetCredentialById'
 import { GetCredentialsMessage } from './GetCredentials'
 import { RemoveCredentialMessage } from './RemoveCredential'
-
-import { CredentialMessageTypes } from './CredentialMessageTypes'
 
 type CredentialMessageType =
   | GetCredentialByIdMessage

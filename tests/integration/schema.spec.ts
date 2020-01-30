@@ -23,14 +23,13 @@ import {
   GetCreatedSchemasResult
 } from '@ula-aca/schema'
 
+import { getEventHandler } from './utils'
 import {
   createSchema,
   getSchemaById,
   getTestSchemaBodies,
   getCreatedSchemas
 } from './utils/schema'
-
-import { getEventHandler } from './utils'
 
 describe('[package] @ula-aca/schema', () => {
   describe('[plugin] SchemaController', () => {

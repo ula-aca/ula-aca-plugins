@@ -23,6 +23,7 @@ import {
   GetCredentialDefinitionByIdResult
 } from '@ula-aca/credential-definition'
 
+import { getEventHandler } from './utils'
 import {
   createCredentialDefinition,
   getTestCredentialDefinitionBodies,
@@ -30,7 +31,6 @@ import {
   getCredentialDefinitionById
 } from './utils/credentialDefinition'
 import { getExistingSchemaIds } from './utils/schema'
-import { getEventHandler } from './utils'
 
 describe('[package] @ula-aca/credential-definition', () => {
   describe('[plugin] CredentialDefinitionController', () => {

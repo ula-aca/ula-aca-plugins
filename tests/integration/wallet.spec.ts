@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import faker from 'faker'
 import { EventHandler } from 'universal-ledger-agent'
 
 import {
@@ -25,7 +26,8 @@ import {
   AssignPublicDidResult
 } from '@ula-aca/wallet'
 
-import faker from 'faker'
+import { getEventHandler } from './utils'
+import { getExistingCredentialDefinitionIds } from './utils/credentialDefinition'
 import {
   createLocalDid,
   getDids,
@@ -35,9 +37,6 @@ import {
   getTagPolicy,
   assignPublicDid
 } from './utils/wallet'
-
-import { getEventHandler } from './utils'
-import { getExistingCredentialDefinitionIds } from './utils/credentialDefinition'
 
 describe('[package] @ula-aca/wallet', () => {
   describe('[plugin] WalletController', () => {

@@ -18,6 +18,7 @@ import {
   SchemaSendResults,
   SchemaSendRequest
 } from '@ula-aca/aries-cloudagent-interface'
+
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
 type CreateSchemaBody = SchemaSendRequest

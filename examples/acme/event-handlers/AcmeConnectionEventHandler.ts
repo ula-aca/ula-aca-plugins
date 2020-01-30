@@ -16,6 +16,18 @@
 
 /* eslint-disable @typescript-eslint/require-await */
 import {
+  ConnectionEventHandler,
+  ConnectionMessageTypes,
+  AcceptInvitationBody
+} from '@ula-aca/connection'
+import { acceptInvitation } from '@ula-aca/connection/examples'
+import {
+  SendRequestBody as SendProofRequestBody,
+  PresentProofMessageTypes
+} from '@ula-aca/present-proof'
+import { sendRequest as sendProofRequest } from '@ula-aca/present-proof/examples'
+import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
+import {
   BasicMessage,
   PairwiseConnectionRecordInit,
   PairwiseConnectionRecordInvitation,
@@ -25,18 +37,6 @@ import {
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError
 } from '@ula-aca/webhook-event-models'
-import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
-import {
-  ConnectionEventHandler,
-  ConnectionMessageTypes,
-  AcceptInvitationBody
-} from '@ula-aca/connection'
-import { acceptInvitation } from '@ula-aca/connection/examples'
-import { sendRequest as sendProofRequest } from '@ula-aca/present-proof/examples'
-import {
-  SendRequestBody as SendProofRequestBody,
-  PresentProofMessageTypes
-} from '@ula-aca/present-proof'
 
 class AcmeConnectionEventHandler extends ConnectionEventHandler {
   async onBasicMessage(message: BasicMessage): Promise<void> {
@@ -103,34 +103,32 @@ class AcmeConnectionEventHandler extends ConnectionEventHandler {
         requested_attributes: {
           first_name: {
             name: 'first_name',
+            // TODO: fix types in interface package
             restrictions: [
-              // TODO: fix types in interface package
-              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-              // @ts-ignore
               {
                 cred_def_id
               }
-            ]
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ] as any
           },
           last_name: {
             name: 'last_name',
+
             restrictions: [
-              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-              // @ts-ignore
               {
                 cred_def_id
               }
-            ]
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ] as any
           },
           degree: {
             name: 'degree',
             restrictions: [
-              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-              // @ts-ignore
               {
                 cred_def_id
               }
-            ]
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ] as any
           }
         },
         requested_predicates: {},

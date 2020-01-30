@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { ConnectionList } from '@ula-aca/aries-cloudagent-interface'
 import { PairwiseConnectionRecordState } from '@ula-aca/webhook-event-models'
 
-import { ConnectionList } from '@ula-aca/aries-cloudagent-interface'
 import { ConnectionMessageTypes } from './ConnectionMessageTypes'
 
 interface GetConnectionsBody {

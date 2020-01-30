@@ -15,16 +15,17 @@
  */
 
 import { EventHandler } from 'universal-ledger-agent'
+
 import { logEvent } from '@ula-aca/test-utils'
 import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
+
+import { createInvitation, receiveInvitation } from '.'
 import {
   ConnectionController,
   CreateInvitationBody,
   ConnectionMessageTypes,
   ReceiveInvitationBody
 } from '../src'
-
-import { createInvitation, receiveInvitation } from '.'
 
 async function run(): Promise<void> {
   const connControllerFaber = new ConnectionController(

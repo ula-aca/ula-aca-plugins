@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CredentialPreview } from '@ula-aca/aries-cloudagent-interface'
+
 import { CredentialExchangeRecordState } from '.'
 
 export interface CredentialExchangeRecordBase {

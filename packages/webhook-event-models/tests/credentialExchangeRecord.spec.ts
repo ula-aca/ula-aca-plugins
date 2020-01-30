@@ -15,6 +15,7 @@
  */
 
 import { CredentialPreviewTypeEnum } from '@ula-aca/aries-cloudagent-interface'
+
 import {
   isCredentialExchangeRecordCredentialReceived,
   isCredentialExchangeRecordIssued,

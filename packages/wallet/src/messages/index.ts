@@ -20,7 +20,6 @@ import { FetchPublicDidMessage } from './FetchPublicDid'
 import { GetDidsMessage } from './GetDids'
 import { GetTagPolicyMessage } from './GetTagPolicy'
 import { SetTagPolicyMessage } from './SetTagPolicy'
-
 import { WalletMessageTypes } from './WalletMessageTypes'
 
 type WalletMessageType =

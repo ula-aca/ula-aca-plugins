@@ -22,6 +22,11 @@ import {
   GetRequestCredentialsBody
 } from '@ula-aca/present-proof'
 import {
+  sendPresentation,
+  getRequestCredentials
+} from '@ula-aca/present-proof/examples'
+import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
+import {
   PresentationExchangeRecordProposalSent,
   PresentationExchangeRecordProposalReceived,
   PresentationExchangeRecordRequestSent,
@@ -30,11 +35,6 @@ import {
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
 } from '@ula-aca/webhook-event-models'
-import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
-import {
-  sendPresentation,
-  getRequestCredentials
-} from '@ula-aca/present-proof/examples'
 
 class AlicePresentProofEventHandler extends PresentProofEventHandler {
   async onProposalSent(

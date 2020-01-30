@@ -16,6 +16,7 @@
 
 /* eslint-disable @typescript-eslint/require-await */
 import { IssueCredentialEventHandler } from '@ula-aca/issue-credential'
+import { logWebhookEvent } from '@ula-aca/test-utils'
 import {
   CredentialExchangeRecordProposalSent,
   CredentialExchangeRecordProposalReceived,
@@ -27,7 +28,6 @@ import {
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialAcknowledged
 } from '@ula-aca/webhook-event-models'
-import { logWebhookEvent } from '@ula-aca/test-utils'
 
 class AcmeIssueCredentialEventHandler extends IssueCredentialEventHandler {
   async onProposalSent(

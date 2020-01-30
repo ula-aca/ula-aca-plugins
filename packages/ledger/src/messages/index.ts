@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { RegisterNymMessage } from './RegisterNym'
-import { GetVerkeyByDidMessage } from './GetVerkeyByDid'
+import { AcceptTransactionAuthorAgreementMessage } from './AcceptTransactionAuthorAgreement'
 import { GetEndpointByDidMessage } from './GetEndpointByDid'
 import { GetTransactionAuthorAgreementMessage } from './GetTransactionAuthorAgreement'
-import { AcceptTransactionAuthorAgreementMessage } from './AcceptTransactionAuthorAgreement'
+import { GetVerkeyByDidMessage } from './GetVerkeyByDid'
 import { LedgerMessageTypes } from './LedgerMessageTypes'
+import { RegisterNymMessage } from './RegisterNym'
 
 type LedgerMessageType =
   | RegisterNymMessage

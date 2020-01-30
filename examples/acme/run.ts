@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
+import { ConnectionInvitation } from '@ula-aca/aries-cloudagent-interface'
 import {
   ReceiveInvitationBody,
   ConnectionMessageTypes
 } from '@ula-aca/connection'
 import { receiveInvitation } from '@ula-aca/connection/examples'
 import { logEvent } from '@ula-aca/test-utils'
-import { ConnectionInvitation } from '@ula-aca/aries-cloudagent-interface'
+
 import { readLine, getEventHandler } from '../utils'
 import AcmeConnectionEventHandler from './event-handlers/AcmeConnectionEventHandler'
 import AcmeIssueCredentialEventHandler from './event-handlers/AcmeIssueCredentialEventHandler'

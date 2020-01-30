@@ -23,6 +23,7 @@ import {
   GetTransactionAuthorAgreementResult
 } from '@ula-aca/ledger'
 
+import { getEventHandler } from './utils'
 import {
   registerNym,
   getVerkeyByDid,
@@ -30,8 +31,6 @@ import {
   getTransactionAuthorAgreement
 } from './utils/ledger'
 import { getTestDids, fetchPublicDid } from './utils/wallet'
-
-import { getEventHandler } from './utils'
 
 describe('[package] @ula-aca/ledger', () => {
   describe('[plugin] LedgerController', () => {

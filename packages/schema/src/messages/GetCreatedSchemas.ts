@@ -15,6 +15,7 @@
  */
 
 import { SchemasCreatedResults } from '@ula-aca/aries-cloudagent-interface'
+
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
 interface GetCreatedSchemasBody {

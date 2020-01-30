@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { GetCredentialDefinitionByIdMessage } from './GetCredentialDefinitionById'
-import { GetCreatedCredentialDefinitionsMessage } from './GetCreatedCredentialDefinitions'
 import { CreateCredentialDefinitionMessage } from './CreateCredentialDefinition'
 import { CredentialDefinitionMessageTypes } from './CredentialDefinitionMessageTypes'
+import { GetCreatedCredentialDefinitionsMessage } from './GetCreatedCredentialDefinitions'
+import { GetCredentialDefinitionByIdMessage } from './GetCredentialDefinitionById'
 
 type CredentialDefinitionMessageType =
   | GetCredentialDefinitionByIdMessage

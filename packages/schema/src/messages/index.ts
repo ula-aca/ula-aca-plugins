@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { GetSchemaByIdMessage } from './GetSchemaById'
-import { GetCreatedSchemasMessage } from './GetCreatedSchemas'
 import { CreateSchemaMessage } from './CreateSchema'
+import { GetCreatedSchemasMessage } from './GetCreatedSchemas'
+import { GetSchemaByIdMessage } from './GetSchemaById'
 import { SchemaMessageTypes } from './SchemaMessageTypes'
 
 type SchemaMessageType =

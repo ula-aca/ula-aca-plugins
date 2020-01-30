@@ -15,27 +15,30 @@
  */
 
 import { EventHandler, UlaResponse, Plugin } from 'universal-ledger-agent'
-import { SchemaController } from '@ula-aca/schema'
-import { CredentialDefinitionController } from '@ula-aca/credential-definition'
+
 import {
   ConnectionController,
   ConnectionEventHandler
 } from '@ula-aca/connection'
-import { LedgerController } from '@ula-aca/ledger'
-import { WalletController } from '@ula-aca/wallet'
-import {
-  PresentProofController,
-  PresentProofEventHandler
-} from '@ula-aca/present-proof'
+import { AcaControllerPluginOptions } from '@ula-aca/core'
+import { CredentialController } from '@ula-aca/credential'
+import { CredentialDefinitionController } from '@ula-aca/credential-definition'
 import {
   IssueCredentialController,
   IssueCredentialEventHandler
 } from '@ula-aca/issue-credential'
+import { LedgerController } from '@ula-aca/ledger'
+import {
+  PresentProofController,
+  PresentProofEventHandler
+} from '@ula-aca/present-proof'
+import { SchemaController } from '@ula-aca/schema'
+import { WalletController } from '@ula-aca/wallet'
 import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
-import { CredentialController } from '@ula-aca/credential'
-import TestPresentProofEventHandler from './eventHandlers/TestPresentProofEventHandler'
-import TestIssueCredentialEventHandler from './eventHandlers/TestIssueCredentialEventHandler'
+
 import TestConnectionEventHandler from './eventHandlers/TestConnectionEventHandler'
+import TestIssueCredentialEventHandler from './eventHandlers/TestIssueCredentialEventHandler'
+import TestPresentProofEventHandler from './eventHandlers/TestPresentProofEventHandler'
 
 function eventPromise(
   eventHandler: EventHandler,

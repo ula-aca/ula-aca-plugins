@@ -15,6 +15,7 @@
  */
 
 import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+
 import {
   GetConnectionsResult,
   GetConnectionsBody,

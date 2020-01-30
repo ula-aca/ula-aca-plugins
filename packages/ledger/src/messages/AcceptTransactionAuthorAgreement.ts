@@ -15,6 +15,7 @@
  */
 
 import { TAAAccept } from '@ula-aca/aries-cloudagent-interface'
+
 import { LedgerMessageTypes } from './LedgerMessageTypes'
 
 type AcceptTransactionAuthorAgreementBody = TAAAccept

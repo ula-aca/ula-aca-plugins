@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { BasicMessage } from './BasicMessage'
 import { WebhookEventTypes } from '../WebhookEventTypes'
+import { BasicMessage } from './BasicMessage'
 
 export interface BasicMessageEventMessage {
   type: WebhookEventTypes.BASIC_MESSAGE_EVENT

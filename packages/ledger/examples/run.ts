@@ -15,7 +15,16 @@
  */
 
 import { EventHandler } from 'universal-ledger-agent'
+
 import { logEvent } from '@ula-aca/test-utils'
+
+import {
+  registerNym,
+  getVerkeyByDid,
+  getEndpointByDid,
+  getTransactionAuthorAgreement,
+  acceptTransactionAuthorAgreement
+} from '.'
 import {
   LedgerController,
   RegisterNymBody,
@@ -24,16 +33,12 @@ import {
   GetEndpointByDidBody,
   AcceptTransactionAuthorAgreementBody
 } from '../src'
-import {
-  registerNym,
-  getVerkeyByDid,
-  getEndpointByDid,
-  getTransactionAuthorAgreement,
-  acceptTransactionAuthorAgreement
-} from '.'
 
 async function run(): Promise<void> {
-  const ledgerController = new LedgerController(process.env.FABER_ACA_URL)
+  const ledgerController = new LedgerController({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    basePath: process.env.FABER_ACA_URL!
+  })
   const eventHandler = new EventHandler([ledgerController])
 
   // TODO: generate did from wallet

@@ -15,6 +15,7 @@
  */
 
 import { PingRequestResponse } from '@ula-aca/aries-cloudagent-interface'
+
 import { ConnectionMessageTypes } from './ConnectionMessageTypes'
 
 interface SendPingBody {

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { EstablishInboundMessage } from './EstablishInbound'
 import { AcceptInvitationMessage } from './AcceptInvitation'
 import { AcceptRequestMessage } from './AcceptRequest'
 import { ConnectionMessageTypes } from './ConnectionMessageTypes'
 import { CreateInvitationMessage } from './CreateInvitation'
+import { EstablishInboundMessage } from './EstablishInbound'
 import { GetConnectionByIdMessage } from './GetConnectionById'
 import { GetConnectionsMessage } from './GetConnections'
 import { ReceiveInvitationMessage } from './ReceiveInvitation'

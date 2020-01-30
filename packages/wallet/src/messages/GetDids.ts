@@ -15,6 +15,7 @@
  */
 
 import { DIDList } from '@ula-aca/aries-cloudagent-interface'
+
 import { WalletMessageTypes } from './WalletMessageTypes'
 
 interface GetDidsBody {

@@ -20,6 +20,8 @@ import {
   IssueBody,
   IssueCredentialMessageTypes
 } from '@ula-aca/issue-credential'
+import { issue } from '@ula-aca/issue-credential/examples'
+import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
 import {
   CredentialExchangeRecordProposalSent,
   CredentialExchangeRecordProposalReceived,
@@ -31,8 +33,6 @@ import {
   CredentialExchangeRecordCredentialReceived,
   CredentialExchangeRecordCredentialAcknowledged
 } from '@ula-aca/webhook-event-models'
-import { logWebhookEvent, logEvent } from '@ula-aca/test-utils'
-import { issue } from '@ula-aca/issue-credential/examples'
 
 class FaberIssueCredentialEventHandler extends IssueCredentialEventHandler {
   async onProposalSent(

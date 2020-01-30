@@ -15,6 +15,7 @@
  */
 
 import { UlaResponse, EventHandler } from 'universal-ledger-agent'
+
 import {
   RegisterNymMessage,
   RegisterNymResult,

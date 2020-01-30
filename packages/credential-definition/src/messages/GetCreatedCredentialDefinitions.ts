@@ -15,6 +15,7 @@
  */
 
 import { CredentialDefinitionsCreatedResults } from '@ula-aca/aries-cloudagent-interface'
+
 import { CredentialDefinitionMessageTypes } from './CredentialDefinitionMessageTypes'
 
 interface GetCreatedCredentialDefinitionsBody {

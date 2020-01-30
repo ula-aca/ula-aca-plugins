@@ -15,6 +15,7 @@
  */
 
 import { V10PresentationExchangeList } from '@ula-aca/aries-cloudagent-interface'
+
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
 interface GetExchangeRecordsMessage {
