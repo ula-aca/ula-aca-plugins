@@ -1,0 +1,46 @@
+{
+  "name": "@ula-aca/core",
+  "version": "0.0.0",
+  "description": "The core of all plugins",
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
+    "clean": "npm run build -- --clean",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "aries",
+    "cloudagent",
+    "ula",
+    "universal-ledger-agent",
+    "ssi",
+    "did",
+    "identity",
+    "blockchain",
+    "indy",
+    "core"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ula-aca/ula-aca-plugins",
+    "directory": "packages/core"
+  },
+  "contributors": [
+    "Timo Glastra <timo@glastra.me>",
+    "Karim Stekelenburg <karim.stekelenburg@me.com>"
+  ],
+  "homepage": "https://github.com/ula-aca/ula-aca-plugins/tree/master/packages/core",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@ula-aca/aries-cloudagent-interface": "^1.0.1",
+    "axios": "^0.19.2",
+    "universal-ledger-agent": "^0.1.2"
+  }
+}

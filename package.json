@@ -92,6 +92,7 @@
   },
   "dependencies": {
     "@ula-aca/connection": "file:packages/connection",
+    "@ula-aca/core": "file:packages/core",
     "@ula-aca/credential": "file:packages/credential",
     "@ula-aca/credential-definition": "file:packages/credential-definition",
     "@ula-aca/issue-credential": "file:packages/issue-credential",
