@@ -16,35 +16,66 @@
 import sinon from 'sinon'
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
-import { stubInterfaceFunction } from '@ula-aca/test-utils'
+import {
+  CredentialExchangeRecordProposalSent,
+  CredentialExchangeRecordProposalReceived,
+  CredentialExchangeRecordOfferSent,
+  CredentialExchangeRecordOfferReceived,
+  CredentialExchangeRecordRequestSent,
+  CredentialExchangeRecordRequestReceived,
+  CredentialExchangeRecordIssued,
+  CredentialExchangeRecordCredentialAcknowledged,
+  CredentialExchangeRecordCredentialReceived,
+  IssueCredentialEventMessage,
+  CredentialExchangeRecordBase,
+  CredentialExchangeRecordState
+} from '@ula-aca/webhook-event-models'
 
 import { IssueCredentialEventHandler } from '../src'
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 class IssueHandler extends IssueCredentialEventHandler {
-  async onProposalSent(): Promise<void> {}
+  async onProposalSent(
+    _message: CredentialExchangeRecordProposalSent
+  ): Promise<void> {}
 
-  async onProposalReceived(): Promise<void> {}
+  async onProposalReceived(
+    _message: CredentialExchangeRecordProposalReceived
+  ): Promise<void> {}
 
-  async onOfferSent(): Promise<void> {}
+  async onOfferSent(
+    _message: CredentialExchangeRecordOfferSent
+  ): Promise<void> {}
 
-  async onOfferReceived(): Promise<void> {}
+  async onOfferReceived(
+    _message: CredentialExchangeRecordOfferReceived
+  ): Promise<void> {}
 
-  async onRequestSent(): Promise<void> {}
+  async onRequestSent(
+    _message: CredentialExchangeRecordRequestSent
+  ): Promise<void> {}
 
-  async onRequestReceived(): Promise<void> {}
+  async onRequestReceived(
+    _message: CredentialExchangeRecordRequestReceived
+  ): Promise<void> {}
 
-  async onIssued(): Promise<void> {}
+  async onIssued(_message: CredentialExchangeRecordIssued): Promise<void> {}
 
-  async onCredentialAcknowledged(): Promise<void> {}
+  async onCredentialAcknowledged(
+    _message: CredentialExchangeRecordCredentialAcknowledged
+  ): Promise<void> {}
 
-  async onCredentialReceived(): Promise<void> {}
+  async onCredentialReceived(
+    _message: CredentialExchangeRecordCredentialReceived
+  ): Promise<void> {}
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
-describe('[package] @ula-aca/present-proof', () => {
-  describe('[plugin] PresentProofController', () => {
+describe('[package] @ula-aca/issue-credential', () => {
+  describe('[plugin] IssueCredentialEventHandler', () => {
     let eventHandler: EventHandler
     let issueHandler: IssueHandler
-    let issueHandlerStubbed: sinon.SinonStub
+    let issueHandlerStubbed: sinon.SinonStub<[any], Promise<void>>
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
@@ -82,390 +113,350 @@ describe('[package] @ula-aca/present-proof', () => {
     })
 
     describe('aca-present-proof-event events', () => {
+      it('it should call the callback with an error if the connection state is not a known state', async () => {
+        const data = {
+          state: 'unknown'
+        }
+
+        const message = new Message({
+          type: '@ula-aca/issue-credential-event',
+          body: data
+        } as IssueCredentialEventMessage)
+
+        await issueHandler.handleEvent(message, (res: UlaResponse) => {
+          res.statusCode.should.equal(500)
+        })
+      })
+
       it('proposal_sent status should result in onProposalSent() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'proposal_sent',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.PROPOSAL_SENT,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onProposalSent',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onProposalSent')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('proposal_received status should result in onProposalReceived() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'proposal_received',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.PROPOSAL_RECEIVED,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onProposalReceived',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onProposalReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('offer_sent status should result in onOfferSent() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'offer_sent',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.OFFER_SENT,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onOfferSent',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onOfferSent')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('offer_received status should result in onOfferReceived() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'offer_received',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.OFFER_RECEIVED,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onOfferReceived',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onOfferReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('request_sent status should result in onRequestSent() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'request_sent',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.REQUEST_SENT,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onRequestSent',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onRequestSent')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('request_received status should result in onRequestReceived() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'request_received',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.REQUEST_RECEIVED,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onRequestReceived',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onRequestReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('issued status should result in onIssued() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'issued',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.ISSUED,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onIssued',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onIssued')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('credential_received status should result in onCredentialReceived() callback call', async () => {
-        const statusCode = 200
-
-        const data = {
-          raw_credential: {},
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'credential_received',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.CREDENTIAL_RECEIVED,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onCredentialReceived',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onCredentialReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
-      it('credential_acked status should result in onCredentialAcknowledged() callback call', async () => {
-        const statusCode = 200
 
-        const data = {
-          raw_credential: {},
+      it('credential_acked status should result in onCredentialAcknowledged() callback call', async () => {
+        const data: CredentialExchangeRecordBase = {
+          raw_credential: '',
           parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
           credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'credential_acked',
-          credential_request: {},
+          credential_offer: '',
+          state: CredentialExchangeRecordState.CREDENTIAL_ACKNOWLEDGED,
+          credential_request: '',
           initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
+          credential: '',
+          credential_request_metadata: '',
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
+          credential_proposal_dict: { credential_proposal: { attributes: [] } },
           credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           error_msg: 'credential definition identifier is not set in proposal',
           auto_issue: false
         }
 
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onCredentialAcknowledged',
-          status: statusCode
-        })
+        issueHandlerStubbed = sinon
+          .stub(IssueHandler.prototype, 'onCredentialAcknowledged')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/issue-credential-event',
           body: data
-        })
+        } as IssueCredentialEventMessage)
 
         await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          issueHandlerStubbed.calledWith(data).should.be.ok
+          issueHandlerStubbed.should.be.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
