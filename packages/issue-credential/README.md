@@ -17,7 +17,7 @@ const issueCredentialController = new IssueCredentialController(
 const eventHandler = new EventHandler([issueCredentialController])
 ```
 
-#### @ula-aca/issue-credential/get-meme-types
+#### @ula-aca/issue-credential/get-mime-types
 
 Get attribute MIME types from wallet.
 

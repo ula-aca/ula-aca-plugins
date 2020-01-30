@@ -28,7 +28,7 @@ import {
 } from '@ula-aca/core'
 
 import {
-  GetMemeTypesBody,
+  GetMimeTypesBody,
   GetExchangeRecordByIdBody,
   SendOfferByIdBody,
   SendRequestBody,
@@ -53,9 +53,9 @@ class IssueCredentialController extends AcaControllerPlugin {
     return '@ula-aca/issue-credential/IssueCredentialController'
   }
 
-  private async getMemeTypes({
+  private async getMimeTypes({
     credential_exchange_id
-  }: GetMemeTypesBody): Promise<UlaResponse> {
+  }: GetMimeTypesBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialMimeTypesCredentialIdGet(
       credential_exchange_id
     )
@@ -267,8 +267,8 @@ class IssueCredentialController extends AcaControllerPlugin {
     let response: UlaResponse
 
     switch (message.properties.type) {
-      case IssueCredentialMessageTypes.GET_MEME_TYPES:
-        response = await this.getMemeTypes(message.properties.body)
+      case IssueCredentialMessageTypes.GET_MIME_TYPES:
+        response = await this.getMimeTypes(message.properties.body)
         break
       case IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS:
         response = await this.getAllCredentialExchangeRecords()

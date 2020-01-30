@@ -15,7 +15,7 @@
  */
 
 enum IssueCredentialMessageTypes {
-  GET_MEME_TYPES = '@ula-aca/issue-credential/get-meme-types',
+  GET_MIME_TYPES = '@ula-aca/issue-credential/get-mime-types',
   GET_EXCHANGE_RECORDS = '@ula-aca/issue-credential/get-all-exchange-records',
   GET_EXCHANGE_RECORD_BY_ID = '@ula-aca/issue-credential/get-exchange-record-by-id',
   SEND_CREDENTIAL = '@ula-aca/issue-credential/send-credential',

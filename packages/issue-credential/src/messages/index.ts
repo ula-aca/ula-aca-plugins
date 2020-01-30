@@ -16,7 +16,7 @@
 
 import { GetExchangeRecordByIdMessage } from './GetExchangeRecordById'
 import { GetExchangeRecordsMessage } from './GetExchangeRecords'
-import { GetMemeTypesMessage } from './GetMemeTypes'
+import { GetMimeTypesMessage } from './GetMimeTypes'
 import { IssueMessage } from './Issue'
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 import { ProblemReportMessage } from './ProblemReport'
@@ -31,7 +31,7 @@ import { StoreMessage } from './Store'
 type IssueCredentialMessageType =
   | GetExchangeRecordsMessage
   | GetExchangeRecordByIdMessage
-  | GetMemeTypesMessage
+  | GetMimeTypesMessage
   | IssueMessage
   | ProblemReportMessage
   | RemoveExchangeRecordMessage
@@ -55,7 +55,7 @@ export { IssueCredentialMessageType, isIssueCredentialMessage }
 export * from './IssueCredentialMessageTypes'
 export * from './GetExchangeRecords'
 export * from './GetExchangeRecordById'
-export * from './GetMemeTypes'
+export * from './GetMimeTypes'
 export * from './Issue'
 export * from './ProblemReport'
 export * from './RemoveExchangeRecord'

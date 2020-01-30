@@ -16,13 +16,13 @@
 
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
-interface GetMemeTypesBody {
+interface GetMimeTypesBody {
   credential_exchange_id: string
 }
 
-interface GetMemeTypesMessage {
-  type: IssueCredentialMessageTypes.GET_MEME_TYPES
-  body: GetMemeTypesBody
+interface GetMimeTypesMessage {
+  type: IssueCredentialMessageTypes.GET_MIME_TYPES
+  body: GetMimeTypesBody
 }
 
-export { GetMemeTypesMessage, GetMemeTypesBody }
+export { GetMimeTypesMessage, GetMimeTypesBody }

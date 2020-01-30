@@ -30,7 +30,7 @@ import {
   SendRequestMessage,
   StoreMessage,
   ProblemReportMessage,
-  GetMemeTypesMessage,
+  GetMimeTypesMessage,
   SendOfferMessage,
   IssueMessage,
   RemoveExchangeRecordMessage
@@ -82,7 +82,7 @@ describe('[package] @ula-aca/issue-credential', () => {
     })
 
     describe('events', () => {
-      it('@ula-aca/issue-credential/get-meme-types', async () => {
+      it('@ula-aca/issue-credential/get-mime-types', async () => {
         const data = {}
         const statusCode = 200
 
@@ -99,9 +99,9 @@ describe('[package] @ula-aca/issue-credential', () => {
         })
 
         const message = new Message({
-          type: IssueCredentialMessageTypes.GET_MEME_TYPES,
+          type: IssueCredentialMessageTypes.GET_MIME_TYPES,
           body: {}
-        } as GetMemeTypesMessage)
+        } as GetMimeTypesMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
