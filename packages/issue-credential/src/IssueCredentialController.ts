@@ -16,11 +16,7 @@
 
 import { Message, UlaResponse } from 'universal-ledger-agent'
 
-import {
-  IssueCredentialApi,
-  V10CredentialProposalRequest,
-  V10CredentialOfferRequest
-} from '@ula-aca/aries-cloudagent-interface'
+import { IssueCredentialApi } from '@ula-aca/aries-cloudagent-interface'
 import {
   AcaControllerPlugin,
   UlaCallback,
@@ -37,7 +33,12 @@ import {
   ProblemReportBody,
   RemoveExchangeRecordBody,
   isIssueCredentialMessage,
-  IssueCredentialMessageTypes
+  IssueCredentialMessageTypes,
+  SendCredentialBody,
+  SendProposalBody,
+  SendOfferBody,
+  ProblemReportResult,
+  RemoveExchangeRecordResult
 } from './messages'
 
 class IssueCredentialController extends AcaControllerPlugin {
@@ -87,28 +88,8 @@ class IssueCredentialController extends AcaControllerPlugin {
     })
   }
 
-  private async sendCredential({
-    issuer_did,
-    credential_proposal,
-    schema_name,
-    cred_def_id,
-    connection_id,
-    schema_version,
-    schema_id,
-    comment,
-    schema_issuer_did
-  }: V10CredentialProposalRequest): Promise<UlaResponse> {
-    const response = await this.issueCredentialApi.issueCredentialSendPost({
-      issuer_did,
-      credential_proposal,
-      schema_name,
-      cred_def_id,
-      connection_id,
-      schema_version,
-      schema_id,
-      comment,
-      schema_issuer_did
-    })
+  private async sendCredential(body: SendCredentialBody): Promise<UlaResponse> {
+    const response = await this.issueCredentialApi.issueCredentialSendPost(body)
 
     return new UlaResponse({
       statusCode: response.status,
@@ -116,29 +97,9 @@ class IssueCredentialController extends AcaControllerPlugin {
     })
   }
 
-  private async sendProposal({
-    issuer_did,
-    credential_proposal,
-    schema_name,
-    cred_def_id,
-    connection_id,
-    schema_version,
-    schema_id,
-    comment,
-    schema_issuer_did
-  }: V10CredentialProposalRequest): Promise<UlaResponse> {
+  private async sendProposal(body: SendProposalBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialSendProposalPost(
-      {
-        issuer_did,
-        credential_proposal,
-        schema_name,
-        cred_def_id,
-        connection_id,
-        schema_version,
-        schema_id,
-        comment,
-        schema_issuer_did
-      }
+      body
     )
 
     return new UlaResponse({
@@ -147,21 +108,9 @@ class IssueCredentialController extends AcaControllerPlugin {
     })
   }
 
-  private async sendOffer({
-    credential_preview,
-    auto_issue,
-    cred_def_id,
-    connection_id,
-    comment
-  }: V10CredentialOfferRequest): Promise<UlaResponse> {
+  private async sendOffer(body: SendOfferBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialSendOfferPost(
-      {
-        credential_preview,
-        auto_issue,
-        cred_def_id,
-        connection_id,
-        comment
-      }
+      body
     )
 
     return new UlaResponse({
@@ -198,15 +147,11 @@ class IssueCredentialController extends AcaControllerPlugin {
 
   private async issue({
     credential_exchange_id,
-    comment,
-    credential_preview
+    ...remainingBody
   }: IssueBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdIssuePost(
       credential_exchange_id,
-      {
-        comment,
-        credential_preview
-      }
+      remainingBody
     )
 
     return new UlaResponse({
@@ -230,18 +175,18 @@ class IssueCredentialController extends AcaControllerPlugin {
 
   private async problemReport({
     credential_exchange_id,
-    explain_ltxt
+    ...remainingBody
   }: ProblemReportBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialRecordsCredExIdProblemReportPost(
       credential_exchange_id,
-      {
-        explain_ltxt
-      }
+      remainingBody
     )
+
+    const body = (response.data as unknown) as ProblemReportResult
 
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 
@@ -252,9 +197,11 @@ class IssueCredentialController extends AcaControllerPlugin {
       credential_exchange_id
     )
 
+    const body = (response.data as unknown) as RemoveExchangeRecordResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 

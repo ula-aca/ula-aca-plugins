@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { IssueCredentialApi } from '@ula-aca/aries-cloudagent-interface'
+
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface GetMimeTypesBody {
@@ -25,4 +27,8 @@ interface GetMimeTypesMessage {
   body: GetMimeTypesBody
 }
 
-export { GetMimeTypesMessage, GetMimeTypesBody }
+type GetMimeTypesResult = ReturnType<
+  IssueCredentialApi['issueCredentialMimeTypesCredentialIdGet']
+>
+
+export { GetMimeTypesMessage, GetMimeTypesBody, GetMimeTypesResult }

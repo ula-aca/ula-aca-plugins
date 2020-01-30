@@ -27,4 +27,7 @@ interface ProblemReportMessage {
   body: ProblemReportBody
 }
 
-export { ProblemReportMessage, ProblemReportBody }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ProblemReportResult = any
+
+export { ProblemReportMessage, ProblemReportBody, ProblemReportResult }

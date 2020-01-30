@@ -25,4 +25,11 @@ interface RemoveExchangeRecordMessage {
   body: RemoveExchangeRecordBody
 }
 
-export { RemoveExchangeRecordMessage, RemoveExchangeRecordBody }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type RemoveExchangeRecordResult = any
+
+export {
+  RemoveExchangeRecordMessage,
+  RemoveExchangeRecordBody,
+  RemoveExchangeRecordResult
+}
