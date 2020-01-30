@@ -1,0 +1,33 @@
+// This file contains config for everything besides 'src' files
+// This includes examples and tests. We have less strict rules for this
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "strict": false,
+    "baseUrl": "..",
+    "rootDir": "..",
+    "noEmit": true
+  },
+  "references": [
+    { "path": "../packages/core/tsconfig.build.json" },
+    { "path": "../packages/webhook-event-models/tsconfig.build.json" },
+    { "path": "../packages/connection/tsconfig.build.json" },
+    { "path": "../packages/credential-definition/tsconfig.build.json" },
+    { "path": "../packages/credential/tsconfig.build.json" },
+    { "path": "../packages/issue-credential/tsconfig.build.json" },
+    { "path": "../packages/ledger/tsconfig.build.json" },
+    { "path": "../packages/present-proof/tsconfig.build.json" },
+    { "path": "../packages/schema/tsconfig.build.json" },
+    { "path": "../packages/test-utils/tsconfig.build.json" },
+    { "path": "../packages/wallet/tsconfig.build.json" },
+    { "path": "../packages/webhook-relay-event-router/tsconfig.build.json" }
+  ],
+  "include": [
+    "../examples",
+    "../tests",
+    "../packages/*/tests",
+    "../packages/*/examples"
+  ],
+  "exclude": ["../packages/*/src"]
+}

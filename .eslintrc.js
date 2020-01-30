@@ -1,7 +1,11 @@
 const { relative } = require('path')
 const { spawnSync } = require('child_process')
 
-const lernaPackages = spawnSync('./node_modules/.bin/lerna', ['ls', '--all', '--parseable'])
+const lernaPackages = spawnSync('./node_modules/.bin/lerna', [
+  'ls',
+  '--all',
+  '--parseable'
+])
   .stdout.toString()
   .trim()
   .split('\n')
@@ -51,7 +55,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.test.json'
+    project: './config/tsconfig.test.json'
   },
   rules: {
     '@typescript-eslint/unbound-method': [
@@ -125,7 +129,7 @@ module.exports = {
       }
     },
     {
-      files: './examples/**',
+      files: ['./examples/**', './scripts/**'],
       rules: {
         'import/no-extraneous-dependencies': [
           'error',

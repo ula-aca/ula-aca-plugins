@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents",
   "scripts": {
-    "test": "echo 'Error: run tests from root' && exit 1",
-    "compile": "tsc -p tsconfig.build.json",
-    "clean": "rm -rf ./lib",
-    "build": "npm run clean && npm run compile"
+    "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
+    "clean": "npm run build -- --clean",
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "keywords": [
     "aries",
@@ -41,6 +40,7 @@
   ],
   "dependencies": {
     "@ula-aca/aries-cloudagent-interface": "^1.0.1",
+    "@ula-aca/core": "file:../core",
     "@ula-aca/webhook-event-models": "file:../webhook-event-models",
     "axios": "^0.19.2",
     "universal-ledger-agent": "^0.1.2"

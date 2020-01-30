@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "strict": false,
-    "alwaysStrict": false
-  },
-  "include": ["packages", "tests", "stryker.conf.js", "examples"]
-}

@@ -12,8 +12,8 @@
     "sourceMap": true,
     "lib": ["es6"],
     "strict": true,
-    "alwaysStrict": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "pretty": true
   }
 }

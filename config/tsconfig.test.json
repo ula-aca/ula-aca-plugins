@@ -1,0 +1,29 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "rootDir": "..",
+    "noEmit": true,
+    "strict": false,
+    "paths": {
+      "@ula-aca/webhook-event-models": ["./packages/webhook-event-models/src"],
+      "@ula-aca/connection": ["./packages/connection/src"],
+      "@ula-aca/credential-definition": [
+        "./packages/credential-definition/src"
+      ],
+      "@ula-aca/credential": ["./packages/credential/src"],
+      "@ula-aca/issue-credential": ["./packages/issue-credential/src"],
+      "@ula-aca/wallet": ["./packages/wallet/src"],
+      "@ula-aca/ledger": ["./packages/ledger/src"],
+      "@ula-aca/present-proof": ["./packages/present-proof/src"],
+      "@ula-aca/schema": ["./packages/schema/src"],
+      "@ula-aca/test-utils": ["./packages/test-utils/src"],
+      "@ula-aca/webhook-relay-event-router": [
+        "./packages/webhook-relay-event-router/src"
+      ],
+      "@ula-aca/core": ["./packages/core/src"]
+    }
+  },
+  "exclude": ["../node_modules"],
+  "include": [".."]
+}
