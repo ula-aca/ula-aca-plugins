@@ -54,6 +54,31 @@ module.exports = {
     project: './tsconfig.test.json'
   },
   rules: {
+    '@typescript-eslint/unbound-method': [
+      'error',
+      {
+        ignoreStatic: true
+      }
+    ],
+    'import/order': [
+      'error',
+      {
+        pathGroups: [
+          {
+            pattern: '@ula-aca/**',
+            group: 'external',
+            position: 'after'
+          }
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+        groups: [['builtin', 'external'], 'internal'],
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: false
+        },
+        'newlines-between': 'always'
+      }
+    ],
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
     'import/extensions': [
