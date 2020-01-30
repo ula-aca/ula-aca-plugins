@@ -83,7 +83,13 @@ describe('[package] @ula-aca/issue-credential', () => {
 
     describe('events', () => {
       it('@ula-aca/issue-credential/get-mime-types', async () => {
-        const data = {}
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+
+        const data = {
+          'returns-nothing': 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -100,17 +106,22 @@ describe('[package] @ula-aca/issue-credential', () => {
 
         const message = new Message({
           type: IssueCredentialMessageTypes.GET_MIME_TYPES,
-          body: {}
+          body: {
+            credential_exchange_id: credentialExchangeId
+          }
         } as GetMimeTypesMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/get-exchange-records', async () => {
         const data = {
           results: [
@@ -155,8 +166,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         })
 
         const message = new Message({
-          type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS,
-          body: {}
+          type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS
         } as GetExchangeRecordsMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
@@ -167,8 +177,9 @@ describe('[package] @ula-aca/issue-credential', () => {
           }
         )
       })
+
       it('@ula-aca/issue-credential/get-exchange-record-by-id', async () => {
-        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           raw_credential: {},
@@ -210,20 +221,23 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID,
           body: {
-            credential_exchange_id
+            credential_exchange_id: credentialExchangeId
           }
         } as GetExchangeRecordByIdMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/send-credential', async () => {
-        const credential_proposal_req = {
+        const credentialProposalReq = {
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
           credential_proposal: {
             '@type':
@@ -284,19 +298,22 @@ describe('[package] @ula-aca/issue-credential', () => {
 
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_CREDENTIAL,
-          body: credential_proposal_req
+          body: credentialProposalReq
         } as SendCredentialMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialProposalReq
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/send-proposal', async () => {
-        const credential_proposal_req = {
+        const credentialProposalReq = {
           schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
           credential_proposal: {
             '@type':
@@ -357,19 +374,22 @@ describe('[package] @ula-aca/issue-credential', () => {
 
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_PROPOSAL,
-          body: credential_proposal_req
+          body: credentialProposalReq
         } as SendProposalMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialProposalReq
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/send-offer', async () => {
-        const credential_offer_req = {
+        const credentialOfferReq = {
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           comment: 'string',
           cred_def_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
@@ -426,19 +446,22 @@ describe('[package] @ula-aca/issue-credential', () => {
 
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_OFFER,
-          body: credential_offer_req
+          body: credentialOfferReq
         } as SendOfferMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialOfferReq
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/send-offer-by-id', async () => {
-        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           raw_credential: {},
@@ -480,20 +503,23 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_OFFER_BY_ID,
           body: {
-            credential_exchange_id
+            credential_exchange_id: credentialExchangeId
           }
         } as SendOfferByIdMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/send-request', async () => {
-        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           raw_credential: {},
@@ -535,20 +561,24 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.SEND_REQUEST,
           body: {
-            credential_exchange_id
+            credential_exchange_id: credentialExchangeId
           }
         } as SendRequestMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/issue', async () => {
-        const cred_issue_req = {
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credIssueReq = {
           credential_preview: {
             '@type':
               'did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview',
@@ -602,19 +632,26 @@ describe('[package] @ula-aca/issue-credential', () => {
 
         const message = new Message({
           type: IssueCredentialMessageTypes.ISSUE,
-          body: cred_issue_req
+          body: {
+            ...credIssueReq,
+            credential_exchange_id: credentialExchangeId
+          }
         } as IssueMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId,
+              credIssueReq
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/issue-credential/store', async () => {
-        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           raw_credential: {},
@@ -656,76 +693,100 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.STORE,
           body: {
-            credential_exchange_id
+            credential_exchange_id: credentialExchangeId
           }
         } as StoreMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
-      it('@ula-aca/issue-credential/problem-report', async () => {
-        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-        const report_text = 'hey I have a problem'
 
+      it('@ula-aca/issue-credential/problem-report', async () => {
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const report = {
+          explain_ltxt: 'hey I have a problem'
+        }
+
+        const data = {
+          'returns-nothing': 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
+
         const expectedResult = new UlaResponse({
-          body: {},
+          body: data,
           statusCode
         })
 
         issueCredentialApiStubbed = stubInterfaceFunction({
           Class: IssueCredentialApi,
           functionName: 'issueCredentialRecordsCredExIdProblemReportPost',
-          status: statusCode
+          status: statusCode,
+          data
         })
 
         const message = new Message({
           type: IssueCredentialMessageTypes.PROBLEM_REPORT,
           body: {
-            credential_exchange_id,
-            explain_ltxt: report_text
+            credential_exchange_id: credentialExchangeId,
+            ...report
           }
         } as ProblemReportMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId,
+              report
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
-      it('@ula-aca/issue-credential/remove-exchange-record', async () => {
-        const credential_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
+      it('@ula-aca/issue-credential/remove-exchange-record', async () => {
+        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+
+        const data = {
+          'returns-nothing': 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
         const expectedResult = new UlaResponse({
-          body: {},
+          body: data,
           statusCode
         })
 
         issueCredentialApiStubbed = stubInterfaceFunction({
           Class: IssueCredentialApi,
           functionName: 'issueCredentialRecordsCredExIdRemovePost',
-          status: statusCode
+          status: statusCode,
+          data
         })
 
         const message = new Message({
           type: IssueCredentialMessageTypes.REMOVE_EXCHANGE_RECORD,
           body: {
-            credential_exchange_id
+            credential_exchange_id: credentialExchangeId
           }
         } as RemoveExchangeRecordMessage)
 
         await issueCredentialControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            issueCredentialApiStubbed.should.have.been.calledOnce
+            issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
+              credentialExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
