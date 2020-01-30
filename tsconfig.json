@@ -1,4 +1,5 @@
 {
+  "files": [],
   "references": [
     { "path": "packages/core/tsconfig.build.json" },
     { "path": "packages/webhook-event-models/tsconfig.build.json" },
