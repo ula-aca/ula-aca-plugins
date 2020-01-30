@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -14,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
-
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
 import {
   ConnectionEventMessage,
@@ -30,8 +28,10 @@ import {
   PairwiseConnectionRecordInactive,
   PairwiseConnectionRecordError
 } from '@ula-aca/webhook-event-models'
+
 import { ConnectionEventHandler } from '../src'
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 class ConnectionHandler extends ConnectionEventHandler {
   async onBasicMessage(_message: BasicMessage): Promise<void> {}
 
@@ -51,6 +51,7 @@ class ConnectionHandler extends ConnectionEventHandler {
 
   async onError(_message: PairwiseConnectionRecordError): Promise<void> {}
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 describe('[package] @ula-aca/connection', () => {
   describe('[plugin] ConnectionEventHandler', () => {
@@ -94,81 +95,6 @@ describe('[package] @ula-aca/connection', () => {
           )
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when a function throws", async () => {
-        const data = {
-          my_did: 'WgWxqztrNooG92RXvxSTWv',
-          inbound_connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          their_label: 'Bob',
-          initiator: 'self',
-          invitation_mode: 'once',
-          their_did: 'WgWxqztrNooG92RXvxSTWv',
-          routing_state: 'active',
-          accept: 'auto',
-          invitation_key: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV',
-          their_role: 'Point of contact',
-          request_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          created_at: '2019-12-12 12:05:38Z',
-          error_msg: 'No DIDDoc provided; cannot connect to public DID',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'init',
-          alias: 'Bob, providing quotes'
-        }
-        const expectedResult = 'error'
-
-        connectionHandlerStubbed = sinon
-          .stub(ConnectionHandler.prototype, 'onInit')
-          .rejects()
-
-        const message = new Message({
-          type: '@ula-aca/connection-event',
-          body: data
-        } as ConnectionEventMessage)
-
-        const eventRes = await connectionHandler.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode 500 when a function throws', async () => {
-        const data = {
-          my_did: 'WgWxqztrNooG92RXvxSTWv',
-          inbound_connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          their_label: 'Bob',
-          initiator: 'self',
-          invitation_mode: 'once',
-          their_did: 'WgWxqztrNooG92RXvxSTWv',
-          routing_state: 'active',
-          accept: 'auto',
-          invitation_key: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV',
-          their_role: 'Point of contact',
-          request_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          created_at: '2019-12-12 12:05:38Z',
-          error_msg: 'No DIDDoc provided; cannot connect to public DID',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'init',
-          alias: 'Bob, providing quotes'
-        }
-        const error = new Error('Something went wrong')
-
-        connectionHandlerStubbed = sinon
-          .stub(ConnectionHandler.prototype, 'onInit')
-          .rejects(error)
-
-        const message = new Message({
-          type: '@ula-aca/connection-event',
-          body: data
-        } as ConnectionEventMessage)
-
-        await connectionHandler.handleEvent(message, (res: UlaResponse) => {
-          res.statusCode.should.equal(500)
-          res.body.should.deep.equal({
-            error
-          })
-        })
       })
     })
 

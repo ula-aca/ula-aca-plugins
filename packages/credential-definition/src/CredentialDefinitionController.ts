@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
 
+import { CredentialDefinitionApi } from '@ula-aca/aries-cloudagent-interface'
 import {
-  Configuration,
-  CredentialDefinitionApi
-} from '@ula-aca/aries-cloudagent-interface'
-import { AxiosError } from 'axios'
+  AcaControllerPlugin,
+  AcaControllerPluginOptions,
+  UlaCallback
+} from '@ula-aca/core'
+
 import {
   GetCreatedCredentialDefinitionsBody,
   CreateCredentialDefinitionBody,
@@ -34,19 +31,14 @@ import {
   GetCredentialDefinitionByIdBody
 } from './messages'
 
-export default class CredentialDefinitionController implements Plugin {
+class CredentialDefinitionController extends AcaControllerPlugin {
   private credentialDefinitionApi: CredentialDefinitionApi
 
-  constructor(acaUrl: string) {
-    const apiConfig = new Configuration({
-      basePath: acaUrl
-    })
+  constructor(options?: AcaControllerPluginOptions) {
+    super(options)
 
-    this.credentialDefinitionApi = new CredentialDefinitionApi(apiConfig)
+    this.credentialDefinitionApi = new CredentialDefinitionApi(this.apiConfig)
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
-  initialize(_eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/credential-definition/CredentialDefinitionController'
@@ -98,65 +90,35 @@ export default class CredentialDefinitionController implements Plugin {
     })
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaControllerPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isCredentialDefinitionMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
 
-    try {
-      switch (message.properties.type) {
-        case CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION:
-          response = await this.createCredentialDefinition(
-            message.properties.body
-          )
-          break
-        case CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS:
-          response = await this.getCreatedCredentialDefinitions(
-            message.properties.body
-          )
-          break
-        case CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID:
-          response = await this.getCredentialDefinitionById(
-            message.properties.body
-          )
-          break
-      }
-    } catch (err) {
-      const axiosErr = err as AxiosError
-      if (axiosErr.response) {
-        response = new UlaResponse({
-          statusCode: axiosErr.response.status,
-          body: {
-            error: axiosErr.response.data
-          }
-        })
-      } else if (axiosErr.toJSON) {
-        // couldn't get repsonse
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: axiosErr.toJSON()
-          }
-        })
-      } else {
-        // not an axios error
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: err
-          }
-        })
-      }
+    switch (message.properties.type) {
+      case CredentialDefinitionMessageTypes.CREATE_CREDENTIAL_DEFINITION:
+        response = await this.createCredentialDefinition(
+          message.properties.body
+        )
+        break
+      case CredentialDefinitionMessageTypes.GET_CREATED_CREDENTIAL_DEFINITIONS:
+        response = await this.getCreatedCredentialDefinitions(
+          message.properties.body
+        )
+        break
+      case CredentialDefinitionMessageTypes.GET_CREDENTIAL_DEFINITION_BY_ID:
+        response = await this.getCredentialDefinitionById(
+          message.properties.body
+        )
+        break
     }
 
-    await callback(response)
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    callback(response)
+    return 'success'
   }
 }
+
+export { CredentialDefinitionController }

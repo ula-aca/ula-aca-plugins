@@ -13,61 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Message, UlaResponse } from 'universal-ledger-agent'
 
 import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
-
-import {
-  Configuration,
-  ConnectionApi,
   BasicmessageApi,
+  ConnectionApi,
   TrustpingApi
 } from '@ula-aca/aries-cloudagent-interface'
-
-import { AxiosError } from 'axios'
 import {
-  ConnectionMessageTypes,
-  isConnectionMessage,
-  GetConnectionsBody,
-  GetConnectionByIdBody,
-  CreateInvitationBody,
-  ReceiveInvitationBody,
+  AcaControllerPlugin,
+  AcaControllerPluginOptions,
+  UlaCallback
+} from '@ula-aca/core'
+
+import {
   AcceptInvitationBody,
   AcceptRequestBody,
+  ConnectionMessageTypes,
+  CreateInvitationBody,
   EstablishInboundBody,
-  RemoveConnectionBody,
-  SendPingBody,
-  SendBasicMessageBody,
   EstablishInboundResult,
+  GetConnectionByIdBody,
+  GetConnectionsBody,
+  ReceiveInvitationBody,
+  RemoveConnectionBody,
+  RemoveConnectionResult,
+  SendBasicMessageBody,
   SendBasicMessageResult,
-  RemoveConnectionResult
+  SendPingBody,
+  isConnectionMessage
 } from './messages'
 
-class ConnectionController implements Plugin {
-  protected eventHandler?: EventHandler
-
+class ConnectionController extends AcaControllerPlugin {
   private connectionApi: ConnectionApi
 
   private basicMessageApi: BasicmessageApi
 
   private trustPingApi: TrustpingApi
 
-  constructor(acaUrl: string) {
-    const apiConfig = new Configuration({
-      basePath: acaUrl
-    })
+  constructor(options?: AcaControllerPluginOptions) {
+    super(options)
 
-    this.connectionApi = new ConnectionApi(apiConfig)
-    this.basicMessageApi = new BasicmessageApi(apiConfig)
-    this.trustPingApi = new TrustpingApi(apiConfig)
-  }
-
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
+    this.connectionApi = new ConnectionApi(this.apiConfig)
+    this.basicMessageApi = new BasicmessageApi(this.apiConfig)
+    this.trustPingApi = new TrustpingApi(this.apiConfig)
   }
 
   get name(): string {
@@ -243,80 +232,52 @@ class ConnectionController implements Plugin {
     })
   }
 
+  @AcaControllerPlugin.handleError
   public async handleEvent(
     message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
+    callback: UlaCallback
   ): Promise<string> {
     if (!isConnectionMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
-    try {
-      switch (message.properties.type) {
-        case ConnectionMessageTypes.GET_CONNECTIONS:
-          response = await this.getAllConnections(message.properties.body)
-          break
-        case ConnectionMessageTypes.GET_CONNECTION_BY_ID:
-          response = await this.getConnectionById(message.properties.body)
-          break
-        case ConnectionMessageTypes.CREATE_INVITATION:
-          response = await this.createInvitation(message.properties.body)
-          break
-        case ConnectionMessageTypes.RECEIVE_INVITATION:
-          response = await this.receiveInvitation(message.properties.body)
-          break
-        case ConnectionMessageTypes.ACCEPT_INVITATION:
-          response = await this.acceptInvitation(message.properties.body)
-          break
-        case ConnectionMessageTypes.ACCEPT_REQUEST:
-          response = await this.acceptRequest(message.properties.body)
-          break
-        case ConnectionMessageTypes.ESTABLISH_INBOUND:
-          response = await this.establishInbound(message.properties.body)
-          break
-        case ConnectionMessageTypes.SEND_PING:
-          response = await this.sendPing(message.properties.body)
-          break
-        case ConnectionMessageTypes.SEND_BASIC_MESSAGE:
-          response = await this.sendBasicMessage(message.properties.body)
-          break
-        case ConnectionMessageTypes.REMOVE_CONNECTION:
-          response = await this.removeConnection(message.properties.body)
-          break
-      }
-    } catch (err) {
-      const axiosErr = err as AxiosError
 
-      if (axiosErr.response) {
-        response = new UlaResponse({
-          statusCode: axiosErr.response.status,
-          body: {
-            error: axiosErr.response.data
-          }
-        })
-      } else if (axiosErr.toJSON) {
-        // couldn't get repsonse
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: axiosErr.toJSON()
-          }
-        })
-      } else {
-        // not an axios error
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: err
-          }
-        })
-      }
+    switch (message.properties.type) {
+      case ConnectionMessageTypes.GET_CONNECTIONS:
+        response = await this.getAllConnections(message.properties.body)
+        break
+      case ConnectionMessageTypes.GET_CONNECTION_BY_ID:
+        response = await this.getConnectionById(message.properties.body)
+        break
+      case ConnectionMessageTypes.CREATE_INVITATION:
+        response = await this.createInvitation(message.properties.body)
+        break
+      case ConnectionMessageTypes.RECEIVE_INVITATION:
+        response = await this.receiveInvitation(message.properties.body)
+        break
+      case ConnectionMessageTypes.ACCEPT_INVITATION:
+        response = await this.acceptInvitation(message.properties.body)
+        break
+      case ConnectionMessageTypes.ACCEPT_REQUEST:
+        response = await this.acceptRequest(message.properties.body)
+        break
+      case ConnectionMessageTypes.ESTABLISH_INBOUND:
+        response = await this.establishInbound(message.properties.body)
+        break
+      case ConnectionMessageTypes.SEND_PING:
+        response = await this.sendPing(message.properties.body)
+        break
+      case ConnectionMessageTypes.SEND_BASIC_MESSAGE:
+        response = await this.sendBasicMessage(message.properties.body)
+        break
+      case ConnectionMessageTypes.REMOVE_CONNECTION:
+        response = await this.removeConnection(message.properties.body)
+        break
     }
+
     callback(response)
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    return 'success'
   }
 }
 

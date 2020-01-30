@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
 
-import { Configuration, SchemaApi } from '@ula-aca/aries-cloudagent-interface'
-import { AxiosError } from 'axios'
+import { SchemaApi } from '@ula-aca/aries-cloudagent-interface'
+import {
+  AcaControllerPlugin,
+  AcaControllerPluginOptions,
+  UlaCallback
+} from '@ula-aca/core'
+
 import {
   GetCreatedSchemasBody,
   CreateSchemaBody,
@@ -32,19 +32,14 @@ import {
   GetSchemaByIdResult
 } from './messages'
 
-export default class SchemaController implements Plugin {
+class SchemaController extends AcaControllerPlugin {
   private schemaApi: SchemaApi
 
-  constructor(acaUrl: string) {
-    const apiConfig = new Configuration({
-      basePath: acaUrl
-    })
+  constructor(options?: AcaControllerPluginOptions) {
+    super(options)
 
-    this.schemaApi = new SchemaApi(apiConfig)
+    this.schemaApi = new SchemaApi(this.apiConfig)
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  initialize(_eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/schema/SchemaController'
@@ -90,60 +85,29 @@ export default class SchemaController implements Plugin {
     })
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaControllerPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isSchemaMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
 
-    try {
-      switch (message.properties.type) {
-        case SchemaMessageTypes.CREATE_SCHEMA:
-          response = await this.createSchema(message.properties.body)
-          break
-        case SchemaMessageTypes.GET_CREATED_SCHEMAS:
-          response = await this.getCreatedSchemas(message.properties.body)
-          break
-        case SchemaMessageTypes.GET_SCHEMA_BY_ID:
-          response = await this.getSchemaById(message.properties.body)
-          break
-      }
-    } catch (err) {
-      const axiosErr = err as AxiosError
-
-      if (axiosErr.response) {
-        response = new UlaResponse({
-          statusCode: axiosErr.response.status,
-          body: {
-            error: axiosErr.response.data
-          }
-        })
-      } else if (axiosErr.toJSON) {
-        // couldn't get repsonse
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: axiosErr.toJSON()
-          }
-        })
-      } else {
-        // not an axios error
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: err
-          }
-        })
-      }
+    switch (message.properties.type) {
+      case SchemaMessageTypes.CREATE_SCHEMA:
+        response = await this.createSchema(message.properties.body)
+        break
+      case SchemaMessageTypes.GET_CREATED_SCHEMAS:
+        response = await this.getCreatedSchemas(message.properties.body)
+        break
+      case SchemaMessageTypes.GET_SCHEMA_BY_ID:
+        response = await this.getSchemaById(message.properties.body)
+        break
     }
 
-    await callback(response)
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    callback(response)
+    return 'success'
   }
 }
+
+export { SchemaController }

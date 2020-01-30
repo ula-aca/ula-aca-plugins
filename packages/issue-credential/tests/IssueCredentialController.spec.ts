@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import sinon from 'sinon'
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
-import sinon from 'sinon'
-
 import { IssueCredentialApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction
-} from '@ula-aca/test-utils'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
+
 import {
   IssueCredentialController,
   IssueCredentialMessageTypes,
@@ -47,9 +44,7 @@ describe('[package] @ula-aca/issue-credential', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      issueCredentialControllerPlugin = new IssueCredentialController(
-        'http://url.test'
-      )
+      issueCredentialControllerPlugin = new IssueCredentialController()
       issueCredentialControllerPlugin.initialize(eventHandler)
     })
 
@@ -83,118 +78,6 @@ describe('[package] @ula-aca/issue-credential', () => {
 
           response.should.equal('ignored')
         }
-      })
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const data = {
-          results: [
-            {
-              raw_credential: {},
-              parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-              credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              auto_offer: false,
-              role: 'issuer',
-              credential_offer: {},
-              state: 'credential_acked',
-              credential_request: {},
-              initiator: 'self',
-              credential: {},
-              created_at: '2019-12-12 12:05:38Z',
-              credential_request_metadata: {},
-              connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-              credential_proposal_dict: {},
-              updated_at: '2019-12-12 12:05:38Z',
-              credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              error_msg:
-                'credential definition identifier is not set in proposal',
-              auto_issue: false
-            }
-          ]
-        }
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        issueCredentialApiStubbed = stubInterfaceFunction({
-          Class: IssueCredentialApi,
-          functionName: 'issueCredentialRecordsGet',
-          data,
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS
-        } as GetExchangeRecordsMessage)
-
-        const eventRes = await issueCredentialControllerPlugin.handleEvent(
-          message,
-          () => {}
-        )
-
-        eventRes.should.equal(expectedResult)
-      })
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        issueCredentialApiStubbed = stubInterfaceFunction({
-          Class: IssueCredentialApi,
-          functionName: 'issueCredentialRecordsGet',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS,
-          body: {}
-        } as GetExchangeRecordsMessage)
-
-        await issueCredentialControllerPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
-      })
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        issueCredentialApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: IssueCredentialApi,
-          functionName: 'issueCredentialRecordsGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/issue-credential/get-all-exchange-records',
-          body: {}
-        })
-
-        await issueCredentialControllerPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
       })
     })
 

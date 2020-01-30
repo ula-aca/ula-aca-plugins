@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { IssueCredentialController } from './IssueCredentialController'
-import { IssueCredentialEventHandler } from './IssueCredentialEventHandler'
+export * from './IssueCredentialController'
+export * from './IssueCredentialEventHandler'
 
-export { IssueCredentialController, IssueCredentialEventHandler }
 export * from './messages'

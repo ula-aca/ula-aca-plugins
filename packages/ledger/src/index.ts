@@ -14,7 +14,5 @@
  * limitations under the License.
  */
 
-import LedgerController from './LedgerController'
-
-export { LedgerController }
+export * from './LedgerController'
 export * from './messages'

@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
+
+import { AcaEventPlugin, UlaCallback } from '@ula-aca/core'
 import {
   isCredentialExchangeRecordProposalSent,
   isCredentialExchangeRecordProposalReceived,
@@ -42,66 +39,46 @@ import {
   isIssueCredentialEventMessage
 } from '@ula-aca/webhook-event-models'
 
-abstract class IssueCredentialEventHandler implements Plugin {
-  protected eventHandler?: EventHandler
-
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
-  }
-
+abstract class IssueCredentialEventHandler extends AcaEventPlugin {
   get name(): string {
     return '@ula-aca/issue-credential/IssueCredentialEventHandler'
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaEventPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isIssueCredentialEventMessage(message.properties)) {
       return 'ignored'
     }
 
-    let response: UlaResponse
+    const { body } = message.properties
 
-    try {
-      const { body } = message.properties
-
-      if (isCredentialExchangeRecordProposalSent(body)) {
-        await this.onProposalSent(body)
-      } else if (isCredentialExchangeRecordProposalReceived(body)) {
-        await this.onProposalReceived(body)
-      } else if (isCredentialExchangeRecordOfferSent(body)) {
-        await this.onOfferSent(body)
-      } else if (isCredentialExchangeRecordOfferReceived(body)) {
-        await this.onOfferReceived(body)
-      } else if (isCredentialExchangeRecordRequestSent(body)) {
-        await this.onRequestSent(body)
-      } else if (isCredentialExchangeRecordRequestReceived(body)) {
-        await this.onRequestReceived(body)
-      } else if (isCredentialExchangeRecordIssued(body)) {
-        await this.onIssued(body)
-      } else if (isCredentialExchangeRecordCredentialAcknowledged(body)) {
-        await this.onCredentialAcknowledged(body)
-      } else if (isCredentialExchangeRecordCredentialReceived(body)) {
-        await this.onCredentialReceived(body)
-      } else {
-        throw new Error(`Unknown state: ${body.state}`)
-      }
-      response = new UlaResponse({ statusCode: 200, body: {} })
-    } catch (err) {
-      response = new UlaResponse({
-        statusCode: 500,
-        body: {
-          error: err
-        }
-      })
+    if (isCredentialExchangeRecordProposalSent(body)) {
+      await this.onProposalSent(body)
+    } else if (isCredentialExchangeRecordProposalReceived(body)) {
+      await this.onProposalReceived(body)
+    } else if (isCredentialExchangeRecordOfferSent(body)) {
+      await this.onOfferSent(body)
+    } else if (isCredentialExchangeRecordOfferReceived(body)) {
+      await this.onOfferReceived(body)
+    } else if (isCredentialExchangeRecordRequestSent(body)) {
+      await this.onRequestSent(body)
+    } else if (isCredentialExchangeRecordRequestReceived(body)) {
+      await this.onRequestReceived(body)
+    } else if (isCredentialExchangeRecordIssued(body)) {
+      await this.onIssued(body)
+    } else if (isCredentialExchangeRecordCredentialAcknowledged(body)) {
+      await this.onCredentialAcknowledged(body)
+    } else if (isCredentialExchangeRecordCredentialReceived(body)) {
+      await this.onCredentialReceived(body)
+    } else {
+      throw new Error(`Unknown state: ${body.state}`)
     }
+
+    const response = new UlaResponse({ statusCode: 200, body: {} })
 
     callback(response)
 
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    return 'success'
   }
 
   abstract async onProposalSent(

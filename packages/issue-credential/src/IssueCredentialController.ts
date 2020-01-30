@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
 
 import {
-  Configuration,
   IssueCredentialApi,
   V10CredentialProposalRequest,
   V10CredentialOfferRequest
 } from '@ula-aca/aries-cloudagent-interface'
-import { AxiosError } from 'axios'
+import {
+  AcaControllerPlugin,
+  UlaCallback,
+  AcaControllerPluginOptions
+} from '@ula-aca/core'
+
 import {
   GetMemeTypesBody,
   GetExchangeRecordByIdBody,
@@ -41,21 +40,13 @@ import {
   IssueCredentialMessageTypes
 } from './messages'
 
-class IssueCredentialController implements Plugin {
-  protected eventHandler?: EventHandler
-
+class IssueCredentialController extends AcaControllerPlugin {
   private issueCredentialApi: IssueCredentialApi
 
-  constructor(acaUrl: string) {
-    const apiConfig = new Configuration({
-      basePath: acaUrl
-    })
+  constructor(options?: AcaControllerPluginOptions) {
+    super(options)
 
-    this.issueCredentialApi = new IssueCredentialApi(apiConfig)
-  }
-
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
+    this.issueCredentialApi = new IssueCredentialApi(this.apiConfig)
   }
 
   get name(): string {
@@ -267,89 +258,58 @@ class IssueCredentialController implements Plugin {
     })
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaControllerPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isIssueCredentialMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
-    try {
-      switch (message.properties.type) {
-        case IssueCredentialMessageTypes.GET_MEME_TYPES:
-          response = await this.getMemeTypes(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS:
-          response = await this.getAllCredentialExchangeRecords()
-          break
-        case IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID:
-          response = await this.getCredentialExchangeRecordById(
-            message.properties.body
-          )
-          break
-        case IssueCredentialMessageTypes.SEND_CREDENTIAL:
-          response = await this.sendCredential(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.SEND_PROPOSAL:
-          response = await this.sendProposal(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.SEND_OFFER:
-          response = await this.sendOffer(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.SEND_OFFER_BY_ID:
-          response = await this.sendOfferById(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.SEND_REQUEST:
-          response = await this.sendRequest(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.ISSUE:
-          response = await this.issue(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.STORE:
-          response = await this.store(message.properties.body)
-          break
 
-        case IssueCredentialMessageTypes.PROBLEM_REPORT:
-          response = await this.problemReport(message.properties.body)
-          break
-        case IssueCredentialMessageTypes.REMOVE_EXCHANGE_RECORD:
-          response = await this.removeExchangeRecord(message.properties.body)
-          break
-      }
-    } catch (err) {
-      const axiosErr = err as AxiosError
+    switch (message.properties.type) {
+      case IssueCredentialMessageTypes.GET_MEME_TYPES:
+        response = await this.getMemeTypes(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS:
+        response = await this.getAllCredentialExchangeRecords()
+        break
+      case IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID:
+        response = await this.getCredentialExchangeRecordById(
+          message.properties.body
+        )
+        break
+      case IssueCredentialMessageTypes.SEND_CREDENTIAL:
+        response = await this.sendCredential(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.SEND_PROPOSAL:
+        response = await this.sendProposal(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.SEND_OFFER:
+        response = await this.sendOffer(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.SEND_OFFER_BY_ID:
+        response = await this.sendOfferById(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.SEND_REQUEST:
+        response = await this.sendRequest(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.ISSUE:
+        response = await this.issue(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.STORE:
+        response = await this.store(message.properties.body)
+        break
 
-      if (axiosErr.response) {
-        response = new UlaResponse({
-          statusCode: axiosErr.response.status,
-          body: {
-            error: axiosErr.response.data
-          }
-        })
-      } else if (axiosErr.toJSON) {
-        // couldn't get repsonse
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: axiosErr.toJSON()
-          }
-        })
-      } else {
-        // not an axios error
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: err
-          }
-        })
-      }
+      case IssueCredentialMessageTypes.PROBLEM_REPORT:
+        response = await this.problemReport(message.properties.body)
+        break
+      case IssueCredentialMessageTypes.REMOVE_EXCHANGE_RECORD:
+        response = await this.removeExchangeRecord(message.properties.body)
+        break
     }
+
     callback(response)
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    return 'success'
   }
 }
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Copyright 2019-present ula-aca
  *
@@ -14,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
-
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
 import {
@@ -28,8 +26,10 @@ import {
   PresentationExchangeRecordPresentationReceived,
   PresentationExchangeRecordVerified
 } from '@ula-aca/webhook-event-models'
+
 import { PresentProofEventHandler } from '../src'
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 class ProofHandler extends PresentProofEventHandler {
   async onProposalSent(
     _message: PresentationExchangeRecordProposalSent
@@ -59,9 +59,10 @@ class ProofHandler extends PresentProofEventHandler {
     _message: PresentationExchangeRecordVerified
   ): Promise<void> {}
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 describe('[package] @ula-aca/present-proof', () => {
-  describe('[plugin] PresentProofController', () => {
+  describe('[plugin] PresentProofEventHandler', () => {
     let eventHandler: EventHandler
     let proofHandler: ProofHandler
     let proofHandlerStubbed: sinon.SinonStub<any, any>
@@ -98,76 +99,6 @@ describe('[package] @ula-aca/present-proof', () => {
           const response = await proofHandler.handleEvent(message, () => {})
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when a function throws", async () => {
-        const data = {
-          presentation: {},
-          error_msg: 'Invalid structure',
-          verified: 'true',
-          auto_present: false,
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          initiator: 'self',
-          presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
-          presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'proposal_sent'
-        }
-
-        const expectedResult = 'error'
-
-        proofHandlerStubbed = sinon
-          .stub(ProofHandler.prototype, 'onProposalSent')
-          .rejects()
-
-        const message = new Message({
-          type: '@ula-aca/present-proof-event',
-          body: data
-        })
-
-        const eventRes = await proofHandler.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode 500 when a function throws', async () => {
-        const data = {
-          presentation: {},
-          error_msg: 'Invalid structure',
-          verified: 'true',
-          auto_present: false,
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          initiator: 'self',
-          presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
-          presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'proposal_sent'
-        }
-        const error = new Error('Something went wrong')
-
-        proofHandlerStubbed = sinon
-          .stub(ProofHandler.prototype, 'onProposalSent')
-          .rejects(error)
-
-        const message = new Message({
-          type: '@ula-aca/present-proof-event',
-          body: data
-        })
-
-        await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          res.statusCode.should.equal(500)
-          res.body.should.deep.equal({
-            error
-          })
-        })
       })
     })
 

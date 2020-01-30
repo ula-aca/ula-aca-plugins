@@ -28,9 +28,10 @@ import {
 } from '../src'
 
 async function run(): Promise<void> {
-  const credentialController = new CredentialController(
-    process.env.ALICE_ACA_URL
-  )
+  const credentialController = new CredentialController({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    basePath: process.env.ALICE_ACA_URL
+  })
   const eventHandler = new EventHandler([credentialController])
 
   // -- GET_CREDENTIALS -- //

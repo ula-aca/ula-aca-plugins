@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { PresentProofApi } from '@ula-aca/aries-cloudagent-interface'
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
+
 import {
   PresentProofController,
   GetExchangeRecordsMessage,
@@ -91,9 +93,7 @@ describe('[package] @ula-aca/present-proof', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      presentProofControllerPlugin = new PresentProofController(
-        'http://url.test'
-      )
+      presentProofControllerPlugin = new PresentProofController()
       presentProofControllerPlugin.initialize(eventHandler)
     })
 
@@ -128,80 +128,6 @@ describe('[package] @ula-aca/present-proof', () => {
           response.should.equal('ignored')
         }
       })
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const data = {
-          results: [
-            {
-              presentation: {},
-              error_msg: 'Invalid structure',
-              verified: 'true',
-              auto_present: false,
-              connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              initiator: 'self',
-              presentation_proposal_dict: {},
-              role: 'prover',
-              presentation_request: {},
-              created_at: '2019-12-12 12:05:38Z',
-              presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-              updated_at: '2019-12-12 12:05:38Z',
-              state: 'verified'
-            }
-          ]
-        }
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        presentProofApiStubbed = stubInterfaceFunction({
-          Class: PresentProofApi,
-          functionName: 'presentProofRecordsGet',
-          data,
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS,
-          body: {}
-        } as GetExchangeRecordsMessage)
-
-        const eventRes = await presentProofControllerPlugin.handleEvent(
-          message,
-          () => {}
-        )
-
-        eventRes.should.equal(expectedResult)
-      })
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        presentProofApiStubbed = stubInterfaceFunction({
-          Class: PresentProofApi,
-          functionName: 'presentProofRecordsGet',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS,
-          body: {}
-        } as GetExchangeRecordsMessage)
-
-        await presentProofControllerPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
-      })
     })
 
     describe('events', () => {
@@ -226,8 +152,8 @@ describe('[package] @ula-aca/present-proof', () => {
             }
           ]
         }
-        const statusCode = 300
-        const expectedResult = 'error'
+        const statusCode = 200
+        const expectedResult = 'success'
 
         presentProofApiStubbed = stubInterfaceFunction({
           Class: PresentProofApi,
@@ -248,6 +174,7 @@ describe('[package] @ula-aca/present-proof', () => {
         presentProofApiStubbed.should.have.been.calledOnce
         eventRes.should.equal(expectedResult)
       })
+
       it('@ula-aca/present-proof/get-exchange-record-by-id', async () => {
         const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 

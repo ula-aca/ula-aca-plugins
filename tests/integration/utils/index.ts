@@ -75,19 +75,23 @@ function getEventHandler({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eventHandlerPlugins?: Plugin[]
 }): EventHandler {
+  const configuration: AcaControllerPluginOptions = {
+    basePath: acaUrl
+  }
+  const headers: { [key: string]: string } = {}
+  if (acaWhrApiKey) headers.Authorization = acaWhrApiKey
+
   const plugins = [
-    new SchemaController(acaUrl),
-    new CredentialDefinitionController(acaUrl),
-    new ConnectionController(acaUrl),
-    new LedgerController(acaUrl),
-    new WalletController(acaUrl),
-    new PresentProofController(acaUrl),
-    new IssueCredentialController(acaUrl),
-    new CredentialController(acaUrl),
+    new SchemaController(configuration),
+    new CredentialDefinitionController(configuration),
+    new ConnectionController(configuration),
+    new LedgerController(configuration),
+    new WalletController(configuration),
+    new PresentProofController(configuration),
+    new IssueCredentialController(configuration),
+    new CredentialController(configuration),
     new WebhookRelayEventRouter(acaWhrUrl, {
-      headers: {
-        Authorization: acaWhrApiKey
-      }
+      headers
     }),
     ...eventHandlerPlugins
   ]

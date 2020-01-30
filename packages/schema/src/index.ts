@@ -14,7 +14,5 @@
  * limitations under the License.
  */
 
-import SchemaController from './SchemaController'
-
-export { SchemaController }
+export * from './SchemaController'
 export * from './messages'

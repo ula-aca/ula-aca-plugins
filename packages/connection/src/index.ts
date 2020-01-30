@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ConnectionController } from './ConnectionController'
-import { ConnectionEventHandler } from './ConnectionEventHandler'
-
-export { ConnectionController, ConnectionEventHandler }
+export * from './ConnectionController'
+export * from './ConnectionEventHandler'
 export * from './messages'

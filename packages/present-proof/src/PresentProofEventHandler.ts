@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
+
+import { AcaEventPlugin, UlaCallback } from '@ula-aca/core'
 import {
   isPresentationExchangeRecordProposalSent,
   PresentationExchangeRecordProposalSent,
@@ -38,60 +35,39 @@ import {
   isPresentProofEventMessage
 } from '@ula-aca/webhook-event-models'
 
-abstract class PresentProofEventHandler implements Plugin {
-  protected eventHandler?: EventHandler
-
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
-  }
-
+abstract class PresentProofEventHandler extends AcaEventPlugin {
   get name(): string {
     return '@ula-aca/present-proof/PresentProofEventHandler'
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaEventPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isPresentProofEventMessage(message.properties)) {
       return 'ignored'
     }
 
-    let response: UlaResponse
+    const { body } = message.properties
 
-    try {
-      const { body } = message.properties
-
-      if (isPresentationExchangeRecordProposalSent(body)) {
-        await this.onProposalSent(body)
-      } else if (isPresentationExchangeRecordProposalReceived(body)) {
-        await this.onProposalReceived(body)
-      } else if (isPresentationExchangeRecordRequestSent(body)) {
-        await this.onRequestSent(body)
-      } else if (isPresentationExchangeRecordRequestReceived(body)) {
-        await this.onRequestReceived(body)
-      } else if (isPresentationExchangeRecordPresentationSent(body)) {
-        await this.onPresentationSent(body)
-      } else if (isPresentationExchangeRecordPresentationReceived(body)) {
-        await this.onPresentationReceived(body)
-      } else if (isPresentationExchangeRecordVerified(body)) {
-        await this.onVerified(body)
-      }
-      response = new UlaResponse({ statusCode: 200, body: {} })
-    } catch (err) {
-      response = new UlaResponse({
-        statusCode: 500,
-        body: {
-          error: err
-        }
-      })
+    if (isPresentationExchangeRecordProposalSent(body)) {
+      await this.onProposalSent(body)
+    } else if (isPresentationExchangeRecordProposalReceived(body)) {
+      await this.onProposalReceived(body)
+    } else if (isPresentationExchangeRecordRequestSent(body)) {
+      await this.onRequestSent(body)
+    } else if (isPresentationExchangeRecordRequestReceived(body)) {
+      await this.onRequestReceived(body)
+    } else if (isPresentationExchangeRecordPresentationSent(body)) {
+      await this.onPresentationSent(body)
+    } else if (isPresentationExchangeRecordPresentationReceived(body)) {
+      await this.onPresentationReceived(body)
+    } else if (isPresentationExchangeRecordVerified(body)) {
+      await this.onVerified(body)
     }
 
-    callback(response)
+    const response = new UlaResponse({ statusCode: 200, body: {} })
 
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    callback(response)
+    return 'success'
   }
 
   abstract async onProposalSent(

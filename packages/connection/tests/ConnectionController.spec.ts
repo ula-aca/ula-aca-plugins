@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import sinon from 'sinon'
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
-import sinon from 'sinon'
 import {
   ConnectionApi,
   TrustpingApi,
   BasicmessageApi
 } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction,
-  stubInterfaceRejectsFunction
-} from '@ula-aca/test-utils'
-
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
 import { PairwiseConnectionRecordState } from '@ula-aca/webhook-event-models'
+
 import {
   ConnectionController,
   ConnectionMessageTypes,
@@ -52,7 +48,7 @@ describe('[package] @ula-aca/connection', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      connectionControllerPlugin = new ConnectionController('http://url.test')
+      connectionControllerPlugin = new ConnectionController()
       connectionControllerPlugin.initialize(eventHandler)
     })
 
@@ -86,120 +82,6 @@ describe('[package] @ula-aca/connection', () => {
 
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        connectionApiStubbed = stubInterfaceFunction({
-          Class: ConnectionApi,
-          functionName: 'connectionsGet',
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: ConnectionMessageTypes.GET_CONNECTIONS,
-          body: {}
-        } as GetConnectionsMessage)
-
-        const eventRes = await connectionControllerPlugin.handleEvent(
-          message,
-          () => {}
-        )
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        connectionApiStubbed = stubInterfaceFunction({
-          Class: ConnectionApi,
-          functionName: 'connectionsCreateInvitationPost',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: ConnectionMessageTypes.CREATE_INVITATION
-        } as CreateInvitationMessage)
-
-        await connectionControllerPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
-      })
-
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        connectionApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: ConnectionApi,
-          functionName: 'connectionsGet',
-          data
-        })
-
-        const message = new Message({
-          type: ConnectionMessageTypes.GET_CONNECTIONS
-        } as GetConnectionsMessage)
-
-        await connectionControllerPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
-      })
-
-      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
-        const data = new Error('Something went wrong')
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        connectionApiStubbed = stubInterfaceRejectsFunction({
-          Class: ConnectionApi,
-          functionName: 'connectionsGet',
-          data
-        })
-
-        const message = new Message({
-          type: ConnectionMessageTypes.GET_CONNECTIONS
-        } as GetConnectionsMessage)
-
-        await connectionControllerPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
       })
     })
 

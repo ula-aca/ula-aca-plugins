@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { CredentialDefinitionApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction,
-  stubInterfaceRejectsFunction
-} from '@ula-aca/test-utils'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
+
 import {
   CredentialDefinitionController,
   GetCreatedCredentialDefinitionsMessage,
@@ -37,9 +35,7 @@ describe('[package] @ula-aca/credential-definition', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      credentialDefinitionPlugin = new CredentialDefinitionController(
-        'http://url.test'
-      )
+      credentialDefinitionPlugin = new CredentialDefinitionController()
       credentialDefinitionPlugin.initialize(eventHandler)
     })
 
@@ -74,134 +70,6 @@ describe('[package] @ula-aca/credential-definition', () => {
 
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        credentialDefinitionApiStubbed = stubInterfaceFunction({
-          Class: CredentialDefinitionApi,
-          functionName: 'credentialDefinitionsCreatedGet',
-          status: statusCode
-        })
-
-        const message = new Message({
-          type:
-            '@ula-aca/credential-definition/get-created-credential-definitions'
-        } as GetCreatedCredentialDefinitionsMessage)
-
-        const eventRes = await credentialDefinitionPlugin.handleEvent(
-          message,
-          () => {}
-        )
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const credentialDefinitionId = 'Non-existent credential definition id'
-        const data = '500 Internal Server Error\n\nServer got itself in trouble'
-
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        credentialDefinitionApiStubbed = stubInterfaceFunction({
-          Class: CredentialDefinitionApi,
-          functionName: 'credentialDefinitionsIdGet',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type:
-            '@ula-aca/credential-definition/get-credential-definition-by-id',
-          body: { credential_definition_id: credentialDefinitionId }
-        } as GetCredentialDefinitionByIdMessage)
-
-        await credentialDefinitionPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
-      })
-
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const credentialDefinitionId =
-          'Bqqp9wananY4uW2pRHACiT:3:CL:10:my-cred-def'
-
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        credentialDefinitionApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: CredentialDefinitionApi,
-          functionName: 'credentialDefinitionsIdGet',
-          data
-        })
-
-        const message = new Message({
-          type:
-            '@ula-aca/credential-definition/get-credential-definition-by-id',
-          body: { credential_definition_id: credentialDefinitionId }
-        } as GetCredentialDefinitionByIdMessage)
-
-        await credentialDefinitionPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
-      })
-
-      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
-        const credentialDefinitionId =
-          'Bqqp9wananY4uW2pRHACiT:3:CL:10:my-cred-def'
-
-        const data = new Error('Something went wrong')
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        credentialDefinitionApiStubbed = stubInterfaceRejectsFunction({
-          Class: CredentialDefinitionApi,
-          functionName: 'credentialDefinitionsIdGet',
-          data
-        })
-
-        const message = new Message({
-          type:
-            '@ula-aca/credential-definition/get-credential-definition-by-id',
-          body: { credential_definition_id: credentialDefinitionId }
-        } as GetCredentialDefinitionByIdMessage)
-
-        await credentialDefinitionPlugin.handleEvent(
-          message,
-          (res: UlaResponse) => {
-            res.should.deep.equal(expectedResult)
-          }
-        )
       })
 
       describe('events', () => {

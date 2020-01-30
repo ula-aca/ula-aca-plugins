@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { WalletApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction,
-  stubInterfaceRejectsFunction
-} from '@ula-aca/test-utils'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
+
 import {
   WalletController,
   GetDidsMessage,
@@ -40,7 +38,7 @@ describe('[package] @ula-aca/wallet', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      walletPlugin = new WalletController('http://url.test')
+      walletPlugin = new WalletController()
       walletPlugin.initialize(eventHandler)
     })
 
@@ -69,121 +67,6 @@ describe('[package] @ula-aca/wallet', () => {
 
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const data = {
-          results: [
-            {
-              public: false,
-              did: 'WgWxqztrNooG92RXvxSTWv',
-              verkey: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV'
-            }
-          ]
-        }
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        walletApiStubbed = stubInterfaceFunction({
-          Class: WalletApi,
-          functionName: 'walletDidGet',
-          data,
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: '@ula-aca/wallet/get-dids',
-          body: {}
-        } as GetDidsMessage)
-
-        const eventRes = await walletPlugin.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        walletApiStubbed = stubInterfaceFunction({
-          Class: WalletApi,
-          functionName: 'walletDidGet',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: '@ula-aca/wallet/get-dids',
-          body: {}
-        } as GetDidsMessage)
-
-        await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        walletApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: WalletApi,
-          functionName: 'walletDidGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/wallet/get-dids',
-          body: {}
-        } as GetDidsMessage)
-
-        await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
-        const data = new Error('Something went wrong')
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        walletApiStubbed = stubInterfaceRejectsFunction({
-          Class: WalletApi,
-          functionName: 'walletDidGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/wallet/get-dids',
-          body: {}
-        } as GetDidsMessage)
-
-        await walletPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
       })
     })
 

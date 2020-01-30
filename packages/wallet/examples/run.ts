@@ -36,7 +36,10 @@ import {
 } from '../src'
 
 async function run(): Promise<void> {
-  const walletController = new WalletController(process.env.FABER_ACA_URL)
+  const walletController = new WalletController({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    basePath: process.env.FABER_ACA_URL!
+  })
   const eventHandler = new EventHandler([walletController])
 
   // TODO: create credential definition to use

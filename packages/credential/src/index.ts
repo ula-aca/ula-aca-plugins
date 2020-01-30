@@ -14,7 +14,5 @@
  * limitations under the License.
  */
 
-import { CredentialController } from './CredentialController'
-
-export { CredentialController }
+export * from './CredentialController'
 export * from './messages'

@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { LedgerApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction,
-  stubInterfaceRejectsFunction
-} from '@ula-aca/test-utils'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
+
 import {
   LedgerController,
   GetTransactionAuthorAgreementMessage,
@@ -39,7 +37,7 @@ describe('[package] @ula-aca/ledger', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      ledgerPlugin = new LedgerController('http://url.test')
+      ledgerPlugin = new LedgerController()
       ledgerPlugin.initialize(eventHandler)
     })
 
@@ -68,127 +66,6 @@ describe('[package] @ula-aca/ledger', () => {
 
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        ledgerApiStubbed = stubInterfaceFunction({
-          Class: LedgerApi,
-          functionName: 'ledgerTaaGet',
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: '@ula-aca/ledger/get-transaction-author-agreement'
-        } as GetTransactionAuthorAgreementMessage)
-
-        const eventRes = await ledgerPlugin.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const body = {
-          mechanism: 'string',
-          version: 'string',
-          text: 'string'
-        }
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        ledgerApiStubbed = stubInterfaceFunction({
-          Class: LedgerApi,
-          functionName: 'ledgerTaaAcceptPost',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: '@ula-aca/ledger/accept-transaction-author-agreement',
-          body
-        } as AcceptTransactionAuthorAgreementMessage)
-
-        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const body = {
-          mechanism: 'string',
-          version: 'string',
-          text: 'string'
-        }
-
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        ledgerApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: LedgerApi,
-          functionName: 'ledgerTaaAcceptPost',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/ledger/accept-transaction-author-agreement',
-          body
-        } as AcceptTransactionAuthorAgreementMessage)
-
-        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
-        const body = {
-          mechanism: 'string',
-          version: 'string',
-          text: 'string'
-        }
-
-        const data = new Error('Something went wrong')
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        ledgerApiStubbed = stubInterfaceRejectsFunction({
-          Class: LedgerApi,
-          functionName: 'ledgerTaaAcceptPost',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/ledger/accept-transaction-author-agreement',
-          body
-        } as AcceptTransactionAuthorAgreementMessage)
-
-        await ledgerPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
       })
     })
 

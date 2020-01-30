@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
+
+import { AcaEventPlugin, UlaCallback } from '@ula-aca/core'
 import {
   isPairwiseConnectionRecordInit,
   PairwiseConnectionRecordInit,
@@ -40,21 +37,13 @@ import {
   isBasicMessageEventMessage
 } from '@ula-aca/webhook-event-models'
 
-abstract class ConnectionEventHandler implements Plugin {
-  protected eventHandler?: EventHandler
-
-  initialize(eventHandler: EventHandler): void {
-    this.eventHandler = eventHandler
-  }
-
+abstract class ConnectionEventHandler extends AcaEventPlugin {
   get name(): string {
     return '@ula-aca/connection/ConnectionEventHandler'
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaEventPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (
       !isConnectionEventMessage(message.properties) &&
       !isBasicMessageEventMessage(message.properties)
@@ -62,47 +51,34 @@ abstract class ConnectionEventHandler implements Plugin {
       return 'ignored'
     }
 
-    let response: UlaResponse
+    if (isConnectionEventMessage(message.properties)) {
+      const { body } = message.properties
 
-    try {
-      if (isConnectionEventMessage(message.properties)) {
-        const { body } = message.properties
-
-        if (isPairwiseConnectionRecordInit(body)) {
-          await this.onInit(body)
-        } else if (isPairwiseConnectionRecordInvitation(body)) {
-          await this.onInvitation(body)
-        } else if (isPairwiseConnectionRecordRequest(body)) {
-          await this.onRequest(body)
-        } else if (isPairwiseConnectionRecordResponse(body)) {
-          await this.onResponse(body)
-        } else if (isPairwiseConnectionRecordActive(body)) {
-          await this.onActive(body)
-        } else if (isPairwiseConnectionRecordInactive(body)) {
-          await this.onInactive(body)
-        } else if (isPairwiseConnectionRecordError(body)) {
-          await this.onError(body)
-        } else {
-          throw new Error(`Unknown state: ${body.state}`)
-        }
+      if (isPairwiseConnectionRecordInit(body)) {
+        await this.onInit(body)
+      } else if (isPairwiseConnectionRecordInvitation(body)) {
+        await this.onInvitation(body)
+      } else if (isPairwiseConnectionRecordRequest(body)) {
+        await this.onRequest(body)
+      } else if (isPairwiseConnectionRecordResponse(body)) {
+        await this.onResponse(body)
+      } else if (isPairwiseConnectionRecordActive(body)) {
+        await this.onActive(body)
+      } else if (isPairwiseConnectionRecordInactive(body)) {
+        await this.onInactive(body)
+      } else if (isPairwiseConnectionRecordError(body)) {
+        await this.onError(body)
       } else {
-        await this.onBasicMessage(message.properties.body)
+        throw new Error(`Unknown state: ${body.state}`)
       }
-      response = new UlaResponse({ statusCode: 200, body: {} })
-    } catch (err) {
-      response = new UlaResponse({
-        statusCode: 500,
-        body: {
-          error: err
-        }
-      })
+    } else {
+      await this.onBasicMessage(message.properties.body)
     }
 
-    callback(response)
+    const response = new UlaResponse({ statusCode: 200, body: {} })
 
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    callback(response)
+    return 'success'
   }
 
   abstract async onBasicMessage(message: BasicMessage): Promise<void>

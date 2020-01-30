@@ -32,9 +32,10 @@ import {
 } from '../src'
 
 async function run(): Promise<void> {
-  const credentialDefinitionController = new CredentialDefinitionController(
-    process.env.FABER_ACA_URL
-  )
+  const credentialDefinitionController = new CredentialDefinitionController({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    basePath: process.env.FABER_ACA_URL!
+  })
   const eventHandler = new EventHandler([credentialDefinitionController])
 
   // --- CREATE_CREDENTIAL_DEFINITION ---

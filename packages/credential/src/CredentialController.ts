@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  Message,
-  UlaResponse,
-  EventHandler
-} from 'universal-ledger-agent'
+import { UlaResponse, Message } from 'universal-ledger-agent'
 
+import { CredentialsApi } from '@ula-aca/aries-cloudagent-interface'
 import {
-  Configuration,
-  CredentialsApi
-} from '@ula-aca/aries-cloudagent-interface'
-import { AxiosError } from 'axios'
+  AcaControllerPlugin,
+  AcaControllerPluginOptions,
+  UlaCallback
+} from '@ula-aca/core'
+
 import {
   GetCredentialsBody,
   isCredentialMessage,
@@ -35,19 +32,14 @@ import {
   GetCredentialByIdResult
 } from './messages'
 
-class CredentialController implements Plugin {
+class CredentialController extends AcaControllerPlugin {
   private credentialApi: CredentialsApi
 
-  constructor(acaUrl: string) {
-    const apiConfig = new Configuration({
-      basePath: acaUrl
-    })
+  constructor(options?: AcaControllerPluginOptions) {
+    super(options)
 
-    this.credentialApi = new CredentialsApi(apiConfig)
+    this.credentialApi = new CredentialsApi(this.apiConfig)
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  initialize(_eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/credential/CredentialController'
@@ -92,60 +84,28 @@ class CredentialController implements Plugin {
     })
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaControllerPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isCredentialMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
 
-    try {
-      switch (message.properties.type) {
-        case CredentialMessageTypes.GET_CREDENTIALS:
-          response = await this.getCredentials(message.properties.body)
-          break
-        case CredentialMessageTypes.GET_CREDENTIAL_BY_ID:
-          response = await this.getCredentialById(message.properties.body)
-          break
-        case CredentialMessageTypes.REMOVE_CREDENTIAL:
-          response = await this.removeCredential(message.properties.body)
-          break
-      }
-    } catch (err) {
-      const axiosErr = err as AxiosError
-      if (axiosErr.response) {
-        response = new UlaResponse({
-          statusCode: axiosErr.response.status,
-          body: {
-            error: axiosErr.response.data
-          }
-        })
-      } else if (axiosErr.toJSON) {
-        // couldn't get repsonse
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: axiosErr.toJSON()
-          }
-        })
-      } else {
-        // not an axios error
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: err
-          }
-        })
-      }
+    switch (message.properties.type) {
+      case CredentialMessageTypes.GET_CREDENTIALS:
+        response = await this.getCredentials(message.properties.body)
+        break
+      case CredentialMessageTypes.GET_CREDENTIAL_BY_ID:
+        response = await this.getCredentialById(message.properties.body)
+        break
+      case CredentialMessageTypes.REMOVE_CREDENTIAL:
+        response = await this.removeCredential(message.properties.body)
+        break
     }
 
-    await callback(response)
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    callback(response)
+    return 'success'
   }
 }
 

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  Plugin,
-  Message,
-  UlaResponse,
-  EventHandler
-} from 'universal-ledger-agent'
+import { Message, UlaResponse } from 'universal-ledger-agent'
 
-import { Configuration, WalletApi } from '@ula-aca/aries-cloudagent-interface'
-import { AxiosError } from 'axios'
+import { WalletApi } from '@ula-aca/aries-cloudagent-interface'
+import {
+  AcaControllerPlugin,
+  AcaControllerPluginOptions,
+  UlaCallback
+} from '@ula-aca/core'
+
 import {
   GetDidsBody,
   AssignPublicDidBody,
@@ -33,19 +33,14 @@ import {
   SetTagPolicyResult
 } from './messages'
 
-class WalletController implements Plugin {
+class WalletController extends AcaControllerPlugin {
   private walletApi: WalletApi
 
-  constructor(acaUrl: string) {
-    const apiConfig = new Configuration({
-      basePath: acaUrl
-    })
+  constructor(options?: AcaControllerPluginOptions) {
+    super(options)
 
-    this.walletApi = new WalletApi(apiConfig)
+    this.walletApi = new WalletApi(this.apiConfig)
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  initialize(_eventHandler: EventHandler): void {}
 
   get name(): string {
     return '@ula-aca/wallet/WalletController'
@@ -123,70 +118,37 @@ class WalletController implements Plugin {
     })
   }
 
-  async handleEvent(
-    message: Message,
-    callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  @AcaControllerPlugin.handleError
+  async handleEvent(message: Message, callback: UlaCallback): Promise<string> {
     if (!isWalletMessage(message.properties)) {
       return 'ignored'
     }
 
     let response: UlaResponse
 
-    try {
-      switch (message.properties.type) {
-        case WalletMessageTypes.GET_DIDS:
-          response = await this.getDids(message.properties.body)
-          break
-        case WalletMessageTypes.CREATE_LOCAL_DID:
-          response = await this.createLocalDid()
-          break
-        case WalletMessageTypes.FETCH_PUBLIC_DID:
-          response = await this.fetchPublicDid()
-          break
-        case WalletMessageTypes.ASSIGN_PUBLIC_DID:
-          response = await this.assignPublicDid(message.properties.body)
-          break
-        case WalletMessageTypes.GET_TAG_POLICY:
-          response = await this.getTagPolicy(message.properties.body)
-          break
-        case WalletMessageTypes.SET_TAG_POLICY:
-          response = await this.setTagPolicy(message.properties.body)
-          break
-      }
-    } catch (err) {
-      const axiosErr = err as AxiosError
-
-      if (axiosErr.response) {
-        response = new UlaResponse({
-          statusCode: axiosErr.response.status,
-          body: {
-            error: axiosErr.response.data
-          }
-        })
-      } else if (axiosErr.toJSON) {
-        // couldn't get repsonse
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: axiosErr.toJSON()
-          }
-        })
-      } else {
-        // not an axios error
-        response = new UlaResponse({
-          statusCode: 500,
-          body: {
-            error: err
-          }
-        })
-      }
+    switch (message.properties.type) {
+      case WalletMessageTypes.GET_DIDS:
+        response = await this.getDids(message.properties.body)
+        break
+      case WalletMessageTypes.CREATE_LOCAL_DID:
+        response = await this.createLocalDid()
+        break
+      case WalletMessageTypes.FETCH_PUBLIC_DID:
+        response = await this.fetchPublicDid()
+        break
+      case WalletMessageTypes.ASSIGN_PUBLIC_DID:
+        response = await this.assignPublicDid(message.properties.body)
+        break
+      case WalletMessageTypes.GET_TAG_POLICY:
+        response = await this.getTagPolicy(message.properties.body)
+        break
+      case WalletMessageTypes.SET_TAG_POLICY:
+        response = await this.setTagPolicy(message.properties.body)
+        break
     }
 
-    await callback(response)
-    return response.statusCode < 200 || response.statusCode >= 300
-      ? 'error'
-      : 'success'
+    callback(response)
+    return 'success'
   }
 }
 

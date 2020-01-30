@@ -15,10 +15,15 @@
  */
 
 import { EventHandler, Plugin } from 'universal-ledger-agent'
+
+import { ConnectionController } from '@ula-aca/connection'
+import { AcaControllerPluginOptions } from '@ula-aca/core'
 import { CredentialDefinitionController } from '@ula-aca/credential-definition'
+import { CredentialController } from '@ula-aca/credential/src'
 import { IssueCredentialController } from '@ula-aca/issue-credential'
 import { PresentProofController } from '@ula-aca/present-proof'
-import { CredentialController } from '@ula-aca/credential/src'
+import { SchemaController } from '@ula-aca/schema'
+import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 
 function getEventHandler({
   acaUrl,
@@ -33,19 +38,26 @@ function getEventHandler({
   webhookEventHandlerPlugins?: Plugin[]
 }): EventHandler {
   // Standard Plugins
-  const connectionController = new ConnectionController(acaUrl)
-  const schemaController = new SchemaController(acaUrl)
-  const issueCredentialController = new IssueCredentialController(acaUrl)
-  const presentProofController = new PresentProofController(acaUrl)
+  const configuration: AcaControllerPluginOptions = {
+    basePath: acaUrl
+  }
+  const connectionController = new ConnectionController(configuration)
+  const schemaController = new SchemaController(configuration)
+  const issueCredentialController = new IssueCredentialController(configuration)
+  const presentProofController = new PresentProofController(configuration)
   const credentialDefinitionController = new CredentialDefinitionController(
-    acaUrl
+    configuration
   )
-  const credentialController = new CredentialController(acaUrl)
+  const credentialController = new CredentialController(configuration)
+
+  const headers: { [key: string]: string } = {}
+
+  if (acaWhrApiKey) {
+    headers.Authorization = acaWhrApiKey
+  }
 
   const webhookRelay = new WebhookRelayEventRouter(acaWhrUrl, {
-    headers: {
-      Authorization: acaWhrApiKey
-    }
+    headers
   })
 
   const eventHandler = new EventHandler([

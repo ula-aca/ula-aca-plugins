@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { SchemaApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction,
-  stubInterfaceRejectsFunction
-} from '@ula-aca/test-utils'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
+
 import {
   SchemaController,
   GetCreatedSchemasMessage,
@@ -37,7 +35,7 @@ describe('[package] @ula-aca/schema', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      schemaPlugin = new SchemaController('http://url.test')
+      schemaPlugin = new SchemaController()
       schemaPlugin.initialize(eventHandler)
     })
 
@@ -67,116 +65,6 @@ describe('[package] @ula-aca/schema', () => {
 
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        schemaApiStubbed = stubInterfaceFunction({
-          Class: SchemaApi,
-          functionName: 'schemasCreatedGet',
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: '@ula-aca/schema/get-created-schemas'
-        } as GetCreatedSchemasMessage)
-
-        const eventRes = await schemaPlugin.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const schemaId = 'Non-existent schema id'
-        const data = '500 Internal Server Error\n\nServer got itself in trouble'
-
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        schemaApiStubbed = stubInterfaceFunction({
-          Class: SchemaApi,
-          functionName: 'schemasIdGet',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: '@ula-aca/schema/get-schema-by-id',
-          body: { schema_id: schemaId }
-        } as GetSchemaByIdMessage)
-
-        await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const schemaId = 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
-
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        schemaApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: SchemaApi,
-          functionName: 'schemasIdGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/schema/get-schema-by-id',
-          body: { schema_id: schemaId }
-        } as GetSchemaByIdMessage)
-
-        await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
-        const schemaId = 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0'
-
-        const data = new Error('Something went wrong')
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        schemaApiStubbed = stubInterfaceRejectsFunction({
-          Class: SchemaApi,
-          functionName: 'schemasIdGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/schema/get-schema-by-id',
-          body: { schema_id: schemaId }
-        } as GetSchemaByIdMessage)
-
-        await schemaPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
       })
 
       describe('events', () => {

@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { CredentialsApi } from '@ula-aca/aries-cloudagent-interface'
-import {
-  stubInterfaceFunction,
-  stubNoAxiosResponseInterfaceFunction,
-  stubInterfaceRejectsFunction
-} from '@ula-aca/test-utils'
+import { stubInterfaceFunction } from '@ula-aca/test-utils'
 
 import {
   CredentialController,
@@ -38,7 +35,7 @@ describe('[package] @ula-aca/credential', () => {
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
-      credentialPlugin = new CredentialController('http://url.test')
+      credentialPlugin = new CredentialController()
       credentialPlugin.initialize(eventHandler)
     })
 
@@ -70,121 +67,6 @@ describe('[package] @ula-aca/credential', () => {
 
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        credentialApiStubbed = stubInterfaceFunction({
-          Class: CredentialsApi,
-          functionName: 'credentialsGet',
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: '@ula-aca/credential/get-credentials'
-        } as GetCredentialsMessage)
-
-        const eventRes = await credentialPlugin.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const body = {
-          count: '1'
-        }
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        credentialApiStubbed = stubInterfaceFunction({
-          Class: CredentialsApi,
-          functionName: 'credentialsGet',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: '@ula-aca/credential/get-credentials',
-          body
-        } as GetCredentialsMessage)
-
-        await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the axiosErr and status 500 when there is no response from the API', async () => {
-        const body = {
-          count: '1'
-        }
-
-        const data = {
-          message: 'Error'
-        }
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        credentialApiStubbed = stubNoAxiosResponseInterfaceFunction({
-          Class: CredentialsApi,
-          functionName: 'credentialsGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/credential/get-credentials',
-          body
-        } as GetCredentialsMessage)
-
-        await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
-      })
-
-      it('should call the callback with the the error and status 500 when the error is not an AxiosError', async () => {
-        const body = {
-          count: '1'
-        }
-
-        const data = new Error('Something went wrong')
-        const statusCode = 500
-
-        const expectedResult = new UlaResponse({
-          body: {
-            error: data
-          },
-          statusCode
-        })
-
-        credentialApiStubbed = stubInterfaceRejectsFunction({
-          Class: CredentialsApi,
-          functionName: 'credentialsGet',
-          data
-        })
-
-        const message = new Message({
-          type: '@ula-aca/credential/get-credentials',
-          body
-        } as GetCredentialsMessage)
-
-        await credentialPlugin.handleEvent(message, (res: UlaResponse) => {
-          res.should.deep.equal(expectedResult)
-        })
       })
     })
 

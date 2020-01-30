@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 import sinon from 'sinon'
+import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
+
 import { stubInterfaceFunction } from '@ula-aca/test-utils'
 
 import { IssueCredentialEventHandler } from '../src'
@@ -77,71 +78,6 @@ describe('[package] @ula-aca/present-proof', () => {
           const response = await issueHandler.handleEvent(message, () => {})
           response.should.equal('ignored')
         }
-      })
-
-      it("should return 'error' when statusCode is not in range 200-299", async () => {
-        const data = {
-          raw_credential: {},
-          parent_thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          credential_definition_id: 'WgWxqztrNooG92RXvxSTWv:3:CL:20:tag',
-          credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          auto_offer: false,
-          role: 'issuer',
-          credential_offer: {},
-          state: 'proposal_sent',
-          credential_request: {},
-          initiator: 'self',
-          credential: {},
-          created_at: '2019-12-12 12:05:38Z',
-          credential_request_metadata: {},
-          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          schema_id: 'WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0',
-          credential_proposal_dict: {},
-          updated_at: '2019-12-12 12:05:38Z',
-          credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          error_msg: 'credential definition identifier is not set in proposal',
-          auto_issue: false
-        }
-        const statusCode = 300
-        const expectedResult = 'error'
-
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onProposalSent',
-          data,
-          status: statusCode
-        })
-
-        const message = new Message({
-          type: '@ula-aca/issue-credential-event',
-          body: {}
-        })
-
-        const eventRes = await issueHandler.handleEvent(message, () => {})
-
-        eventRes.should.equal(expectedResult)
-      })
-      it('should call the callback with the error and statusCode when an API call fails', async () => {
-        const data = '400: Bad Request'
-        const statusCode = 400
-
-        issueHandlerStubbed = stubInterfaceFunction({
-          Class: IssueHandler,
-          functionName: 'onProposalSent',
-          data,
-          status: statusCode,
-          rejects: true
-        })
-
-        const message = new Message({
-          type: '@ula-aca/issue-credential-event',
-          body: {}
-        })
-
-        await issueHandler.handleEvent(message, (res: UlaResponse) => {
-          res.statusCode.should.equal(500)
-        })
       })
     })
 

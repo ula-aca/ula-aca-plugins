@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import { PresentProofController } from './PresentProofController'
-import { PresentProofEventHandler } from './PresentProofEventHandler'
-
-export { PresentProofController, PresentProofEventHandler }
+export * from './PresentProofController'
+export * from './PresentProofEventHandler'
 
 export * from './messages'
