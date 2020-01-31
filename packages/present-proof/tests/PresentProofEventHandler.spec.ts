@@ -16,7 +16,6 @@
 import sinon from 'sinon'
 import { EventHandler, Message, UlaResponse } from 'universal-ledger-agent'
 
-import { stubInterfaceFunction } from '@ula-aca/test-utils'
 import {
   PresentationExchangeRecordProposalSent,
   PresentationExchangeRecordProposalReceived,
@@ -24,7 +23,9 @@ import {
   PresentationExchangeRecordRequestReceived,
   PresentationExchangeRecordPresentationSent,
   PresentationExchangeRecordPresentationReceived,
-  PresentationExchangeRecordVerified
+  PresentationExchangeRecordVerified,
+  PresentProofEventMessage,
+  PresentationExchangeRecordState
 } from '@ula-aca/webhook-event-models'
 
 import { PresentProofEventHandler } from '../src'
@@ -65,7 +66,7 @@ describe('[package] @ula-aca/present-proof', () => {
   describe('[plugin] PresentProofEventHandler', () => {
     let eventHandler: EventHandler
     let proofHandler: ProofHandler
-    let proofHandlerStubbed: sinon.SinonStub<any, any>
+    let proofHandlerStubbed: sinon.SinonStub<[any], Promise<void>>
 
     beforeEach(() => {
       eventHandler = new EventHandler([])
@@ -103,11 +104,23 @@ describe('[package] @ula-aca/present-proof', () => {
     })
 
     describe('@ula-aca/present-proof-event events', () => {
+      it('it should call the callback with an error if the connection state is not a known state', async () => {
+        const data = {
+          state: 'unknown'
+        }
+
+        const message = new Message({
+          type: '@ula-aca/present-proof-event',
+          body: data
+        } as PresentProofEventMessage)
+
+        await proofHandler.handleEvent(message, (res: UlaResponse) => {
+          res.statusCode.should.equal(500)
+        })
+      })
+
       it('proposal_sent status should result in onProposalSent() callback call', async () => {
-        const statusCode = 200
-
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -115,35 +128,27 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'proposal_sent'
+          state: PresentationExchangeRecordState.PROPOSAL_SENT
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onProposalSent',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onProposalSent')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('proposal_received status should result in onProposalReceived() callback call', async () => {
-        const statusCode = 200
-
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -151,35 +156,27 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'proposal_received'
+          state: PresentationExchangeRecordState.PROPOSAL_RECEIVED
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onProposalReceived',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onProposalReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('request_sent status should result in onRequestSent() callback call', async () => {
-        const statusCode = 200
-
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -187,35 +184,27 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'request_sent'
+          state: PresentationExchangeRecordState.REQUEST_SENT
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onRequestSent',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onRequestSent')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('request_received status should result in onRequestReceived() callback call', async () => {
-        const statusCode = 200
-
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -223,35 +212,27 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'request_received'
+          state: PresentationExchangeRecordState.REQUEST_RECEIVED
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onRequestReceived',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onRequestReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('presentation_sent status should result in onPresentationSent() callback call', async () => {
-        const statusCode = 200
-
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -259,35 +240,27 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'presentation_sent'
+          state: PresentationExchangeRecordState.PRESENTATION_SENT
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onPresentationSent',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onPresentationSent')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
+
       it('presentation_received status should result in onPresentationReceived() callback call', async () => {
-        const statusCode = 200
-
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -295,35 +268,27 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'presentation_received'
+          state: PresentationExchangeRecordState.PRESENTATION_RECEIVED
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onPresentationReceived',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onPresentationReceived')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
-      it('verified status should result in onVerified() callback call', async () => {
-        const statusCode = 200
 
+      it('verified status should result in onVerified() callback call', async () => {
         const data = {
-          presentation: {},
           error_msg: 'Invalid structure',
           verified: 'true',
           auto_present: false,
@@ -331,27 +296,21 @@ describe('[package] @ula-aca/present-proof', () => {
           thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           initiator: 'self',
           presentation_proposal_dict: {},
-          role: 'prover',
-          presentation_request: {},
-          created_at: '2019-12-12 12:05:38Z',
           presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          updated_at: '2019-12-12 12:05:38Z',
-          state: 'verified'
+          state: PresentationExchangeRecordState.VERIFIED
         }
 
-        proofHandlerStubbed = stubInterfaceFunction({
-          Class: ProofHandler,
-          functionName: 'onVerified',
-          status: statusCode
-        })
+        proofHandlerStubbed = sinon
+          .stub(ProofHandler.prototype, 'onVerified')
+          .resolves()
 
         const message = new Message({
           type: '@ula-aca/present-proof-event',
           body: data
-        })
+        } as PresentProofEventMessage)
 
         await proofHandler.handleEvent(message, (res: UlaResponse) => {
-          proofHandlerStubbed.calledWith(data).should.be.ok
+          proofHandlerStubbed.calledOnceWithExactly(data)
           res.statusCode.should.equal(200)
         })
       })
