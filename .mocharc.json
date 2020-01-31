@@ -1,10 +1,10 @@
 {
-  "spec": "packages/**/tests/**/*.spec.ts",
   "extension": ["js", "ts"],
   "require": [
     "tsconfig-paths/register",
     "ts-node/register",
     "source-map-support/register",
+    "dotenv/config",
     "./tests/setup.ts"
   ],
   "recursive": true,

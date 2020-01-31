@@ -3,9 +3,9 @@
   "private": true,
   "description": "Aries Cloudagent plugins for the Universal Ledger Agent",
   "scripts": {
-    "test:unit": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' nyc mocha --config .mocharc.unit.json",
-    "test:unit:raw": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' mocha --config .mocharc.unit.json",
-    "test:integration": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' mocha --config .mocharc.integration.json",
+    "test:unit": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' nyc mocha 'packages/**/tests/**/*.spec.ts'",
+    "test:unit:raw": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' mocha 'packages/**/tests/**/*.spec.ts'",
+    "test:integration": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' mocha --timeout 100000 'tests/integration/**/*.spec.ts'",
     "test:stryker": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' stryker run",
     "coverage": "nyc report",
     "prettier": "prettier --list-different '**/*.{md,json}'",

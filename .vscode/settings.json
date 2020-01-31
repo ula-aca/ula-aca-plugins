@@ -18,5 +18,13 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": ["javascript", "typescript"]
+  "eslint.validate": ["javascript", "typescript"],
+  "mochaExplorer.env": {
+    "TS_NODE_PROJECT": "config/tsconfig.test.json"
+  },
+  "mochaExplorer.files": [
+    "packages/**/tests/**/*.spec.ts",
+    "tests/integration/**/*.spec.ts"
+  ],
+  "mochaExplorer.timeout": 100000
 }

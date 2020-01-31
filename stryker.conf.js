@@ -6,7 +6,8 @@ module.exports = config => {
     reporters: ['html', 'clear-text', 'progress', 'dashboard'],
     testRunner: 'mocha',
     mochaOptions: {
-      config: '.mocharc.unit.json'
+      config: '.mocharc.json',
+      spec: ['packages/**/tests/**/*.spec.ts']
     },
     tsconfigFile: 'config/tsconfig.test.json',
     mutate: ['packages/**/src/**/*.ts'],
