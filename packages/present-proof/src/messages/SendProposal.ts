@@ -22,6 +22,7 @@ import {
 import { PresentProofMessageTypes } from './PresentProofMessageTypes'
 
 type SendProposalBody = V10PresentationProposalRequest
+
 interface SendProposalMessage {
   type: PresentProofMessageTypes.SEND_PROPOSAL
   body: SendProposalBody

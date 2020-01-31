@@ -36,7 +36,9 @@ import {
   isPresentProofMessage,
   PresentProofMessageTypes,
   GetPresentationRequestCredentialsByReferentIdBody,
-  GetRequestCredentialsResult
+  GetRequestCredentialsResult,
+  GetPresentationRequestCredentialsByReferentIdResult,
+  RemoveExchangeRecordResult
 } from './messages'
 
 class PresentProofController extends AcaControllerPlugin {
@@ -54,9 +56,10 @@ class PresentProofController extends AcaControllerPlugin {
 
   private async getAllPresentProofExchangeRecords(): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsGet()
+
     return new UlaResponse({
       statusCode: response.status,
-      body: response.data.results || []
+      body: response.data
     })
   }
 
@@ -66,6 +69,7 @@ class PresentProofController extends AcaControllerPlugin {
     const response = await this.presentProofApi.presentProofRecordsPresExIdGet(
       presentation_exchange_id
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
@@ -73,10 +77,16 @@ class PresentProofController extends AcaControllerPlugin {
   }
 
   private async getPresentationRequestCredentials({
-    presentation_exchange_id
+    presentation_exchange_id,
+    count,
+    extra_query,
+    start
   }: GetRequestCredentialsBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdCredentialsGet(
-      presentation_exchange_id
+      presentation_exchange_id,
+      start,
+      count,
+      extra_query
     )
 
     const body = (response.data as unknown) as GetRequestCredentialsResult
@@ -101,56 +111,46 @@ class PresentProofController extends AcaControllerPlugin {
       count,
       extra_query
     )
+
+    const body = (response.data as unknown) as GetPresentationRequestCredentialsByReferentIdResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 
-  private async sendPresentProofProposal({
-    comment,
-    connection_id,
-    presentation_proposal,
-    auto_present
-  }: SendProposalBody): Promise<UlaResponse> {
-    const response = await this.presentProofApi.presentProofSendProposalPost({
-      comment,
-      connection_id,
-      presentation_proposal,
-      auto_present
-    })
-    return new UlaResponse({
-      statusCode: response.status,
-      body: response.data
-    })
-  }
+  private async sendPresentProofProposal(
+    body: SendProposalBody
+  ): Promise<UlaResponse> {
+    const response = await this.presentProofApi.presentProofSendProposalPost(
+      body
+    )
 
-  private async createPresentationRequest({
-    comment,
-    proof_request,
-    connection_id
-  }: CreatePresentationRequestBody): Promise<UlaResponse> {
-    const response = await this.presentProofApi.presentProofCreateRequestPost({
-      comment,
-      proof_request,
-      connection_id
-    })
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
     })
   }
 
-  private async sendRequest({
-    comment,
-    proof_request,
-    connection_id
-  }: SendRequestBody): Promise<UlaResponse> {
-    const response = await this.presentProofApi.presentProofSendRequestPost({
-      comment,
-      proof_request,
-      connection_id
+  private async createPresentationRequest(
+    body: CreatePresentationRequestBody
+  ): Promise<UlaResponse> {
+    const response = await this.presentProofApi.presentProofCreateRequestPost(
+      body
+    )
+
+    return new UlaResponse({
+      statusCode: response.status,
+      body: response.data
     })
+  }
+
+  private async sendRequest(body: SendRequestBody): Promise<UlaResponse> {
+    const response = await this.presentProofApi.presentProofSendRequestPost(
+      body
+    )
+
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
@@ -159,18 +159,13 @@ class PresentProofController extends AcaControllerPlugin {
 
   private async sendRequestById({
     presentation_exchange_id,
-    comment,
-    proof_request,
-    connection_id
+    ...remainingBody
   }: SendRequestByIdBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdSendRequestPost(
       presentation_exchange_id,
-      {
-        comment,
-        proof_request,
-        connection_id
-      }
+      remainingBody
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
@@ -179,17 +174,11 @@ class PresentProofController extends AcaControllerPlugin {
 
   private async sendPresentation({
     presentation_exchange_id,
-    requested_attributes,
-    self_attested_attributes,
-    requested_predicates
+    ...remainingBody
   }: SendPresentationBody): Promise<UlaResponse> {
     const response = await this.presentProofApi.presentProofRecordsPresExIdSendPresentationPost(
       presentation_exchange_id,
-      {
-        requested_attributes,
-        self_attested_attributes,
-        requested_predicates
-      }
+      remainingBody
     )
 
     return new UlaResponse({
@@ -204,6 +193,7 @@ class PresentProofController extends AcaControllerPlugin {
     const response = await this.presentProofApi.presentProofRecordsPresExIdVerifyPresentationPost(
       presentation_exchange_id
     )
+
     return new UlaResponse({
       statusCode: response.status,
       body: response.data
@@ -216,9 +206,12 @@ class PresentProofController extends AcaControllerPlugin {
     const response = await this.presentProofApi.presentProofRecordsPresExIdRemovePost(
       presentation_exchange_id
     )
+
+    const body = (response.data as unknown) as RemoveExchangeRecordResult
+
     return new UlaResponse({
       statusCode: response.status,
-      body: {}
+      body
     })
   }
 

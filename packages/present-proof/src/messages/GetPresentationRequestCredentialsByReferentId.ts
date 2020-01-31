@@ -29,7 +29,11 @@ interface GetPresentationRequestCredentialsByReferentIdMessage {
   body: GetPresentationRequestCredentialsByReferentIdBody
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GetPresentationRequestCredentialsByReferentIdResult = any
+
 export {
   GetPresentationRequestCredentialsByReferentIdMessage,
-  GetPresentationRequestCredentialsByReferentIdBody
+  GetPresentationRequestCredentialsByReferentIdBody,
+  GetPresentationRequestCredentialsByReferentIdResult
 }
