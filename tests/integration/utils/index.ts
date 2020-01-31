@@ -34,7 +34,10 @@ import {
 } from '@ula-aca/present-proof'
 import { SchemaController } from '@ula-aca/schema'
 import { WalletController } from '@ula-aca/wallet'
-import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
+import {
+  WebhookRelayEventRouter,
+  WebhookRelayOptions
+} from '@ula-aca/webhook-relay-event-router'
 
 import TestConnectionEventHandler from './eventHandlers/TestConnectionEventHandler'
 import TestIssueCredentialEventHandler from './eventHandlers/TestIssueCredentialEventHandler'
@@ -75,24 +78,29 @@ function getEventHandler({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eventHandlerPlugins?: Plugin[]
 }): EventHandler {
-  const configuration: AcaControllerPluginOptions = {
+  const controllerConfiguration: AcaControllerPluginOptions = {
     basePath: acaUrl
   }
+
+  const webhookRelayRouterConfiguration: WebhookRelayOptions = {
+    url: acaWhrUrl,
+    apiKey: acaWhrApiKey,
+    fastForward: false
+  }
+
   const headers: { [key: string]: string } = {}
   if (acaWhrApiKey) headers.Authorization = acaWhrApiKey
 
   const plugins = [
-    new SchemaController(configuration),
-    new CredentialDefinitionController(configuration),
-    new ConnectionController(configuration),
-    new LedgerController(configuration),
-    new WalletController(configuration),
-    new PresentProofController(configuration),
-    new IssueCredentialController(configuration),
-    new CredentialController(configuration),
-    new WebhookRelayEventRouter(acaWhrUrl, {
-      headers
-    }),
+    new SchemaController(controllerConfiguration),
+    new CredentialDefinitionController(controllerConfiguration),
+    new ConnectionController(controllerConfiguration),
+    new LedgerController(controllerConfiguration),
+    new WalletController(controllerConfiguration),
+    new PresentProofController(controllerConfiguration),
+    new IssueCredentialController(controllerConfiguration),
+    new CredentialController(controllerConfiguration),
+    new WebhookRelayEventRouter(webhookRelayRouterConfiguration),
     ...eventHandlerPlugins
   ]
 

@@ -23,7 +23,10 @@ import { CredentialController } from '@ula-aca/credential/src'
 import { IssueCredentialController } from '@ula-aca/issue-credential'
 import { PresentProofController } from '@ula-aca/present-proof'
 import { SchemaController } from '@ula-aca/schema'
-import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
+import {
+  WebhookRelayEventRouter,
+  WebhookRelayOptions
+} from '@ula-aca/webhook-relay-event-router'
 
 function getEventHandler({
   acaUrl,
@@ -38,27 +41,32 @@ function getEventHandler({
   webhookEventHandlerPlugins?: Plugin[]
 }): EventHandler {
   // Standard Plugins
-  const configuration: AcaControllerPluginOptions = {
+  const controllerConfiguration: AcaControllerPluginOptions = {
     basePath: acaUrl
   }
-  const connectionController = new ConnectionController(configuration)
-  const schemaController = new SchemaController(configuration)
-  const issueCredentialController = new IssueCredentialController(configuration)
-  const presentProofController = new PresentProofController(configuration)
-  const credentialDefinitionController = new CredentialDefinitionController(
-    configuration
-  )
-  const credentialController = new CredentialController(configuration)
 
-  const headers: { [key: string]: string } = {}
-
-  if (acaWhrApiKey) {
-    headers.Authorization = acaWhrApiKey
+  const webhookRelayRouterConfiguration: WebhookRelayOptions = {
+    url: acaWhrUrl,
+    apiKey: acaWhrApiKey,
+    fastForward: false
   }
 
-  const webhookRelay = new WebhookRelayEventRouter(acaWhrUrl, {
-    headers
-  })
+  const connectionController = new ConnectionController(controllerConfiguration)
+  const schemaController = new SchemaController(controllerConfiguration)
+  const issueCredentialController = new IssueCredentialController(
+    controllerConfiguration
+  )
+  const presentProofController = new PresentProofController(
+    controllerConfiguration
+  )
+  const credentialDefinitionController = new CredentialDefinitionController(
+    controllerConfiguration
+  )
+  const credentialController = new CredentialController(controllerConfiguration)
+
+  const webhookRelay = new WebhookRelayEventRouter(
+    webhookRelayRouterConfiguration
+  )
 
   const eventHandler = new EventHandler([
     schemaController,

@@ -18,7 +18,10 @@ import { EventHandler } from 'universal-ledger-agent'
 
 import { AcaControllerPluginOptions } from '@ula-aca/core'
 import { logEvent } from '@ula-aca/test-utils'
-import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
+import {
+  WebhookRelayEventRouter,
+  WebhookRelayOptions
+} from '@ula-aca/webhook-relay-event-router'
 
 import { createInvitation, receiveInvitation } from '.'
 import {
@@ -33,13 +36,14 @@ async function run(): Promise<void> {
     basePath: process.env.FABER_ACA_URL
   })
 
+  const webhookRelayConfiguration: WebhookRelayOptions = {
+    url: process.env.FABER_ACA_WHR_URL,
+    apiKey: process.env.FABER_ACA_WHR_API_KEY,
+    fastForward: false
+  }
+
   const webhookRelayFaber = new WebhookRelayEventRouter(
-    process.env.FABER_ACA_WHR_URL,
-    {
-      headers: {
-        Authorization: process.env.FABER_ACA_WHR_API_KEY
-      }
-    }
+    webhookRelayConfiguration
   )
 
   const eventHandlerFaber = new EventHandler([
@@ -52,13 +56,7 @@ async function run(): Promise<void> {
   }
   const connControllerAlice = new ConnectionController(aliceConf)
   const webhookRelayAlice = new WebhookRelayEventRouter(
-    process.env.ALICE_ACA_WHR_URL,
-
-    {
-      headers: {
-        Authorization: process.env.ALICE_ACA_WHR_API_KEY
-      }
-    }
+    webhookRelayConfiguration
   )
   const eventHandlerAlice = new EventHandler([
     connControllerAlice,

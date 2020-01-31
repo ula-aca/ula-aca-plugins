@@ -20,26 +20,32 @@ import { Plugin, EventHandler } from 'universal-ledger-agent'
 import { WebhookEventTypes } from '@ula-aca/webhook-event-models'
 
 import { AriesEvent, AriesEventTopic } from './AriesEvent'
+import { WebhookRelayOptions } from './WebhookRelayOptions'
 
 class WebhookRelayEventRouter implements Plugin {
-  private webhookRelayUrl: string
-
-  private options?: WebSocket.ClientOptions
+  private options: WebhookRelayOptions
 
   private eventHandler?: EventHandler
 
-  private websocket?: WebSocket
+  private websocket: WebSocket
 
-  constructor(webhookRelayUrl: string, options?: WebSocket.ClientOptions) {
-    this.webhookRelayUrl = webhookRelayUrl
+  constructor(options: WebhookRelayOptions) {
     this.options = options
+    this.websocket = new WebSocket(this.options.url)
+  }
+
+  private performHandshake(): void {
+    const handshakeMsg = {
+      auth: this.options.apiKey,
+      fastForward: this.options.fastForward
+    }
+    this.websocket.send(JSON.stringify(handshakeMsg))
   }
 
   initialize(eventHandler: EventHandler): void {
     this.eventHandler = eventHandler
-
-    this.websocket = new WebSocket(this.webhookRelayUrl, this.options)
     this.websocket.onmessage = this.handleWebsocketMessage.bind(this)
+    this.websocket.onopen = this.performHandshake.bind(this)
   }
 
   get name(): string {
@@ -85,4 +91,4 @@ class WebhookRelayEventRouter implements Plugin {
   }
 }
 
-export { WebhookRelayEventRouter }
+export { WebhookRelayEventRouter, WebhookRelayOptions }
