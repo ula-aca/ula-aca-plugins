@@ -35,7 +35,7 @@ import {
   GetExchangeRecordByIdMessage
 } from '../src'
 
-const presentation_request_request = {
+const presentationRequestRequest = {
   connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
   comment: 'string',
   proof_request: {
@@ -153,7 +153,11 @@ describe('[package] @ula-aca/present-proof', () => {
           ]
         }
         const statusCode = 200
-        const expectedResult = 'success'
+
+        const expectedResult = new UlaResponse({
+          body: data,
+          statusCode
+        })
 
         presentProofApiStubbed = stubInterfaceFunction({
           Class: PresentProofApi,
@@ -163,20 +167,20 @@ describe('[package] @ula-aca/present-proof', () => {
         })
 
         const message = new Message({
-          type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS,
-          body: {}
+          type: PresentProofMessageTypes.GET_EXCHANGE_RECORDS
         } as GetExchangeRecordsMessage)
 
-        const eventRes = await presentProofControllerPlugin.handleEvent(
+        await presentProofControllerPlugin.handleEvent(
           message,
-          () => {}
+          (res: UlaResponse) => {
+            presentProofApiStubbed.should.have.been.calledOnce
+            res.should.deep.equal(expectedResult)
+          }
         )
-        presentProofApiStubbed.should.have.been.calledOnce
-        eventRes.should.equal(expectedResult)
       })
 
       it('@ula-aca/present-proof/get-exchange-record-by-id', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           presentation: {},
@@ -211,22 +215,43 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.GET_EXCHANGE_RECORD_BY_ID,
           body: {
-            presentation_exchange_id
+            presentation_exchange_id: presentationExchangeId
           }
         } as GetExchangeRecordByIdMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
-      it('@ula-aca/present-proof/get-presentation-request-credentials', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
-        const data = {}
+      it('@ula-aca/present-proof/get-presentation-request-credentials', async () => {
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const start = '1'
+        const count = '1'
+        const extraQuery = 'extra'
+
+        const data = [
+          {
+            cred_info: {
+              referent: '',
+              attrs: {
+                first_name: 'alice'
+              },
+              schema_id: 'schema_id',
+              cred_def_id: 'cred_def_id',
+              rev_reg_id: 'rev_reg_id',
+              cred_rev_id: 'cred_rev_id'
+            },
+            interval: 'string',
+            presentation_referents: ['something']
+          }
+        ]
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -244,23 +269,39 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS,
           body: {
-            presentation_exchange_id
+            presentation_exchange_id: presentationExchangeId,
+            start,
+            count,
+            extra_query: extraQuery
           }
         } as GetRequestCredentialsMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId,
+              start,
+              count,
+              extraQuery
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
-      it('@ula-aca/present-proof/get-presentation-request-credentials-with-referent', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-        const referent = '5717-4562-b3fc-2c963f66afa6-3fa85f64'
 
-        const data = {}
+      it('@ula-aca/present-proof/get-presentation-request-credentials-with-referent', async () => {
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const referent = '5717-4562-b3fc-2c963f66afa6-3fa85f64'
+        const start = '1'
+        const count = '1'
+        const extraQuery = 'extra'
+
+        const data = {
+          "we-don't-know-what-this-returns": 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -279,21 +320,31 @@ describe('[package] @ula-aca/present-proof', () => {
           type:
             PresentProofMessageTypes.GET_PRESENTATION_REQUEST_CREDENTIALS_WITH_REFERENT,
           body: {
-            presentation_exchange_id,
-            referent
+            presentation_exchange_id: presentationExchangeId,
+            referent,
+            start,
+            count,
+            extra_query: extraQuery
           }
         } as GetPresentationRequestCredentialsByReferentIdMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId,
+              referent,
+              start,
+              count,
+              extraQuery
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/present-proof/send-proposal', async () => {
-        const presentation_proposal_request = {
+        const presentationProposalRequest = {
           connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           presentation_proposal: {
             '@type':
@@ -351,19 +402,37 @@ describe('[package] @ula-aca/present-proof', () => {
 
         const message = new Message({
           type: PresentProofMessageTypes.SEND_PROPOSAL,
-          body: presentation_proposal_request
+          body: presentationProposalRequest
         } as SendProposalMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationProposalRequest
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/present-proof/create-presentation-request', async () => {
-        const data = {}
+        const data = {
+          presentation: {},
+          error_msg: 'Invalid structure',
+          verified: 'true',
+          auto_present: false,
+          connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          thread_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          initiator: 'self',
+          presentation_proposal_dict: {},
+          role: 'prover',
+          presentation_request: {},
+          created_at: '2019-12-12 12:05:38Z',
+          presentation_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          updated_at: '2019-12-12 12:05:38Z',
+          state: 'verified'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -380,17 +449,20 @@ describe('[package] @ula-aca/present-proof', () => {
 
         const message = new Message({
           type: PresentProofMessageTypes.CREATE_PRESENTATION_REQUEST,
-          body: presentation_request_request
+          body: presentationRequestRequest
         } as CreatePresentationRequestMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationRequestRequest
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/present-proof/send-request', async () => {
         const data = {
           presentation: {},
@@ -424,19 +496,22 @@ describe('[package] @ula-aca/present-proof', () => {
 
         const message = new Message({
           type: PresentProofMessageTypes.SEND_REQUEST,
-          body: presentation_request_request
+          body: presentationRequestRequest
         } as SendRequestMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationRequestRequest
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/present-proof/send-proof-presentation-request-by-id', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           presentation: {},
@@ -471,23 +546,27 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.SEND_REQUEST_BY_ID,
           body: {
-            presentation_exchange_id,
-            ...presentation_request_request
+            presentation_exchange_id: presentationExchangeId,
+            ...presentationRequestRequest
           }
         } as SendRequestByIdMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId,
+              presentationRequestRequest
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
-      it('@ula-aca/present-proof/send-presentation', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
-        const presentation_request = {
+      it('@ula-aca/present-proof/send-presentation', async () => {
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+
+        const presentationRequest = {
           self_attested_attributes: {
             additionalProp1: 'self_attested_value',
             additionalProp2: 'self_attested_value',
@@ -553,21 +632,25 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.SEND_PRESENTATION,
           body: {
-            presentation_exchange_id,
-            ...presentation_request
+            presentation_exchange_id: presentationExchangeId,
+            ...presentationRequest
           }
         } as SendPresentationMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId,
+              presentationRequest
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
+
       it('@ula-aca/present-proof/verify-presentation', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           presentation: {},
@@ -602,22 +685,29 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.VERIFY_PRESENTATION,
           body: {
-            presentation_exchange_id
+            presentation_exchange_id: presentationExchangeId
           }
         } as VerifyPresentationMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
       })
-      it('@ula-aca/present-proof/remove-exchange-record', async () => {
-        const presentation_exchange_id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
-        const data = {}
+      it('@ula-aca/present-proof/remove-exchange-record', async () => {
+        const presentationExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+
+        const data = {
+          "we-don't-know-what-this-returns": 'but-this-tests-that',
+          'it-will-return': 'what-is-returned',
+          'if-it-would': 'return-something'
+        }
         const statusCode = 200
 
         const expectedResult = new UlaResponse({
@@ -635,14 +725,16 @@ describe('[package] @ula-aca/present-proof', () => {
         const message = new Message({
           type: PresentProofMessageTypes.REMOVE_EXCHANGE_RECORD,
           body: {
-            presentation_exchange_id
+            presentation_exchange_id: presentationExchangeId
           }
         } as RemoveExchangeRecordMessage)
 
         await presentProofControllerPlugin.handleEvent(
           message,
           (res: UlaResponse) => {
-            presentProofApiStubbed.should.have.been.calledOnce
+            presentProofApiStubbed.should.have.been.calledOnceWithExactly(
+              presentationExchangeId
+            )
             res.should.deep.equal(expectedResult)
           }
         )
