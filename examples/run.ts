@@ -16,7 +16,6 @@
 
 const globalExamples = ['alice', 'faber', 'acme']
 const packageExamples = [
-  'connection',
   'ledger',
   'schema',
   'credential-definition',
