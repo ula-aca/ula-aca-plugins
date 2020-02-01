@@ -55,10 +55,10 @@ class IssueCredentialController extends AcaControllerPlugin {
   }
 
   private async getMimeTypes({
-    credential_exchange_id
+    credential_id
   }: GetMimeTypesBody): Promise<UlaResponse> {
     const response = await this.issueCredentialApi.issueCredentialMimeTypesCredentialIdGet(
-      credential_exchange_id
+      credential_id
     )
     return new UlaResponse({
       statusCode: response.status,

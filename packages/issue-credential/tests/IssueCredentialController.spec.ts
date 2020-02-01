@@ -83,7 +83,7 @@ describe('[package] @ula-aca/issue-credential', () => {
 
     describe('events', () => {
       it('@ula-aca/issue-credential/get-mime-types', async () => {
-        const credentialExchangeId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        const credentialId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
         const data = {
           'returns-nothing': 'but-this-tests-that',
@@ -107,7 +107,7 @@ describe('[package] @ula-aca/issue-credential', () => {
         const message = new Message({
           type: IssueCredentialMessageTypes.GET_MIME_TYPES,
           body: {
-            credential_exchange_id: credentialExchangeId
+            credential_id: credentialId
           }
         } as GetMimeTypesMessage)
 
@@ -115,7 +115,7 @@ describe('[package] @ula-aca/issue-credential', () => {
           message,
           (res: UlaResponse) => {
             issueCredentialApiStubbed.should.have.been.calledOnceWithExactly(
-              credentialExchangeId
+              credentialId
             )
             res.should.deep.equal(expectedResult)
           }

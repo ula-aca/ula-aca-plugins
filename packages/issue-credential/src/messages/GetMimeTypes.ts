@@ -19,7 +19,7 @@ import { IssueCredentialApi } from '@ula-aca/aries-cloudagent-interface'
 import { IssueCredentialMessageTypes } from './IssueCredentialMessageTypes'
 
 interface GetMimeTypesBody {
-  credential_exchange_id: string
+  credential_id: string
 }
 
 interface GetMimeTypesMessage {
