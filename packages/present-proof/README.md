@@ -45,7 +45,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: GetPresentationExchangeRecordsResult = response.body
-    console.log(result)
+    // response.body is response from /present-proof/records api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/get_present_proof_records
   }
 })
 ```
@@ -81,7 +82,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: GetPresentationExchangeRecordByIdResult = response.body
-    console.log(result)
+    // response.body is response from /present-proof/records/{pres_ex_id} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/get_present_proof_records__pres_ex_id_
   }
 })
 ```
@@ -117,7 +119,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: GetPresentationRequestCredentialsIdResult = response.body
-    console.log(result)
+    // response.body is response from ​/present-proof​/records​/{pres_ex_id}​/credentials api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/get_present_proof_records__pres_ex_id__credentials
   }
 })
 ```
@@ -156,7 +159,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   } else {
     const result: GetPresentationRequestCredentialsByReferentIdResult =
       response.body
-    console.log(result)
+    // response.body is response from /present-proof/records/{pres_ex_id}/credentials/{referent} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/get_present_proof_records__pres_ex_id__credentials__referent_
   }
 })
 ```
@@ -214,7 +218,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendPresentationProposalResult = response.body
-    console.log(result)
+    // response.body is response from ​/present-proof​/send-proposal POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_send_proposal
   }
 })
 ```
@@ -296,7 +301,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: CreatePresentationRequestResult = response.body
-    console.log(result)
+    // response.body is response from /present-proof/create-request POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_create_request
   }
 })
 ```
@@ -378,7 +384,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendPresentationRequestResult = response.body
-    console.log(result)
+    // response.body is response from /present-proof/send-request POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_send_request
   }
 })
 ```
@@ -461,7 +468,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendPresentationRequestByIdResult = response.body
-    console.log(result)
+    // response.body is response from ​/present-proof​/records​/{pres_ex_id}​/send-request POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_records__pres_ex_id__send_request
   }
 })
 ```
@@ -513,7 +521,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendPresentationResult = response.body
-    console.log(result)
+    // response.body is response from ​/present-proof​/records​/{pres_ex_id}​/send-presentation POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_records__pres_ex_id__send_presentation
   }
 })
 ```
@@ -549,7 +558,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: VerifyPresentationResult = response.body
-    console.log(result)
+    // response.body is response from ​/present-proof​/records​/{pres_ex_id}​/verify-presentation POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_records__pres_ex_id__verify_presentation
   }
 })
 ```
@@ -584,6 +594,7 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     // record removed
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/present-proof/post_present_proof_records__pres_ex_id__remove
   }
 })
 ```
