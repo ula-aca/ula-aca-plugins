@@ -10,7 +10,9 @@ This package handles everything that has to do with schemas in Hyperledger Aries
 import { EventHandler } from 'universal-ledger-agent'
 import { SchemaController } from '@ula-aca/schema'
 
-const schemaController = new SchemaController('https://aca-py-url.com')
+const schemaController = new SchemaController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([schemaController])
 ```
@@ -27,7 +29,9 @@ import {
   SchemaMessageTypes
 } from '@ula-aca/schema'
 
-const schemaController = new SchemaController('https://aca-py-api.test')
+const schemaController = new SchemaController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([schemaController])
 
@@ -61,7 +65,9 @@ import {
   SchemaMessageTypes
 } from '@ula-aca/schema'
 
-const schemaController = new SchemaController('https://aca-py-api.test')
+const schemaController = new SchemaController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([schemaController])
 
@@ -98,7 +104,9 @@ import {
   SchemaMessageTypes
 } from '@ula-aca/schema'
 
-const schemaController = new SchemaController('https://aca-py-api.test')
+const schemaController = new SchemaController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([schemaController])
 

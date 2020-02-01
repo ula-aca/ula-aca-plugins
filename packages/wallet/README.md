@@ -10,7 +10,9 @@ This package handles everything that has to do with the wallet in Hyperledger Ar
 import { EventHandler } from 'universal-ledger-agent'
 import { WalletController } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-url.com')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 ```
@@ -28,7 +30,9 @@ import {
   WalletMessageTypes
 } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-api.test')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 
@@ -65,7 +69,9 @@ import {
   WalletMessageTypes
 } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-api.test')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 
@@ -97,7 +103,9 @@ import {
   WalletMessageTypes
 } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-api.test')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 
@@ -129,7 +137,9 @@ import {
   WalletMessageTypes
 } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-api.test')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 
@@ -164,7 +174,9 @@ import {
   WalletMessageTypes
 } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-api.test')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 
@@ -199,7 +211,9 @@ import {
   WalletMessageTypes
 } from '@ula-aca/wallet'
 
-const walletController = new WalletController('https://aca-py-api.test')
+const walletController = new WalletController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([walletController])
 

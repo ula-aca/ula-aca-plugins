@@ -10,9 +10,9 @@ This package handles everything that has to do with credential definitions in Hy
 import { EventHandler } from 'universal-ledger-agent'
 import { CredentialDefinitionController } from '@ula-aca/credential-definition'
 
-const credentialDefinitionController = new CredentialDefinitionController(
-  'https://aca-py-url.com'
-)
+const credentialDefinitionController = new CredentialDefinitionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialDefinitionController])
 ```
@@ -29,9 +29,9 @@ import {
   CredentialDefinitionMessageTypes
 } from '@ula-aca/credential-definition'
 
-const credentialDefinitionController = new CredentialDefinitionController(
-  'https://aca-py-api.test'
-)
+const credentialDefinitionController = new CredentialDefinitionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialDefinitionController])
 
@@ -65,9 +65,9 @@ import {
   CredentialDefinitionMessageTypes
 } from '@ula-aca/credential-definition'
 
-const credentialDefinitionController = new CredentialDefinitionController(
-  'https://aca-py-api.test'
-)
+const credentialDefinitionController = new CredentialDefinitionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialDefinitionController])
 
@@ -106,9 +106,9 @@ import {
   CredentialDefinitionMessageTypes
 } from '@ula-aca/credential-definition'
 
-const credentialDefinitionController = new CredentialDefinitionController(
-  'https://aca-py-api.test'
-)
+const credentialDefinitionController = new CredentialDefinitionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialDefinitionController])
 

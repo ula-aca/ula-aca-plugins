@@ -10,9 +10,9 @@ This package handles everything that has to do with presenting and exchanging Ve
 import { EventHandler } from 'universal-ledger-agent'
 import { PresentProofController } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 ```
@@ -30,9 +30,9 @@ import {
   GetPresentationExchangeRecordsResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -63,9 +63,9 @@ import {
   GetPresentationExchangeRecordByIdResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -99,9 +99,9 @@ import {
   GetPresentationRequestCredentialsResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -135,9 +135,9 @@ import {
   GetPresentationRequestCredentialsByReferentIdMessage
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -174,9 +174,9 @@ import {
   SendPresentationProposalResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -232,9 +232,9 @@ import {
   CreatePresentationRequestResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -314,9 +314,9 @@ import {
   SendPresentationRequestResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -396,9 +396,9 @@ import {
   SendPresentationRequestByIdResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -479,9 +479,9 @@ import {
   SendPresentationResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -531,9 +531,9 @@ import {
   VerifyPresentationResult
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 
@@ -566,9 +566,9 @@ import {
   RemovePresentationExchangeRecordMessage
 } from '@ula-aca/present-proof'
 
-const presentProofController = new PresentProofController(
-  'https://aca-py-url.com'
-)
+const presentProofController = new PresentProofController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([presentProofController])
 

@@ -10,7 +10,9 @@ This package handles everything that has to do with issued credentials in Hyperl
 import { EventHandler } from 'universal-ledger-agent'
 import { LedgerController } from '@ula-aca/credential'
 
-const credentialController = new CredentialController('https://aca-py-url.com')
+const credentialController = new CredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialController])
 ```
@@ -28,7 +30,9 @@ import {
   CredentialMessageTypes
 } from '@ula-aca/credential'
 
-const credentialController = new CredentialController('https://aca-py-api.test')
+const credentialController = new CredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialController])
 
@@ -61,7 +65,9 @@ import {
   CredentialMessageTypes
 } from '@ula-aca/credential'
 
-const credentialController = new CredentialController('https://aca-py-api.test')
+const credentialController = new CredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialController])
 
@@ -96,7 +102,9 @@ import {
   CredentialMessageTypes
 } from '@ula-aca/credential'
 
-const credentialController = new CredentialController('https://aca-py-api.test')
+const credentialController = new CredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([credentialController])
 

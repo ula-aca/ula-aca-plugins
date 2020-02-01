@@ -12,7 +12,9 @@ This package handles everything that has to do with establishing and maintaining
 import { EventHandler } from 'universal-ledger-agent'
 import { ConnectionController } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 ```
@@ -30,7 +32,9 @@ import {
   GetConnectionsResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -63,7 +67,9 @@ import {
   GetConnectionByIdResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -98,7 +104,9 @@ import {
   CreateInvitationResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -132,7 +140,9 @@ import {
   ReceiveInvitationResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -176,7 +186,9 @@ import {
   AcceptInvitationResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -211,7 +223,9 @@ import {
   AcceptRequestResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -245,7 +259,9 @@ import {
   EstablishInboundMessage
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -279,7 +295,9 @@ import {
   RemoveConnectionMessage
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -313,7 +331,9 @@ import {
   SendPingResult
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 
@@ -348,7 +368,9 @@ import {
   SendBasicMessageMessage
 } from '@ula-aca/connection'
 
-const connectionController = new ConnectionController('https://aca-py-url.com')
+const connectionController = new ConnectionController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([connectionController])
 

@@ -10,7 +10,9 @@ This package handles everything that has to do with the ledger in Hyperledger Ar
 import { EventHandler } from 'universal-ledger-agent'
 import { LedgerController } from '@ula-aca/ledger'
 
-const ledgerController = new LedgerController('https://aca-py-url.com')
+const ledgerController = new LedgerController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([ledgerController])
 ```
@@ -28,7 +30,9 @@ import {
   LedgerMessageTypes
 } from '@ula-aca/ledger'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const ledgerController = new LedgerController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([ledgerController])
 
@@ -64,7 +68,9 @@ import {
   LedgerMessageTypes
 } from '@ula-aca/ledger'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const ledgerController = new LedgerController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([ledgerController])
 
@@ -99,7 +105,9 @@ import {
   LedgerMessageTypes
 } from '@ula-aca/ledger'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const ledgerController = new LedgerController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([ledgerController])
 
@@ -134,7 +142,9 @@ import {
   LedgerMessageTypes
 } from '@ula-aca/ledger'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const ledgerController = new LedgerController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([ledgerController])
 
@@ -166,7 +176,9 @@ import {
   LedgerMessageTypes
 } from '@ula-aca/ledger'
 
-const ledgerController = new LedgerController('https://aca-py-api.test')
+const ledgerController = new LedgerController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([ledgerController])
 

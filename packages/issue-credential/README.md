@@ -10,9 +10,9 @@ This package handles everything that has to do with issuing and exchanging Verif
 import { EventHandler } from 'universal-ledger-agent'
 import { IssueCredentialController } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 ```
@@ -40,9 +40,9 @@ import {
   GetExchangeRecordsResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -74,9 +74,9 @@ import {
   GetExchangeRecordByIdResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -110,9 +110,9 @@ import {
   SendCredentialResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -162,9 +162,9 @@ import {
   SendProposalResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -214,9 +214,9 @@ import {
   SendOfferResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -262,9 +262,9 @@ import {
   SendOfferByIdResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -298,9 +298,9 @@ import {
   SendRequestResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -334,9 +334,9 @@ import {
   IssueResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -380,9 +380,9 @@ import {
   StoreResult
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -415,9 +415,9 @@ import {
   ProblemReportMessage
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
@@ -448,9 +448,9 @@ import {
   RemoveExchangeRecordMessage
 } from '@ula-aca/issue-credential'
 
-const issueCredentialController = new IssueCredentialController(
-  'https://aca-py-url.com'
-)
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
 
 const eventHandler = new EventHandler([issueCredentialController])
 
