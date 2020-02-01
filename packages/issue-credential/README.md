@@ -25,6 +25,36 @@ Get attribute MIME types from wallet.
 > ACA-py does not return anything.
 
 ```typescript
+import { EventHandler, UlaResponse } from 'universal-ledger-agent'
+import {
+  IssueCredentialController,
+  IssueCredentialMessageTypes,
+  GetExchangeRecordsMessage,
+  GetExchangeRecordsResult
+} from '@ula-aca/issue-credential'
+
+const issueCredentialController = new IssueCredentialController({
+  basePath: 'https://aca-py-api.com'
+})
+
+const eventHandler = new EventHandler([issueCredentialController])
+
+const message: GetMimeTypesMessage = {
+  type: IssueCredentialMessageTypes.GET_MIME_TYPES,
+  body: {
+    credential_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+  }
+}
+
+eventHandler.processMsg(message, (response: UlaResponse) => {
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    // error
+  } else {
+    // response.body is response from /issue-credential/mime-types/{credential_id} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/get_issue_credential_mime_types__credential_id_
+    const result: GetMimeTypesResult = response.body
+  }
+})
 ```
 
 #### @ula-aca/issue-credential/get-all-exchange-records
@@ -47,16 +77,16 @@ const issueCredentialController = new IssueCredentialController({
 const eventHandler = new EventHandler([issueCredentialController])
 
 const message: GetExchangeRecordsMessage = {
-  type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS,
-  body: {}
+  type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORDS
 }
 
 eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /issue-credential/records api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/get_issue_credential_records
     const result: GetExchangeRecordsResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -83,7 +113,7 @@ const eventHandler = new EventHandler([issueCredentialController])
 const message: GetExchangeRecordByIdMessage = {
   type: IssueCredentialMessageTypes.GET_EXCHANGE_RECORD_BY_ID,
   body: {
-    credential_exchange_id: ''
+    credential_exchange_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
   }
 }
 
@@ -91,8 +121,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /issue-credential/records/{cred_ex_id} api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/get_issue_credential_records__cred_ex_id_
     const result: GetExchangeRecordByIdResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -143,8 +174,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /issue-credential/send POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_send
     const result: SendCredentialResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -195,8 +227,9 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
   if (response.statusCode < 200 || response.statusCode >= 300) {
     // error
   } else {
+    // response.body is response from /issue-credential/send-proposal POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_send_proposal
     const result: SendProposalResult = response.body
-    console.log(result)
   }
 })
 ```
@@ -244,7 +277,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendOfferResult = response.body
-    console.log(result)
+    // response.body is response from /issue-credential/send-offer POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_send_offer
   }
 })
 ```
@@ -280,7 +314,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendOfferByIdResult = response.body
-    console.log(result)
+    // response.body is response from /issue-credential/records/{cred_ex_id}/send-offer POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_records__cred_ex_id__send_offer
   }
 })
 ```
@@ -316,7 +351,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: SendRequestResult = response.body
-    console.log(result)
+    // response.body is response from /issue-credential/records/{cred_ex_id}/send-request POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_records__cred_ex_id__send_request
   }
 })
 ```
@@ -362,7 +398,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: IssueResult = response.body
-    console.log(result)
+    // response.body is response from /issue-credential/records/{cred_ex_id}/issue POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_records__cred_ex_id__issue
   }
 })
 ```
@@ -398,7 +435,8 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     const result: StoreResult = response.body
-    console.log(result)
+    // response.body is response from /issue-credential/records/{cred_ex_id}/store POST api endpoint in aca-py
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_records__cred_ex_id__store
   }
 })
 ```
@@ -434,6 +472,7 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     // problem report sent
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_records__cred_ex_id__problem_report
   }
 })
 ```
@@ -466,6 +505,7 @@ eventHandler.processMsg(message, (response: UlaResponse) => {
     // error
   } else {
     // record removed
+    // https://ula-aca.github.io/aries-cloudagent-interface-javascript/#/issue-credential/post_issue_credential_records__cred_ex_id__remove
   }
 })
 ```
