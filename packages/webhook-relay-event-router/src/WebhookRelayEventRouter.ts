@@ -1,10 +1,5 @@
 import WebSocket from 'isomorphic-ws'
-import {
-  Plugin,
-  EventHandler,
-  Message,
-  UlaResponse
-} from 'universal-ledger-agent'
+import { Plugin, EventHandler } from 'universal-ledger-agent'
 
 import { WebhookEventTypes } from '@ula-aca/webhook-event-models'
 
@@ -16,11 +11,10 @@ class WebhookRelayEventRouter implements Plugin {
 
   private eventHandler?: EventHandler
 
-  private websocket: WebSocket
+  private websocket!: WebSocket
 
   constructor(options: WebhookRelayOptions) {
     this.options = options
-    this.websocket = new WebSocket(this.options.url)
   }
 
   private performHandshake(): void {
@@ -33,8 +27,9 @@ class WebhookRelayEventRouter implements Plugin {
 
   initialize(eventHandler: EventHandler): void {
     this.eventHandler = eventHandler
-    this.websocket.onmessage = this.handleWebsocketMessage.bind(this)
+    this.websocket = new WebSocket(this.options.url)
     this.websocket.onopen = this.performHandshake.bind(this)
+    this.websocket.onmessage = this.handleWebsocketMessage.bind(this)
   }
 
   get name(): string {
@@ -61,7 +56,6 @@ class WebhookRelayEventRouter implements Plugin {
         ulaMsgType = WebhookEventTypes.PRESENT_PROOF_EVENT
         break
     }
-
     // TODO: If the eventHandler isn't initialized yet the event is not processed
     if (this.eventHandler && ulaMsgType) {
       await this.eventHandler.processMsg(
@@ -75,12 +69,7 @@ class WebhookRelayEventRouter implements Plugin {
     }
   }
 
-  handleEvent(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _message: Message,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _callback: (res: UlaResponse) => Promise<void> | void
-  ): Promise<string> {
+  handleEvent(): Promise<string> {
     return Promise.resolve('ignored')
   }
 }
