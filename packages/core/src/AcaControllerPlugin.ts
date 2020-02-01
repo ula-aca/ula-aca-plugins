@@ -79,7 +79,8 @@ abstract class AcaControllerPlugin implements Plugin {
       callback: UlaCallback
     ): Promise<string> {
       try {
-        return fn.apply(this, [message, callback])
+        const result = await fn.apply(this, [message, callback])
+        return result
       } catch (err) {
         let response: UlaResponse
 
