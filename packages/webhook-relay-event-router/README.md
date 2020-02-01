@@ -12,12 +12,11 @@ As mentioned above you should always use this plugin in combination with one of 
 import { EventHandler } from 'universal-ledger-agent'
 import { WebhookRelayEventRouter } from '@ula-aca/webhook-relay-event-router'
 
-const eventRouter = new WebhookRelayEventRouter(
-  'ws://webhook-relay-url.com/ws',
-  {
-    Authorization: 'your auth token'
-  }
-)
+const eventRouter = new WebhookRelayEventRouter({
+  url: 'wss://whr-url.com/ws',
+  apiKey: 'api-key',
+  fastForward: false
+})
 
 const eventHandler = new EventHandler([eventRouter])
 ```

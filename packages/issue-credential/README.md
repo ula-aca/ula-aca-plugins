@@ -534,12 +534,11 @@ class IssueEventHandler extends IssueCredentialEventHandler {
 }
 
 // set up the event router
-const eventRouter = new WebhookRelayEventRouter(
-  'https://webhook-relay-urk.com',
-  {
-    Authorization: 'your auth token'
-  }
-)
+const eventRouter = new WebhookRelayEventRouter({
+  url: 'wss://whr-url.com/ws',
+  apiKey: 'api-key',
+  fastForward: false
+})
 // initialize the issue event handler
 const issueHandler = new IssueEventHandler()
 
