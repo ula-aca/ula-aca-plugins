@@ -27,6 +27,7 @@ import {
   sendBasicMessage,
   acceptRequest
 } from '@ula-aca/connection/examples'
+import { getCredentials } from '@ula-aca/credential/examples'
 import { logEvent, logWebhookEvent } from '@ula-aca/test-utils'
 import {
   BasicMessage,
@@ -115,6 +116,31 @@ class AliceConnectionEventHandler extends ConnectionEventHandler {
       const body: SendBasicMessageBody = {
         connection_id: message.connection_id,
         content: `Hello, I am Alice`
+      }
+
+      const result = await sendBasicMessage(this.eventHandler, body)
+      logEvent({
+        type: ConnectionMessageTypes.SEND_BASIC_MESSAGE,
+        comment,
+        input: body,
+        output: result
+      })
+    } else {
+      const comment = `#17. Alice sends cred_def_id to Acme (AliceConnectionEventHandler.onResponse)`
+
+      // ACME only allows credentials issued by Faber. Because the cred_def_id changes everytime the server restarts
+      // we send it as a basic message to ACME
+      const credentials = await getCredentials(this.eventHandler)
+      const { cred_def_id } = credentials.results.find(cred =>
+        cred.cred_def_id.includes('Faber-CollegeDegreeSchema')
+      )
+
+      // Send basic message after getting response from acme. We now have a connection
+      // This will move it from 'response' to 'active'. This is not needed.
+      // The first action done on a connection will move it from 'response' to 'active'
+      const body: SendBasicMessageBody = {
+        connection_id: message.connection_id,
+        content: cred_def_id
       }
 
       const result = await sendBasicMessage(this.eventHandler, body)

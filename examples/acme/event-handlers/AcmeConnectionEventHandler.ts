@@ -44,57 +44,11 @@ class AcmeConnectionEventHandler extends ConnectionEventHandler {
       type: `Acme | AcmeConnectionEventHandler | onBasicMessage`,
       input: message
     })
-  }
 
-  async onInit(message: PairwiseConnectionRecordInit): Promise<void> {
-    logWebhookEvent({
-      type: `Acme | AcmeConnectionEventHandler | onInit`,
-      input: message
-    })
-  }
-
-  async onInvitation(
-    message: PairwiseConnectionRecordInvitation
-  ): Promise<void> {
-    logWebhookEvent({
-      type: `Acme | AcmeConnectionEventHandler | onInvitation`,
-      input: message
-    })
-
-    // onInvitation is also called when I create an invitation.
-    // Only want to accept received invitation, not initiated invitations.
-    if (message.initiator !== 'self') {
-      const body: AcceptInvitationBody = {
-        connection_id: message.connection_id
-      }
-
-      const result = await acceptInvitation(this.eventHandler, body)
-      logEvent({
-        type: ConnectionMessageTypes.ACCEPT_INVITATION,
-        comment: `#15. Acme accepts connection invitation from AcmeConnectionEventHandler.OnInvitation()`,
-        input: body,
-        output: result
-      })
-    }
-  }
-
-  async onRequest(message: PairwiseConnectionRecordRequest): Promise<void> {
-    logWebhookEvent({
-      type: `Acme | AcmeConnectionEventHandler | onRequest`,
-      input: message
-    })
-  }
-
-  async onResponse(message: PairwiseConnectionRecordResponse): Promise<void> {
-    logWebhookEvent({
-      type: `Acme | AcmeConnectionEventHandler | onResponse`,
-      input: message
-    })
-
-    // we only allow the CollegeDegreeSchema credential definition from Faber college
-    // Todo: DID changes when server restarts. Find better way to get cred_def_id to acme
-    const cred_def_id =
-      'Bqqp9wananY4uW2pRHACiT:3:CL:12:Faber-CollegeDegreeSchema'
+    // Alice send the cred_def_id from the Faber College Degree.
+    // Normally you wouldn't do it like this,
+    // but the cred_def_id changes everytime the server is restarted
+    const cred_def_id = message.content
 
     const sendProofRequestBody: SendProofRequestBody = {
       connection_id: message.connection_id,
@@ -143,9 +97,55 @@ class AcmeConnectionEventHandler extends ConnectionEventHandler {
     )
     logEvent({
       type: PresentProofMessageTypes.SEND_REQUEST,
-      comment: `#17. Acme sends proof request to Alice (AcmeConnectionEventHandler.onActive)`,
+      comment: `#18. Acme sends proof request to Alice (AcmeConnectionEventHandler.onBasicMessage)`,
       input: sendProofRequestBody,
       output: result
+    })
+  }
+
+  async onInit(message: PairwiseConnectionRecordInit): Promise<void> {
+    logWebhookEvent({
+      type: `Acme | AcmeConnectionEventHandler | onInit`,
+      input: message
+    })
+  }
+
+  async onInvitation(
+    message: PairwiseConnectionRecordInvitation
+  ): Promise<void> {
+    logWebhookEvent({
+      type: `Acme | AcmeConnectionEventHandler | onInvitation`,
+      input: message
+    })
+
+    // onInvitation is also called when I create an invitation.
+    // Only want to accept received invitation, not initiated invitations.
+    if (message.initiator !== 'self') {
+      const body: AcceptInvitationBody = {
+        connection_id: message.connection_id
+      }
+
+      const result = await acceptInvitation(this.eventHandler, body)
+      logEvent({
+        type: ConnectionMessageTypes.ACCEPT_INVITATION,
+        comment: `#15. Acme accepts connection invitation from AcmeConnectionEventHandler.OnInvitation()`,
+        input: body,
+        output: result
+      })
+    }
+  }
+
+  async onRequest(message: PairwiseConnectionRecordRequest): Promise<void> {
+    logWebhookEvent({
+      type: `Acme | AcmeConnectionEventHandler | onRequest`,
+      input: message
+    })
+  }
+
+  async onResponse(message: PairwiseConnectionRecordResponse): Promise<void> {
+    logWebhookEvent({
+      type: `Acme | AcmeConnectionEventHandler | onResponse`,
+      input: message
     })
   }
 
