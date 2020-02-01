@@ -16,9 +16,13 @@
   - [Usage](#usage)
   - [Packages](#packages)
   - [Contributing](#contributing)
+  - [Setting up Environment](#setting-up-environment)
   - [Running tests](#running-tests)
     - [Unit tests](#unit-tests)
     - [Integration tests](#integration-tests)
+  - [Running Examples](#running-examples)
+    - [Single Plugin Examples](#single-plugin-examples)
+    - [Full Example](#full-example)
   - [License and disclaimer](#license-and-disclaimer)
 
 ## Usage
@@ -51,11 +55,60 @@ Please make sure to update tests as appropriate.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 
+## Setting up Environment
+
+1. Set up VON Network
+
+You need to run a Hyperledger Indy Node Network. The easiest way to do this is with the [VON Network from BCGov](https://github.com/bcgov/von-network).
+
+See [Running the Network Locally](https://github.com/bcgov/von-network#running-the-network-locally) in the repo for up to date setup. Make sure [Docker](https://hub.docker.com/search?type=edition&offering=community) is installed and running.
+
+```bash
+git clone https://github.com/bcgov/von-network.git
+cd von-network
+./manage build
+./manage start
+```
+
+2. Start Aries Cloud Agent with Webhook Relay
+
+```bash
+git clone https://github.com/ula-aca/ula-aca-plugins.git
+cd ula-aca-plugins
+docker-compose -f network-setup/docker-compose.yml up -d
+```
+
+3. Install NPM Dependencies
+
+```bash
+# inside ula-aca-plugins
+npx lerna bootstrap
+```
+
+4. Set up `.env` file
+
+`.env.example` contains the correct setup for the docker-compose setup in the `network-setup` folder. `.env` will be automatically picked up by integration tests and examples.
+
+```bash
+cp .env.example .env
+```
+
+|           | HOST                   | DESCRIPTION         |
+| --------- | ---------------------- | ------------------- |
+| **Faber** | http://localhost:7002  | ACA-Py + Swagger UI |
+|           | ws://localhost:7080/ws | Webhook Relay       |
+| **Alice** | http://localhost:8002  | ACA-Py + Swagger UI |
+|           | ws://localhost:8080/ws | Webhook Relay       |
+| **ACME**  | http://localhost:6002  | ACA-Py + Swagger UI |
+|           | ws://localhost:6080/ws | Webhook Relay       |
+
 ## Running tests
 
 ### Unit tests
 
 Besides unit testing with Mocha, the effectivity of all tests are also measured with the Stryker mutation testing framework.
+
+Make sure the NPM dependencies are installed. VON Network, ACA-Py and `.env` setup are not needed for unit tests.
 
 ```bash
 npm run test:unit
@@ -66,13 +119,58 @@ We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the 
 
 ### Integration tests
 
-> TODO: Add setup instructions for von-network, aca-py and aca-whr. For now see the [Github Action](./.github/workflows/continuous_integration.yml) in combination with [`./network-setup`](./network-setup)
-
-Integration tests are run against a real Aries Cloudagent.
+Integration tests are run against a real Aries Cloudagent. Make sure your environment is set up with [Setting up Environment](#setting-up-environment).
 
 ```bash
 npm run test:integration
 ```
+
+## Running Examples
+
+Examples are run against a real Aries Cloudagent. Make sure your environment is set up with [Setting up Environment](#setting-up-environment).
+
+### Single Plugin Examples
+
+There are examples that demonstrate the working of a single plugin. These are available for `ledger`, `schema`, `credential-definition`, `credential` and `wallet`. Not all will work out of the box because previous interactions are needed.
+
+You can run them with:
+
+```bash
+npm run example <ExampleName>
+
+# e.g.
+npm run example schema # works out of the box
+```
+
+### Full Example
+
+There is a full example available covering the Issuing and Holding and Proving between three parties. Faber College issues a college degree credential to Alice. Alice then proves to ACME Corp. that she possesses a college degree.
+
+> NOTE: The asciicasts are not in sync and sped up.
+
+1. Run Faber example and copy the created invitation
+
+```bash
+npm run example faber
+```
+
+[![asciicast](https://asciinema.org/a/mQyu1lj1gNPgTkqY0yGh3V1zX.png)](https://asciinema.org/a/mQyu1lj1gNPgTkqY0yGh3V1zX)
+
+1. Run Alice example and paste copied invitation from Faber. After Alice connects with Faber and received a credential, Alice will create a new invitation. Copy this invitation.
+
+```bash
+npm run example alice
+```
+
+[![asciicast](https://asciinema.org/a/YiOrsSuywfHJXEIvOLtqIe9ji.png)](https://asciinema.org/a/YiOrsSuywfHJXEIvOLtqIe9ji)
+
+1. Run ACME example and paste copied invitation from Alice. It should en with the event `START: Presentation received`.
+
+```bash
+npm run example acme
+```
+
+[![asciicast](https://asciinema.org/a/X4tHQMJGbqZzNeOvsBD8NNw2I.png)](https://asciinema.org/a/X4tHQMJGbqZzNeOvsBD8NNw2I)
 
 ## License and disclaimer
 
