@@ -4,7 +4,12 @@
     ".ts",
     ".js"
   ],
-  "reporter": ["text", "lcovonly", "html"],
+  "reporter": [
+    "text",
+    "lcovonly",
+    "html"
+  ],
+  "exclude": "packages/test-utils/src/**",
   "include": "packages/**/src/**",
   "checkCoverage": true,
   "lines": 80,
