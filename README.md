@@ -29,6 +29,8 @@
 
 This repository uses [Lerna](https://lerna.js.org) to manage multiple NPM packages in one repository. To find usage information about one of the packages contained in this repository you should check the readme for that specific package. See the [Packages](#packages) entry in this file to see information about the packages in this repository.
 
+> Almost all packages in this repo use `@ula-aca/aries-cloudagent-interface`. This packages provides an API to Aries Cloud Agent Python. This API is generated using the OpenAPI Schema (Swagger) from Aries Cloud Agent Python. However this schema is not representing the real API. A lot of types are not correct. Keep this in mind when using this package. Please open issues or pull requests with patches in the [ula-aca/aries-cloudagent-interface-javascript](https://github.com/ula-aca/aries-cloudagent-interface-javascript) repository when you find them.
+
 ## Packages
 
 All packages are placed in the [`packages/`](./packages) directory.
