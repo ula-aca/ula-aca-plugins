@@ -7,6 +7,9 @@
     "clean": "npm run build -- --clean",
     "prepublishOnly": "npm run clean && npm run build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "aries",
     "cloudagent",

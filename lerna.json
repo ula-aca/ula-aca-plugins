@@ -3,10 +3,15 @@
   "command": {
     "publish": {
       "message": "chore(release): publish",
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "registry": "https://registry.npmjs.org",
+      "changelogPreset": "conventionalcommits"
     },
     "bootstap": {
       "hoist": true
+    },
+    "version": {
+      "allowBranch": "master"
     }
   },
   "ignoreChanges": ["**/*.md", "**/tests/**"],
