@@ -185,9 +185,6 @@ jobs:
           ./manage build
           ./manage start
 
-      - name: Docker login
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com --username ${{ github.actor }} --password-stdin
-
       - name: Run aca-py and aca-whr
         run: docker-compose -f network-setup/docker-compose.yml up -d --force-recreate
 
