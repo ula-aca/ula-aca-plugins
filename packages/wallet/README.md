@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Wallet Plugin
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/wallet)
+
 This package handles everything that has to do with the wallet in Hyperledger Aries.
 
 ## Usage

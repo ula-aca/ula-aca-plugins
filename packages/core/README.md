@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Core Module
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/core)
+
 This is the core of ula-aca that contains code used by all plugins. It contains a base plugin for controllers and event handlers with error handling.
 
 You should only directly use this plugin if you are creating plugins that interact with an Aries Cloudagent in the same way other plugins do.

@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Credential Plugin
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/credential)
+
 This package handles everything that has to do with issued credentials in Hyperledger Aries. It allows to retrieve and remove credentials issued to you.
 
 ## Usage

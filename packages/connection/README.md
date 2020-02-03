@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Connection Plugin
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/connection)
+
 This package handles everything that has to do with establishing and maintaining connections. It has classes to perform connection related actions aswell as to listen for connection events.
 
 > **ATTENTION**: Relative to the ACA-Py Swagger API, this package handles everything related to the `/connections` endpoint. Thus it also handles TrustPing and BasicMessage functionality. The groups shown in the Swagger Web Interface can be misleading.

@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Ledger Plugin
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/ledger)
+
 This package handles everything that has to do with the ledger in Hyperledger Aries. It allows to perform operations to the ledger connected to the Aries Cloudagent.
 
 ## Usage

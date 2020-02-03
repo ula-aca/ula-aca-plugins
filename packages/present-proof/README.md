@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Present Proof Plugin
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/present-proof)
+
 This package handles everything that has to do with presenting and exchanging Verifiable Presentations. It has classes to perform proof related actions as well as to listen for proof exchange events.
 
 ## Usage

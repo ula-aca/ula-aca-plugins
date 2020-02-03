@@ -1,5 +1,7 @@
 # Universal Ledger Agent - Aries Cloudagent Issue Credential Plugin
 
+![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/issue-credential)
+
 This package handles everything that has to do with issuing and exchanging Verifiable Credentials. It has classes to perform credential related actions as well as to listen for credential exchange events.
 
 ## Usage
