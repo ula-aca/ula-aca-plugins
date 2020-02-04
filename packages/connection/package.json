@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Universal Ledger Agent plugin for creating and maintaining Aries Cloudagent connections with other agents",
   "scripts": {
-    "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
+    "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
     "clean": "npm run build -- --clean",
     "prepublishOnly": "npm run clean && npm run build"
   },

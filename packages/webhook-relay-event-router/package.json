@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Universal Ledger Agent Plugin for receiving Aries Cloudagent Webhook Relay webhook events through a WebSocket connection",
   "scripts": {
-    "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
+    "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
     "clean": "npm run build -- --clean",
     "prepublishOnly": "npm run clean && npm run build"
   },

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Helper package with base models for creating plugins that interact with Aries Cloudagent webhook events",
   "scripts": {
-    "build": "../../node_modules/.bin/tsc -b ./tsconfig.build.json",
+    "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
     "clean": "npm run build -- --clean",
     "prepublishOnly": "npm run clean && npm run build"
   },
