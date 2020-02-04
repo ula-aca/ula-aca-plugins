@@ -22,7 +22,9 @@ npx lerna changed || exit_no_changes
 
 # set up Git
 git checkout master
-git remote set-url origin https://github.com/ula-aca/ula-aca-plugins.git
+git config --global user.email "github-actions[bot]@users.noreply.github.com"
+git config --global user.name "@github-actions[bot]"
+git remote set-url origin https://${GH_ACTOR}:${GH_TOKEN}@github.com/ula-aca/ula-aca-plugins.git
       
 # Publish to NPM, Create Gitlab release, Push to Git
 npm run release -- --create-release github
