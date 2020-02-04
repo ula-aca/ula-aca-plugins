@@ -16,8 +16,6 @@ exit_no_changes() {
 }
 
 # If there are no changes, we will exit with a success code.
-# It is not possible yet to mark a gitlab ci job as skipped.
-# See: https://gitlab.com/gitlab-org/gitlab-ce/issues/18041
 npx lerna changed || exit_no_changes
 
 # set up Git
@@ -26,5 +24,5 @@ git config --global user.email "github-actions[bot]@users.noreply.github.com"
 git config --global user.name "@github-actions[bot]"
 git remote set-url origin https://${GH_ACTOR}:${GH_TOKEN}@github.com/ula-aca/ula-aca-plugins.git
       
-# Publish to NPM, Create Gitlab release, Push to Git
-npm run release -- --create-release github
+# Publish to NPM, Create Github release, Push to Git
+npm run release -- --create-release github --loglevel verbose
