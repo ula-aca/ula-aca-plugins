@@ -12,6 +12,8 @@
 
 > Aries Cloudagent plugins for the Universal Ledger Agent
 
+This repository contains plugins to integrate Hyperledger Aries into the Universal Ledger Agent (ULA). The ULA is primarily meant for managing Self Sovereign Identity data. If you don't know what the ULA is check it out on the [repository](https://github.com/rabobank-blockchain/universal-ledger-agent).
+
 - [Universal Ledger Agent - Aries Cloudagent Plugins](#universal-ledger-agent---aries-cloudagent-plugins)
   - [Usage](#usage)
   - [Packages](#packages)
@@ -23,6 +25,7 @@
   - [Running Examples](#running-examples)
     - [Single Plugin Examples](#single-plugin-examples)
     - [Full Example](#full-example)
+  - [Note](#note)
   - [License and disclaimer](#license-and-disclaimer)
 
 ## Usage
@@ -173,6 +176,10 @@ npm run example acme
 ```
 
 [![asciicast](https://asciinema.org/a/X4tHQMJGbqZzNeOvsBD8NNw2I.png)](https://asciinema.org/a/X4tHQMJGbqZzNeOvsBD8NNw2I)
+
+## Note
+
+This project was created in the context of a blockchain minor at the HU University of Applied Sciences Utrecht under guidance from Rabobank. The report `Creating Hyperledger Aries Plugins for The Universal Ledger Agent` describes why we chose to use Aries Cloud Agent - Python. You can read it [here](./creating-hyperledger-aries-plugins-for-the-universal-ledger-agent-karim-stekelenburg-timo-glastra.pdf)
 
 ## License and disclaimer
 
