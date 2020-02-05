@@ -95,22 +95,22 @@
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.5",
+    "typescript": "3.8.0-beta",
     "universal-ledger-agent": "^0.1.2"
   },
   "dependencies": {
-    "@ula-aca/connection": "file:packages/connection",
-    "@ula-aca/core": "file:packages/core",
-    "@ula-aca/credential": "file:packages/credential",
-    "@ula-aca/credential-definition": "file:packages/credential-definition",
-    "@ula-aca/issue-credential": "file:packages/issue-credential",
-    "@ula-aca/ledger": "file:packages/ledger",
-    "@ula-aca/present-proof": "file:packages/present-proof",
-    "@ula-aca/schema": "file:packages/schema",
-    "@ula-aca/test-utils": "file:packages/test-utils",
-    "@ula-aca/wallet": "file:packages/wallet",
-    "@ula-aca/webhook-event-models": "file:packages/webhook-event-models",
-    "@ula-aca/webhook-relay-event-router": "file:packages/webhook-relay-event-router"
+    "@ula-aca/connection": "0.0.0",
+    "@ula-aca/core": "0.0.0",
+    "@ula-aca/credential": "0.0.0",
+    "@ula-aca/credential-definition": "0.0.0",
+    "@ula-aca/issue-credential": "0.0.0",
+    "@ula-aca/ledger": "0.0.0",
+    "@ula-aca/present-proof": "0.0.0",
+    "@ula-aca/schema": "0.0.0",
+    "@ula-aca/test-utils": "0.0.0",
+    "@ula-aca/wallet": "0.0.0",
+    "@ula-aca/webhook-event-models": "0.0.0",
+    "@ula-aca/webhook-relay-event-router": "0.0.0"
   },
   "config": {
     "commitizen": {

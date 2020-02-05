@@ -43,8 +43,8 @@
   ],
   "dependencies": {
     "@ula-aca/aries-cloudagent-interface": "^1.0.1",
-    "@ula-aca/core": "file:../core",
-    "@ula-aca/webhook-event-models": "file:../webhook-event-models",
+    "@ula-aca/core": "0.0.0",
+    "@ula-aca/webhook-event-models": "0.0.0",
     "axios": "^0.19.2",
     "universal-ledger-agent": "^0.1.2"
   }

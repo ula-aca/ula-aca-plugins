@@ -1416,101 +1416,6 @@
   dependencies:
     axios "^0.19.2"
 
-"@ula-aca/connection@file:packages/connection":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-connection-0.0.0-b546d559-e7c9-4c3a-ba7e-f4ef711fa7a8-1580938333260/node_modules/@ula-aca/core"
-    "@ula-aca/webhook-event-models" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-connection-0.0.0-b546d559-e7c9-4c3a-ba7e-f4ef711fa7a8-1580938333260/node_modules/@ula-aca/webhook-event-models"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/core@file:packages/core":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/credential-definition@file:packages/credential-definition":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-credential-definition-0.0.0-18eec9e0-2975-45c2-a63e-3399c2270a31-1580938333799/node_modules/@ula-aca/core"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/credential@file:packages/credential":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-credential-0.0.0-e0efe495-b8e9-4761-95b5-02ed84f1a4e9-1580938333795/node_modules/@ula-aca/core"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/issue-credential@file:packages/issue-credential":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-issue-credential-0.0.0-251568d6-94c2-4ea9-ad7a-68c919f03d1e-1580938333805/node_modules/@ula-aca/core"
-    "@ula-aca/webhook-event-models" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-issue-credential-0.0.0-251568d6-94c2-4ea9-ad7a-68c919f03d1e-1580938333805/node_modules/@ula-aca/webhook-event-models"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/ledger@file:packages/ledger":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-ledger-0.0.0-f0b9f248-ba3c-4e81-82e4-f893b7f54096-1580938333810/node_modules/@ula-aca/core"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/present-proof@file:packages/present-proof":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-present-proof-0.0.0-52761435-f175-479c-a7a6-8ea868055296-1580938333819/node_modules/@ula-aca/core"
-    "@ula-aca/webhook-event-models" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-present-proof-0.0.0-52761435-f175-479c-a7a6-8ea868055296-1580938333819/node_modules/@ula-aca/webhook-event-models"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/schema@file:packages/schema":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-schema-0.0.0-ce4da127-8428-48a9-9411-a71c969248c2-1580938333824/node_modules/@ula-aca/core"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/test-utils@file:packages/test-utils":
-  version "0.0.0"
-  dependencies:
-    chalk "^3.0.0"
-    emphasize "^2.1.0"
-    indent-string "^4.0.0"
-    sinon "^8.0.4"
-
-"@ula-aca/wallet@file:packages/wallet":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-    "@ula-aca/core" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-wallet-0.0.0-e26d8f89-361b-4981-bfec-7239926e836c-1580938334973/node_modules/@ula-aca/core"
-    axios "^0.19.2"
-    universal-ledger-agent "^0.1.2"
-
-"@ula-aca/webhook-event-models@file:packages/webhook-event-models":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/aries-cloudagent-interface" "^1.0.1"
-
-"@ula-aca/webhook-relay-event-router@file:packages/webhook-relay-event-router":
-  version "0.0.0"
-  dependencies:
-    "@ula-aca/webhook-event-models" "file:../../../../../Library/Caches/Yarn/v6/npm-@ula-aca-webhook-relay-event-router-0.0.0-818f126f-af37-46bb-a564-6c2d960a076f-1580938334979/node_modules/@ula-aca/webhook-event-models"
-    isomorphic-ws "^4.0.1"
-    universal-ledger-agent "^0.1.2"
-    ws "^7.2.1"
-
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@zkochan/cmd-shim/-/cmd-shim-3.1.0.tgz#2ab8ed81f5bb5452a85f25758eb9b8681982fd2e"
@@ -7524,7 +7429,12 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.6.3, typescript@^3.7.5:
+typescript@3.8.0-beta:
+  version "3.8.0-beta"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.0-beta.tgz#acdcaf9f24c7e20b1ff0a6329d1e8d63691e2e13"
+  integrity sha512-mQEmQUJg0CQBhf/GSVnGscKv/jrKsrLxE01AhdjYmBNoXX2Iah3i38ufxXByXacK6Fc5Nr9oMz7MjpjgddiknA==
+
+typescript@^3.6.3:
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
   integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
