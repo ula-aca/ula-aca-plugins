@@ -25,4 +25,4 @@ git config --global user.name "@github-actions[bot]"
 git remote set-url origin https://${GH_ACTOR}:${GH_TOKEN}@github.com/ula-aca/ula-aca-plugins.git
       
 # Publish to NPM, Create Github release, Push to Git
-npm run release -- --create-release github --loglevel verbose
+yarn release --create-release github --loglevel verbose

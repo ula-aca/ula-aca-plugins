@@ -2,7 +2,7 @@
 module.exports = config => {
   config.set({
     mutator: 'typescript',
-    packageManager: 'npm',
+    packageManager: 'yarn',
     reporters: ['html', 'clear-text', 'progress', 'dashboard'],
     testRunner: 'mocha',
     mochaOptions: {

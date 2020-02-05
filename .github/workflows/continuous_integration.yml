@@ -8,70 +8,68 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        # Github Package Registry doesn't work with Yarn.
-        # --update-checksums fixes this somehow
-        # see https://github.com/yarnpkg/yarn/issues/7552
-        # this seems to keep causing trouble, so we use
-        # npm for now.
-        run: npx lerna bootstrap
+        run: yarn
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Lint commit messages
-        run: npm run commitlint
+        run: yarn commitlint
 
       - name: Lint files with eslint
-        run: npm run lint
+        run: yarn lint
 
       - name: Check formatting with prettier
-        run: npm run prettier
+        run: yarn prettier
 
   types:
     name: Types
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        # Github Package Registry doesn't work with Yarn.
-        # --update-checksums fixes this somehow
-        # see https://github.com/yarnpkg/yarn/issues/7552
-        # this seems to keep causing trouble, so we use
-        # npm for now.
-        run: npx lerna bootstrap
+        run: yarn
 
       - name: Check Types
         # This also checks examples and tests folder for typescript errors
-        run: npm run types
+        run: yarn types
 
   unit-test:
     name: Unit Tests
@@ -81,38 +79,37 @@ jobs:
         node: [10, 12]
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node}}
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        # Github Package Registry doesn't work with Yarn.
-        # --update-checksums fixes this somehow
-        # see https://github.com/yarnpkg/yarn/issues/7552
-        # this seems to keep causing trouble, so we use
-        # npm for now.
-        run: npx lerna bootstrap
+        run: yarn
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Run unit tests
-        run: npm run test:unit
+        run: yarn test:unit
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.3.0
         with:
-          coverageCommand: npm run coverage -- --check-coverage false
+          coverageCommand: yarn coverage --check-coverage false
         # Also publish when tests fail
         if: always()
         env:
@@ -123,38 +120,37 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        # Github Package Registry doesn't work with Yarn.
-        # --update-checksums fixes this somehow
-        # see https://github.com/yarnpkg/yarn/issues/7552
-        # this seems to keep causing trouble, so we use
-        # npm for now.
-        run: npx lerna bootstrap
+        run: yarn
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Run Stryker tests
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
-        run: npm run test:stryker
+        run: yarn test:stryker
 
   integration-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Integration Tests
     steps:
       - name: Checkout ula-aca-plugins
@@ -177,12 +173,16 @@ jobs:
       - name: Run aca-py and aca-whr
         run: docker-compose -f network-setup/docker-compose.yml up -d --force-recreate
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -190,15 +190,10 @@ jobs:
           node-version: 12
 
       - name: Install dependencies
-        # Github Package Registry doesn't work with Yarn.
-        # --update-checksums fixes this somehow
-        # see https://github.com/yarnpkg/yarn/issues/7552
-        # this seems to keep causing trouble, so we use
-        # npm for now.
-        run: npx lerna bootstrap
+        run: yarn
 
       - name: Run Integration Tests
-        run: DOTENV_CONFIG_PATH=.env.test npm run test:integration
+        run: DOTENV_CONFIG_PATH=.env.test yarn test:integration
 
       - name: Export docker logs
         if: always()
@@ -216,13 +211,13 @@ jobs:
 
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     # Only release on master
     if: github.ref == 'refs/heads/master'
     needs: [style, types, unit-test, integration-test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -230,23 +225,22 @@ jobs:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        # Github Package Registry doesn't work with Yarn.
-        # --update-checksums fixes this somehow
-        # see https://github.com/yarnpkg/yarn/issues/7552
-        # this seems to keep causing trouble, so we use
-        # npm for now.
-        run: npx lerna bootstrap
+        run: yarn
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Release
         env:

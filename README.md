@@ -87,7 +87,7 @@ docker-compose -f network-setup/docker-compose.yml up -d
 
 ```bash
 # inside ula-aca-plugins
-npx lerna bootstrap
+yarn
 ```
 
 4. Set up `.env` file
@@ -116,8 +116,8 @@ Besides unit testing with Mocha, the effectivity of all tests are also measured 
 Make sure the NPM dependencies are installed. VON Network, ACA-Py and `.env` setup are not needed for unit tests.
 
 ```bash
-npm run test:unit
-npm run test:stryker
+yarn test:unit
+yarn test:stryker
 ```
 
 We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the build. Stryker test scores do not have a threshold at the moment, but is planned to also fail below 80% in the future.
@@ -127,7 +127,7 @@ We aim to achieve a coverage of 100%. Mocha test scores below 80% will fail the 
 Integration tests are run against a real Aries Cloudagent. Make sure your environment is set up with [Setting up Environment](#setting-up-environment).
 
 ```bash
-npm run test:integration
+yarn test:integration
 ```
 
 ## Running Examples
@@ -141,10 +141,10 @@ There are examples that demonstrate the working of a single plugin. These are av
 You can run them with:
 
 ```bash
-npm run example <ExampleName>
+yarn example <ExampleName>
 
 # e.g.
-npm run example schema # works out of the box
+yarn example schema # works out of the box
 ```
 
 ### Full Example
@@ -156,7 +156,7 @@ There is a full example available covering the Issuing and Holding and Proving b
 1. Run Faber example and copy the created invitation
 
 ```bash
-npm run example faber
+yarn example faber
 ```
 
 [![asciicast](https://asciinema.org/a/mQyu1lj1gNPgTkqY0yGh3V1zX.png)](https://asciinema.org/a/mQyu1lj1gNPgTkqY0yGh3V1zX)
@@ -164,7 +164,7 @@ npm run example faber
 1. Run Alice example and paste copied invitation from Faber. After Alice connects with Faber and received a credential, Alice will create a new invitation. Copy this invitation.
 
 ```bash
-npm run example alice
+yarn example alice
 ```
 
 [![asciicast](https://asciinema.org/a/YiOrsSuywfHJXEIvOLtqIe9ji.png)](https://asciinema.org/a/YiOrsSuywfHJXEIvOLtqIe9ji)
@@ -172,7 +172,7 @@ npm run example alice
 1. Run ACME example and paste copied invitation from Alice. It should en with the event `START: Presentation received`.
 
 ```bash
-npm run example acme
+yarn example acme
 ```
 
 [![asciicast](https://asciinema.org/a/X4tHQMJGbqZzNeOvsBD8NNw2I.png)](https://asciinema.org/a/X4tHQMJGbqZzNeOvsBD8NNw2I)

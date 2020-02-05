@@ -2,6 +2,9 @@
   "name": "root",
   "private": true,
   "description": "Aries Cloudagent plugins for the Universal Ledger Agent",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "test:unit": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' nyc mocha 'packages/**/tests/**/*.spec.ts'",
     "test:unit:raw": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' mocha 'packages/**/tests/**/*.spec.ts'",
@@ -9,13 +12,13 @@
     "test:stryker": "cross-env TS_NODE_PROJECT='config/tsconfig.test.json' stryker run",
     "coverage": "nyc report",
     "prettier": "prettier --list-different '**/*.{md,json}'",
-    "prettier:fix": "npm run prettier -- --write",
+    "prettier:fix": "yarn prettier --write",
     "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "yarn lint --fix",
     "commitlint": "commitlint --to HEAD",
     "build": "tsc --build config/tsconfig.build.json",
-    "build:watch": "npm run build -- --watch",
-    "build:clean": "npm run build -- --clean",
+    "build:watch": "yarn build --watch",
+    "build:clean": "yarn build --clean",
     "dev": "tsc --build tsconfig.json --watch",
     "types": "tsc --build tsconfig.json --force",
     "update:headers": "copyright-header --fix --copyrightHolder 'ula-aca' --templateId 'apache' --forceModificationYear 'present' --include '.*\\.ts'",

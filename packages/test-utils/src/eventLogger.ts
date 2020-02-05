@@ -18,6 +18,8 @@ import chalk from 'chalk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import emphasize from 'emphasize'
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
 import indentString from 'indent-string'
 
 const { log } = console

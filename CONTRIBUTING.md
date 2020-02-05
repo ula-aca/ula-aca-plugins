@@ -7,14 +7,15 @@ This repo uses [Lerna](https://lerna.js.org) to manage it as a monorepo and [Con
 In order to work on this repository the following dependencies are required:
 
 - [Node.js](https://nodejs.org/en/download/) v10
-- [npm](https://www.npmjs.com/)
+- [Yarn](https://yarnpkg.com/)
+-
 
 ## Getting Started
 
 The setup only requires you to install Node dependencies. This can be done with
 
 ```sh
-npx lerna bootstrap
+yarn
 ```
 
 ## Creating a commit
