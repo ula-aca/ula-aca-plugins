@@ -1,6 +1,6 @@
 {
   "name": "@ula-aca/ledger",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Universal Ledger Agent plugin for performing ledger actions on the Aries Cloudagent",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
@@ -43,7 +43,7 @@
   ],
   "dependencies": {
     "@ula-aca/aries-cloudagent-interface": "^1.0.1",
-    "@ula-aca/core": "0.0.0",
+    "@ula-aca/core": "^0.0.1",
     "axios": "^0.19.2",
     "universal-ledger-agent": "^0.1.2"
   }

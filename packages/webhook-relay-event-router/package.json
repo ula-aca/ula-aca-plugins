@@ -1,6 +1,6 @@
 {
   "name": "@ula-aca/webhook-relay-event-router",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Universal Ledger Agent Plugin for receiving Aries Cloudagent Webhook Relay webhook events through a WebSocket connection",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
@@ -42,7 +42,7 @@
     "lib"
   ],
   "dependencies": {
-    "@ula-aca/webhook-event-models": "0.0.0",
+    "@ula-aca/webhook-event-models": "^0.0.1",
     "isomorphic-ws": "^4.0.1",
     "universal-ledger-agent": "^0.1.2",
     "ws": "^7.2.1"
