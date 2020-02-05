@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Credential Definition Plugin
 
-![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/credential-definition)
+[![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/credential-definition)](https://npmjs.com/package/@ula-aca/credential-definition)
 
 This package handles everything that has to do with credential definitions in Hyperledger Aries. It allows to create and retrieve credential definitions from the ledger connected to the Aries Cloudagent.
 

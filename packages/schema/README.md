@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Schema Plugin
 
-![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/schema)
+[![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/schema)](https://npmjs.com/package/@ula-aca/schema)
 
 This package handles everything that has to do with schemas in Hyperledger Aries. It allows to create and retrieve schemas from the ledger connected to the Aries Cloudagent.
 

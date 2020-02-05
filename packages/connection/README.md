@@ -1,6 +1,6 @@
 # Universal Ledger Agent - Aries Cloudagent Connection Plugin
 
-![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/connection)
+[![npm (scoped)](https://img.shields.io/npm/v/@ula-aca/connection)](https://npmjs.com/package/@ula-aca/connection)
 
 This package handles everything that has to do with establishing and maintaining connections. It has classes to perform connection related actions aswell as to listen for connection events.
 

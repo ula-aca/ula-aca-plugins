@@ -4,7 +4,6 @@
     "publish": {
       "message": "chore(release): publish",
       "conventionalCommits": true,
-      "registry": "https://registry.npmjs.org",
       "changelogPreset": "conventionalcommits"
     },
     "bootstap": {
