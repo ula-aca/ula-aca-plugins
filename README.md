@@ -1,8 +1,8 @@
 # Universal Ledger Agent - Aries Cloudagent Plugins
 
 [![Continuous Integration Badge](https://github.com/ula-aca/ula-aca-plugins/workflows/Continuous%20Integration/badge.svg)](https://github.com/ula-aca/ula-aca-plugins/actions?query=workflow%3A%22Continuous+Integration%22)
-[![Maintainability](https://api.codeclimate.com/v1/badges/fd49e9361fd0e38c1d7f/maintainability)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/fd49e9361fd0e38c1d7f/test_coverage)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3a9255cc3abb1f72ecfd/maintainability)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3a9255cc3abb1f72ecfd/test_coverage)](https://codeclimate.com/github/ula-aca/ula-aca-plugins/test_coverage)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fula-aca%2Fula-aca-plugins%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/ula-aca/ula-aca-plugins/master)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
