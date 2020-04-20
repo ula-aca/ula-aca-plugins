@@ -99,18 +99,18 @@
     "universal-ledger-agent": "^0.1.2"
   },
   "dependencies": {
-    "@ula-aca/connection": "0.0.0",
-    "@ula-aca/core": "0.0.0",
-    "@ula-aca/credential": "0.0.0",
-    "@ula-aca/credential-definition": "0.0.0",
-    "@ula-aca/issue-credential": "0.0.0",
-    "@ula-aca/ledger": "0.0.0",
-    "@ula-aca/present-proof": "0.0.0",
-    "@ula-aca/schema": "0.0.0",
-    "@ula-aca/test-utils": "0.0.0",
-    "@ula-aca/wallet": "0.0.0",
-    "@ula-aca/webhook-event-models": "0.0.0",
-    "@ula-aca/webhook-relay-event-router": "0.0.0"
+    "@ula-aca/connection": "*",
+    "@ula-aca/core": "*",
+    "@ula-aca/credential": "*",
+    "@ula-aca/credential-definition": "*",
+    "@ula-aca/issue-credential": "*",
+    "@ula-aca/ledger": "*",
+    "@ula-aca/present-proof": "*",
+    "@ula-aca/schema": "*",
+    "@ula-aca/test-utils": "*",
+    "@ula-aca/wallet": "*",
+    "@ula-aca/webhook-event-models": "*",
+    "@ula-aca/webhook-relay-event-router": "*"
   },
   "config": {
     "commitizen": {
