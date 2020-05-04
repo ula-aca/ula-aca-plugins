@@ -1,6 +1,6 @@
 {
   "name": "@ula-aca/schema",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Universal Ledger Agent plugin for creating and retrieving schemas from the ledger connected to Aries Cloudagent",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
@@ -43,7 +43,7 @@
   ],
   "dependencies": {
     "@ula-aca/aries-cloudagent-interface": "^1.0.1",
-    "@ula-aca/core": "^0.0.1",
+    "@ula-aca/core": "^0.0.2",
     "axios": "^0.19.2",
     "universal-ledger-agent": "^0.1.2"
   }

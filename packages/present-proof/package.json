@@ -1,6 +1,6 @@
 {
   "name": "@ula-aca/present-proof",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Universal Ledger Agent plugin for creating and receiving Aries Cloudagent Verifiable Presentations",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -b ./tsconfig.json",
@@ -43,8 +43,8 @@
   ],
   "dependencies": {
     "@ula-aca/aries-cloudagent-interface": "^1.0.1",
-    "@ula-aca/core": "^0.0.1",
-    "@ula-aca/webhook-event-models": "^0.0.1",
+    "@ula-aca/core": "^0.0.2",
+    "@ula-aca/webhook-event-models": "^0.0.2",
     "axios": "^0.19.2",
     "universal-ledger-agent": "^0.1.2"
   }
