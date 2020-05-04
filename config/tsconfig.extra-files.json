@@ -11,8 +11,7 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "baseUrl": "..",
-    "rootDir": "..",
-    "noEmit": true
+    "rootDir": ".."
   },
   "references": [
     { "path": "../packages/core/tsconfig.json" },
