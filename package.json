@@ -57,7 +57,7 @@
     "@stryker-mutator/core": "^2.5.0",
     "@stryker-mutator/html-reporter": "^2.5.0",
     "@stryker-mutator/mocha-runner": "^2.5.0",
-    "@stryker-mutator/typescript": "^2.5.0",
+    "@stryker-mutator/typescript": "^3.0.0",
     "@types/chai": "^4.2.11",
     "@types/chai-as-promised": "^7.1.2",
     "@types/faker": "^4.1.9",
