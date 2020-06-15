@@ -47,7 +47,7 @@ const packageJSONMap: Map<
 
 const packageDirPathMap: Map<PackageName, DirectoryName> = new Map()
 
-packageDirectories.forEach(packageDirPath => {
+packageDirectories.forEach((packageDirPath) => {
   const packageJSONPath = path.join(packageDirPath, 'package.json')
   const packageJSONData = JSON.parse(
     fs.readFileSync(packageJSONPath).toString()
@@ -65,7 +65,7 @@ packageDirPathMap.forEach((_packageDirPath, packageName) => {
   const internalDependencies = [
     ...(dependencies ? Object.keys(dependencies) : []),
     ...(devDependencies ? Object.keys(devDependencies) : [])
-  ].filter(dep => packageDirPathMap.has(dep))
+  ].filter((dep) => packageDirPathMap.has(dep))
 
   internalDependencyMap.set(packageName, internalDependencies)
 })
@@ -110,7 +110,7 @@ packageDirPathMap.forEach((packageDirPath, packageName) => {
       rootDir: 'src',
       composite: true
     },
-    references: internalDependencies.map(dep => {
+    references: internalDependencies.map((dep) => {
       return {
         path: path.relative(
           packageDirPath,

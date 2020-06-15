@@ -22,8 +22,8 @@ async function readLine(question?: string): Promise<string> {
     output: process.stdout
   })
 
-  return new Promise(resolve => {
-    reader.question(question, response => {
+  return new Promise((resolve) => {
+    reader.question(question, (response) => {
       resolve(response)
     })
   })

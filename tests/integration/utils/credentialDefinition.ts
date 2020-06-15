@@ -71,7 +71,7 @@ const getCreatedCredentialDefinitions = (
 const getTestCredentialDefinitionBodies = (
   schemaIds: string[]
 ): CreateCredentialDefinitionBody[] =>
-  schemaIds.map(schemaId => ({
+  schemaIds.map((schemaId) => ({
     schema_id: schemaId,
     tag: faker.random.uuid()
   }))
