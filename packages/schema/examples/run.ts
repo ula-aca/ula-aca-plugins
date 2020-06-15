@@ -74,6 +74,6 @@ async function run(): Promise<void> {
   })
 }
 
-run().catch(e => {
+run().catch((e) => {
   console.log(e)
 })

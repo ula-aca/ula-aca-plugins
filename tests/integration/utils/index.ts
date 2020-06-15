@@ -48,7 +48,7 @@ function eventPromise(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   message: { type: string; body?: any }
 ): Promise<UlaResponse> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     eventHandler.processMsg(message, resolve)
   })
 }

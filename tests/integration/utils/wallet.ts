@@ -99,16 +99,18 @@ const setTagPolicy = (
 const getTestDids = async (
   eventHandler: EventHandler,
   noOfDids: number
-): Promise<{
-  did: string
-  verkey: string
-  public: boolean
-}[]> => {
+): Promise<
+  {
+    did: string
+    verkey: string
+    public: boolean
+  }[]
+> => {
   const didResults = await Promise.all(
     Array.from(Array(noOfDids), () => createLocalDid(eventHandler))
   )
 
-  return didResults.map(did => did.body.result)
+  return didResults.map((did) => did.body.result)
 }
 
 export {

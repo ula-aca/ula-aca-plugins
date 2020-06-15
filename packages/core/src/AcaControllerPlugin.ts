@@ -73,7 +73,7 @@ abstract class AcaControllerPlugin implements Plugin {
     const fn = descriptor.value
 
     // eslint-disable-next-line func-names,no-param-reassign
-    descriptor.value = async function(
+    descriptor.value = async function (
       message: Message,
       callback: UlaCallback
     ): Promise<string> {

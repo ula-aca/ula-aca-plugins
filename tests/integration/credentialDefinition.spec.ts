@@ -51,7 +51,7 @@ describe('[package] @ula-aca/credential-definition', () => {
 
       testCredentialDefinitions = getTestCredentialDefinitionBodies(
         schemaIds
-      ).map(credentialDefinition => ({
+      ).map((credentialDefinition) => ({
         data: credentialDefinition
       }))
     })
@@ -92,7 +92,7 @@ describe('[package] @ula-aca/credential-definition', () => {
 
     it('@ula-aca/credential-definition/get-created-credential-definitions', async () => {
       const credentialDefinitionIds = testCredentialDefinitions.map(
-        credentialDefinition => credentialDefinition.credentialDefinitionId
+        (credentialDefinition) => credentialDefinition.credentialDefinitionId
       )
       const response = await getCreatedCredentialDefinitions(eventHandler)
 

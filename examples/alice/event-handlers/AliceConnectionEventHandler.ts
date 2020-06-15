@@ -131,7 +131,7 @@ class AliceConnectionEventHandler extends ConnectionEventHandler {
       // ACME only allows credentials issued by Faber. Because the cred_def_id changes everytime the server restarts
       // we send it as a basic message to ACME
       const credentials = await getCredentials(this.eventHandler)
-      const { cred_def_id } = credentials.results.find(cred =>
+      const { cred_def_id } = credentials.results.find((cred) =>
         cred.cred_def_id.includes('Faber-CollegeDegreeSchema')
       )
 
