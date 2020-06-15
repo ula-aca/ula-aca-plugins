@@ -67,4 +67,4 @@ async function run(): Promise<void> {
   })
 }
 
-run().catch(err => console.log(err))
+run().catch((err) => console.log(err))

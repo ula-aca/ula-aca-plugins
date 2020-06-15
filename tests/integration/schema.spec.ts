@@ -42,7 +42,7 @@ describe('[package] @ula-aca/schema', () => {
     const testSchemas: {
       data: CreateSchemaBody
       schemaId?: string
-    }[] = getTestSchemaBodies(3).map(val => ({ data: val }))
+    }[] = getTestSchemaBodies(3).map((val) => ({ data: val }))
 
     it('@ula-aca/schema/create-schema', async () => {
       for (const testSchema of testSchemas) {
@@ -75,7 +75,7 @@ describe('[package] @ula-aca/schema', () => {
     })
 
     it('@ula-aca/schema/get-created-schemas', async () => {
-      const schemaIds = testSchemas.map(schema => schema.schemaId)
+      const schemaIds = testSchemas.map((schema) => schema.schemaId)
       const response = await getCreatedSchemas(eventHandler)
 
       response.statusCode.should.equal(200)

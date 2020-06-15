@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-module.exports = config => {
+module.exports = (config) => {
   config.set({
     mutator: 'typescript',
     packageManager: 'yarn',

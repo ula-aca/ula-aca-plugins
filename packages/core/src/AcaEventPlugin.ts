@@ -57,7 +57,7 @@ abstract class AcaEventPlugin implements Plugin {
     const fn = descriptor.value
 
     // eslint-disable-next-line no-param-reassign,func-names
-    descriptor.value = async function(
+    descriptor.value = async function (
       message: Message,
       callback: (res: UlaResponse) => Promise<void> | void
     ): Promise<string> {

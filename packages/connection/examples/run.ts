@@ -100,6 +100,6 @@ async function run(): Promise<void> {
   process.exit()
 }
 
-run().catch(e => {
+run().catch((e) => {
   console.log(e)
 })
