@@ -68,7 +68,7 @@
     "@types/ws": "^7.2.4",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
-    "@ula-aca/aries-cloudagent-interface": "^1.0.1",
+    "@ula-aca/aries-cloudagent-interface": "^2.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "commitizen": "^4.0.3",
