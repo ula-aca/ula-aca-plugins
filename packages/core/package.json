@@ -43,7 +43,7 @@
   ],
   "dependencies": {
     "@ula-aca/aries-cloudagent-interface": "^1.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.0",
     "universal-ledger-agent": "^0.1.2"
   }
 }
