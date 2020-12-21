@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "dependencies": {
     "chalk": "^4.0.0",
-    "emphasize": "^3.0.0",
+    "emphasize": "^4.2.0",
     "indent-string": "^4.0.0",
     "sinon": "^8.0.4"
   }
