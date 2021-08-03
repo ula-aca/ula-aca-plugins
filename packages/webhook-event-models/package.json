@@ -42,6 +42,6 @@
     "lib"
   ],
   "dependencies": {
-    "@ula-aca/aries-cloudagent-interface": "^1.0.1"
+    "@ula-aca/aries-cloudagent-interface": "^2.0.0"
   }
 }
